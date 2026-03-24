@@ -11,7 +11,6 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;min-height:100vh;display:
 canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .wrap{width:100%;max-width:640px;position:relative;z-index:1}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes borderGlow{0%,100%{border-color:#7F77DD}50%{border-color:#534AB7}}
 .anim{animation:fadeUp .5s ease}
 .header{text-align:center;margin-bottom:2.5rem}
@@ -27,8 +26,8 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .field{display:flex;flex-direction:column;gap:6px}
 .field.full{grid-column:1/-1}
-label{font-size:12px;color:#666;font-weight:500;display:flex;align-items:center;gap:6px}
-.tag{font-size:10px;font-weight:600;border-radius:4px;padding:2px 7px;letter-spacing:.04em}
+label{font-size:12px;color:#666;font-weight:500;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tag{font-size:10px;font-weight:600;border-radius:4px;padding:2px 7px;letter-spacing:.04em;white-space:nowrap}
 .tag.req{background:#1a1229;color:#7F77DD;border:1px solid #2d1f5e}
 .tag.fix{background:#0d1f1a;color:#1D9E75;border:1px solid #0f3d2e}
 .tag.opt{background:#1a1a1a;color:#555;border:1px solid #2a2a2a}
@@ -37,11 +36,11 @@ input[type=text]{width:100%;background:#0d0d16;border:1px solid #1e1e30;border-r
 input[type=text]:focus{border-color:#534AB7;box-shadow:0 0 0 3px rgba(83,74,183,.15)}
 input[type=text]::placeholder{color:#555}
 .fixed{background:#0a0a12;border:1px solid #151520;border-radius:8px;padding:9px 12px;font-size:13px;color:#1D9E75;font-family:'Inter',monospace}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .2s;user-select:none}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .2s;user-select:none;gap:12px}
 .toggle-row:hover{border-color:#2d1f5e}
 .toggle-row.active{border-color:#BA7517;background:#100e00}
-.toggle-left{display:flex;flex-direction:column;gap:2px}
-.toggle-title{font-size:13px;color:#888;font-weight:500;display:flex;align-items:center;gap:8px}
+.toggle-left{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.toggle-title{font-size:13px;color:#888;font-weight:500;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .toggle-title.active{color:#EF9F27}
 .toggle-sub{font-size:11px;color:#333;font-family:'Inter',monospace}
 .toggle-sub.active{color:#BA7517}
@@ -63,6 +62,10 @@ input[type=text]::placeholder{color:#555}
 .copy-btn:hover{background:#534AB7}
 .copy-btn:active{transform:scale(.98)}
 .copy-btn.copied{background:#0F6E56}
+@media(max-width:540px){
+  .grid{grid-template-columns:1fr}
+  .field.full{grid-column:1}
+}
 </style>
 </head>
 <body>
@@ -89,8 +92,8 @@ input[type=text]::placeholder{color:#555}
         <div class="fixed">fb</div>
       </div>
       <div class="field">
-        <label>sub2 <span class="tag fix">фіксовано</span></label>
-        <div class="fixed">{{adset.name}}</div>
+        <label>sub2 — назва оголошення <span class="tag fix">фіксовано</span></label>
+        <div class="fixed">{{ad.name}}</div>
       </div>
       <div class="field">
         <label>sub3 — саб Кейтаро <span class="tag req">обовʼязково</span></label>
@@ -152,20 +155,33 @@ input[type=text]::placeholder{color:#555}
 <script>
 const canvas=document.getElementById('bg');
 const ctx=canvas.getContext('2d');
-let W,H,particles=[];
+let W,H;
+const DOTS=80,DIST=140;
+let dots=[];
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
 resize();
 window.addEventListener('resize',resize);
-for(let i=0;i<60;i++){particles.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.5+.3,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,o:Math.random()*.5+.1})}
+for(let i=0;i<DOTS;i++){dots.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5})}
 function draw(){
   ctx.clearRect(0,0,W,H);
-  particles.forEach(p=>{
-    p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
-    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(127,119,221,${p.o})`;ctx.fill();
-  });
+  for(let i=0;i<dots.length;i++){
+    const d=dots[i];
+    d.x+=d.vx;d.y+=d.vy;
+    if(d.x<0)d.x=W;if(d.x>W)d.x=0;
+    if(d.y<0)d.y=H;if(d.y>H)d.y=0;
+    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(127,119,221,0.5)';ctx.fill();
+    for(let j=i+1;j<dots.length;j++){
+      const d2=dots[j];
+      const dx=d.x-d2.x,dy=d.y-d2.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<DIST){
+        const alpha=(1-dist/DIST)*0.12;
+        ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);
+        ctx.strokeStyle=`rgba(127,119,221,${alpha})`;ctx.lineWidth=.6;ctx.stroke();
+      }
+    }
+  }
   requestAnimationFrame(draw);
 }
 draw();
@@ -199,7 +215,7 @@ function build(){
     status.className='status';
     return;
   }
-  let params=`sub1=fb&sub2={{adset.name}}&sub3=${sub3}&sub5=${sub5}`;
+  let params=`sub1=fb&sub2={{ad.name}}&sub3=${sub3}&sub5=${sub5}`;
   if(sub6)params+=`&sub6=${sub6}`;
   if(sub7)params+=`&sub7=${sub7}`;
   params+=`&fbp=${fbp}&ad_campaign_id=${cid}`;
@@ -214,7 +230,19 @@ function build(){
 function copy(){
   const text=document.getElementById('output').textContent;
   if(text.includes('Заповніть'))return;
-  navigator.clipboard.writeText(text);
+  try{
+    navigator.clipboard.writeText(text).then(()=>showCopied()).catch(()=>fallbackCopy(text));
+  }catch(e){fallbackCopy(text)}
+}
+function fallbackCopy(text){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showCopied();
+}
+function showCopied(){
   const btn=document.getElementById('copy-btn');
   btn.textContent='Скопійовано!';
   btn.className='copy-btn copied';
