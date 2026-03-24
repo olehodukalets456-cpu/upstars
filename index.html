@@ -3,9 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upstars</title>
+  <title>Білдер лінки</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; min-height: 100vh; display: flex; justify-content: center; padding: 2rem 1rem; }
+    .wrap { width: 100%; max-width: 620px; }
+    h2 { font-size: 22px; font-weight: 600; margin-bottom: 1.5rem; color: #111; }
+    .section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin: 1.5rem 0 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-size: 13px; color: #555; display: flex; gap: 5px; align-items: center; }
+    .req { color: #e53e3e; font-size: 11px; }
+    .opt { color: #aaa; font-size: 11px; }
+    .fixed-val { font-size: 13px; font-family: monospace; background: #efefef; border: 1px solid #ddd; border-radius: 8px; padding: 7px 10px; color: #888; }
+    input { width: 100%; font-size: 14px; padding: 7px 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; outline: none; font-family: inherit; }
+    input:focus { border-color: #888; }
+    .card { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .result-box { background: #f0f0f0; border-radius: 8px; padding: 1rem; margin-top: 1.5rem; }
+    .result-label { font-size: 12px; color: #999; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .result-url { font-size: 13px; font-family: monospace; color: #111; word-break: break-all; line-height: 1.7; }
+    .actions { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+    button { font-size: 13px; padding: 7px 18px; border: 1px solid #ccc; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; }
+    button:hover { background: #f5f5f5; }
+    .copied { color: #38a169; font-size: 13px; display: none; }
+    hr { border: none; border-top: 1px solid #eee; margin: 1.5rem 0 0; }
+  </style>
 </head>
 <body>
-  <h1>Привіт!</h1>
+  <div class="wrap">
+    <div class="card">
+      <h2>Білдер лінки</h2>
+
+      <div class="section-title">Обовʼязкові параметри</div>
+      <div class="grid">
+        <div class="field full">
+          <label>Домен <span class="req">обовʼязково</span></label>
+          <input type="text" id="domain" placeholder="bdncas.online" oninput="build()">
+        </div>
+        <div class="field">
+          <label>sub1 <span class="req">фіксовано</span></label>
+          <div class="fixed-val">fb</div>
+        </div>
+        <div class="field">
+          <label>sub2 <span class="req">фіксовано</span></label>
+          <div class="fixed-val">{{adset.name}}</div>
+        </div>
+        <div class="field">
+          <label>sub3 — саб у Кейтаро <span class="req">обовʼязково</span></label>
+          <input type="text" id="sub3" placeholder="264" oninput="build()">
+        </div>
+        <div class="field">
+          <label>sub5 — ID компанії <span class="req">обовʼязково</span></label>
+          <input type="text" id="sub5" placeholder="1877575242852085_1" oninput="build()">
+        </div>
+        <div class="field">
+          <label>fbp — ID пікселя <span class="req">обовʼязково</span></label>
+          <input type="text" id="fbp" placeholder="1591931045350979" oninput="build()">
+        </div>
+        <div class="field">
+          <label>ad_campaign_id <span class="req">обовʼязково</span></label>
+          <input type="text" id="cid" placeholder="1877575242852085_at" oninput="build()">
+        </div>
+      </div>
+
+      <hr>
+      <div class="section-title">Необовʼязкові параметри</div>
+      <div class="grid">
+        <div class="field">
+          <label>sub6 <span class="opt">необовʼязково</span></label>
+          <input type="text" id="sub6" oninput="build()">
+        </div>
+        <div class="field">
+          <label>sub7 <span class="opt">необовʼязково</span></label>
+          <input type="text" id="sub7" oninput="build()">
+        </div>
+        <div class="field full">
+          <label>offer_id <span class="opt">необовʼязково</span></label>
+          <input type="text" id="offer" placeholder="ID з AirTable або Кейтаро" oninput="build()">
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-label">Готова лінка</div>
+        <div class="result-url" id="output">Заповніть обовʼязкові поля — лінка зʼявиться тут.</div>
+        <div class="actions">
+          <button onclick="copy()">Копіювати</button>
+          <span class="copied" id="copied">Скопійовано!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function build() {
+      const domain = document.getElementById('domain').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
+      const sub3 = document.getElementById('sub3').value.trim();
+      const sub5 = document.getElementById('sub5').value.trim();
+      const fbp = document.getElementById('fbp').value.trim();
+      const cid = document.getElementById('cid').value.trim();
+      const sub6 = document.getElementById('sub6').value.trim();
+      const sub7 = document.getElementById('sub7').value.trim();
+      const offer = document.getElementById('offer').value.trim();
+      const out = document.getElementById('output');
+
+      if (!domain || !sub3 || !sub5 || !fbp || !cid) {
+        out.textContent = 'Заповніть обовʼязкові поля — лінка зʼявиться тут.';
+        return;
+      }
+
+      let params = `sub1=fb&sub2={{adset.name}}&sub3=${sub3}&sub5=${sub5}`;
+      if (sub6) params += `&sub6=${sub6}`;
+      if (sub7) params += `&sub7=${sub7}`;
+      params += `&fbp=${fbp}&ad_campaign_id=${cid}`;
+      if (offer) params += `&offer_id=${offer}`;
+
+      out.textContent = `https://${domain}/?${params}`;
+    }
+
+    function copy() {
+      const text = document.getElementById('output').textContent;
+      if (text.includes('Заповніть')) return;
+      navigator.clipboard.writeText(text);
+      const c = document.getElementById('copied');
+      c.style.display = 'inline';
+      setTimeout(() => c.style.display = 'none', 2000);
+    }
+  </script>
 </body>
 </html>
