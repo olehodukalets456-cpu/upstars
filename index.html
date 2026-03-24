@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>META2 T4 — Link Builder</title>
+<title>TEAM T4 (M2) — Link Builder</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -14,10 +14,10 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 @keyframes borderGlow{0%,100%{border-color:#7F77DD}50%{border-color:#534AB7}}
 .anim{animation:fadeUp .5s ease}
 .header{text-align:center;margin-bottom:2.5rem}
-.logo{display:inline-flex;align-items:baseline;gap:4px;margin-bottom:.5rem}
-.logo-meta{font-size:36px;font-weight:900;color:#fff;letter-spacing:-.03em}
-.logo-2{font-size:36px;font-weight:900;color:#7F77DD;letter-spacing:-.03em}
-.logo-t4{font-size:14px;font-weight:700;color:#534AB7;background:#1a1229;border:1px solid #2d1f5e;border-radius:6px;padding:3px 8px;margin-left:6px;letter-spacing:.06em;align-self:center}
+.logo{display:inline-flex;align-items:center;gap:8px;margin-bottom:.5rem;flex-wrap:wrap;justify-content:center}
+.logo-team{font-size:32px;font-weight:900;color:#fff;letter-spacing:-.03em}
+.logo-t4{font-size:20px;font-weight:900;color:#7F77DD;letter-spacing:-.02em}
+.logo-m2{font-size:14px;font-weight:700;color:#534AB7;background:#1a1229;border:1px solid #2d1f5e;border-radius:6px;padding:3px 10px;letter-spacing:.06em}
 .tagline{font-size:11px;color:#333;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
 .card{background:#111118;border:1px solid #1e1e30;border-radius:16px;padding:1.5rem;margin-bottom:1rem;transition:border-color .3s}
 .card:hover{border-color:#2a2a45}
@@ -36,6 +36,20 @@ input[type=text]{width:100%;background:#0d0d16;border:1px solid #1e1e30;border-r
 input[type=text]:focus{border-color:#534AB7;box-shadow:0 0 0 3px rgba(83,74,183,.15)}
 input[type=text]::placeholder{color:#555}
 .fixed{background:#0a0a12;border:1px solid #151520;border-radius:8px;padding:9px 12px;font-size:13px;color:#1D9E75;font-family:'Inter',monospace}
+.sub2-box{background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.sub2-option{display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px 10px;border-radius:8px;border:1px solid transparent;transition:border-color .2s,background .2s}
+.sub2-option:hover{background:#141420}
+.sub2-option.selected{border-color:#2d1f5e;background:#12101e}
+.sub2-radio{width:16px;height:16px;border-radius:50%;border:2px solid #2d2d45;background:#0a0a12;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.sub2-option.selected .sub2-radio{border-color:#7F77DD}
+.sub2-radio-dot{width:8px;height:8px;border-radius:50%;background:#7F77DD;display:none}
+.sub2-option.selected .sub2-radio-dot{display:block}
+.sub2-text{display:flex;flex-direction:column;gap:2px;flex:1}
+.sub2-title{font-size:13px;color:#888;font-weight:500}
+.sub2-option.selected .sub2-title{color:#AFA9EC}
+.sub2-val{font-size:11px;color:#333;font-family:'Inter',monospace}
+.sub2-option.selected .sub2-val{color:#534AB7}
+.sub2-custom-wrap{margin-top:2px}
 .toggle-row{display:flex;align-items:center;justify-content:space-between;background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .2s;user-select:none;gap:12px}
 .toggle-row:hover{border-color:#2d1f5e}
 .toggle-row.active{border-color:#BA7517;background:#100e00}
@@ -74,8 +88,9 @@ input[type=text]::placeholder{color:#555}
 <div class="wrap anim">
   <div class="header">
     <div class="logo">
-      <span class="logo-meta">META</span><span class="logo-2">2</span>
+      <span class="logo-team">TEAM</span>
       <span class="logo-t4">T4</span>
+      <span class="logo-m2">M2</span>
     </div>
     <div class="tagline">Link Builder</div>
   </div>
@@ -91,12 +106,30 @@ input[type=text]::placeholder{color:#555}
         <label>sub1 <span class="tag fix">фіксовано</span></label>
         <div class="fixed">fb</div>
       </div>
-      <div class="field">
-        <label>sub2 — назва оголошення <span class="tag fix">фіксовано</span></label>
-        <div class="fixed">{{ad.name}}</div>
+      <div class="field full">
+        <label>sub2 — назва оголошення <span class="tag req">обовʼязково</span></label>
+        <div class="sub2-box">
+          <div class="sub2-option selected" id="sub2-auto" onclick="selectSub2('auto')">
+            <div class="sub2-radio"><div class="sub2-radio-dot"></div></div>
+            <div class="sub2-text">
+              <div class="sub2-title">Автоматично — назва оголошення з FB</div>
+              <div class="sub2-val">{{ad.name}}</div>
+            </div>
+          </div>
+          <div class="sub2-option" id="sub2-custom" onclick="selectSub2('custom')">
+            <div class="sub2-radio"><div class="sub2-radio-dot"></div></div>
+            <div class="sub2-text">
+              <div class="sub2-title">Вручну — ввести своє значення</div>
+              <div class="sub2-val">ID креатива з F3</div>
+            </div>
+          </div>
+          <div class="sub2-custom-wrap" id="sub2-input-wrap" style="display:none">
+            <input type="text" id="sub2-manual" placeholder="Введіть ID креатива" oninput="build()">
+          </div>
+        </div>
       </div>
       <div class="field">
-        <label>sub3 — ID баєра <span class="tag req">обовʼязково</span></label>
+        <label>sub3 — саб Кейтаро <span class="tag req">обовʼязково</span></label>
         <input type="text" id="sub3" placeholder="264" oninput="build()">
       </div>
       <div class="field">
@@ -186,7 +219,17 @@ function draw(){
 }
 draw();
 
+let sub2Mode='auto';
 let fbclidOn=false;
+
+function selectSub2(mode){
+  sub2Mode=mode;
+  document.getElementById('sub2-auto').className='sub2-option'+(mode==='auto'?' selected':'');
+  document.getElementById('sub2-custom').className='sub2-option'+(mode==='custom'?' selected':'');
+  document.getElementById('sub2-input-wrap').style.display=mode==='custom'?'block':'none';
+  build();
+}
+
 function toggleFbclid(){
   fbclidOn=!fbclidOn;
   document.getElementById('switch').className='switch'+(fbclidOn?' on':'');
@@ -195,6 +238,7 @@ function toggleFbclid(){
   document.getElementById('toggle-sub').className='toggle-sub'+(fbclidOn?' active':'');
   build();
 }
+
 function build(){
   const domain=document.getElementById('domain').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');
   const sub3=document.getElementById('sub3').value.trim();
@@ -204,10 +248,12 @@ function build(){
   const sub6=document.getElementById('sub6').value.trim();
   const sub7=document.getElementById('sub7').value.trim();
   const offer=document.getElementById('offer').value.trim();
+  const sub2val=sub2Mode==='auto'?'{{ad.name}}':document.getElementById('sub2-manual').value.trim();
   const out=document.getElementById('output');
   const card=document.getElementById('result-card');
   const status=document.getElementById('status');
-  if(!domain||!sub3||!sub5||!fbp||!cid){
+  const manualEmpty=sub2Mode==='custom'&&!sub2val;
+  if(!domain||!sub3||!sub5||!fbp||!cid||manualEmpty){
     out.textContent='Заповніть обовʼязкові поля...';
     out.className='url-text empty';
     card.className='result-card';
@@ -215,7 +261,7 @@ function build(){
     status.className='status';
     return;
   }
-  let params=`sub1=fb&sub2={{ad.name}}&sub3=${sub3}&sub5=${sub5}`;
+  let params=`sub1=fb&sub2=${sub2val}&sub3=${sub3}&sub5=${sub5}`;
   if(sub6)params+=`&sub6=${sub6}`;
   if(sub7)params+=`&sub7=${sub7}`;
   params+=`&fbp=${fbp}&ad_campaign_id=${cid}`;
@@ -227,6 +273,7 @@ function build(){
   status.innerHTML='<span class="status-dot"></span>готово';
   status.className='status ready';
 }
+
 function copy(){
   const text=document.getElementById('output').textContent;
   if(text.includes('Заповніть'))return;
