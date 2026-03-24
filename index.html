@@ -1,134 +1,225 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Білдер лінки</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; min-height: 100vh; display: flex; justify-content: center; padding: 2rem 1rem; }
-    .wrap { width: 100%; max-width: 620px; }
-    h2 { font-size: 22px; font-weight: 600; margin-bottom: 1.5rem; color: #111; }
-    .section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin: 1.5rem 0 10px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .field { display: flex; flex-direction: column; gap: 5px; }
-    .field.full { grid-column: 1 / -1; }
-    label { font-size: 13px; color: #555; display: flex; gap: 5px; align-items: center; }
-    .req { color: #e53e3e; font-size: 11px; }
-    .opt { color: #aaa; font-size: 11px; }
-    .fixed-val { font-size: 13px; font-family: monospace; background: #efefef; border: 1px solid #ddd; border-radius: 8px; padding: 7px 10px; color: #888; }
-    input { width: 100%; font-size: 14px; padding: 7px 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; outline: none; font-family: inherit; }
-    input:focus { border-color: #888; }
-    .card { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-    .result-box { background: #f0f0f0; border-radius: 8px; padding: 1rem; margin-top: 1.5rem; }
-    .result-label { font-size: 12px; color: #999; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
-    .result-url { font-size: 13px; font-family: monospace; color: #111; word-break: break-all; line-height: 1.7; }
-    .actions { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
-    button { font-size: 13px; padding: 7px 18px; border: 1px solid #ccc; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; }
-    button:hover { background: #f5f5f5; }
-    .copied { color: #38a169; font-size: 13px; display: none; }
-    hr { border: none; border-top: 1px solid #eee; margin: 1.5rem 0 0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>META2 T4 — Link Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;min-height:100vh;display:flex;justify-content:center;padding:2.5rem 1rem;position:relative;overflow-x:hidden}
+canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.wrap{width:100%;max-width:640px;position:relative;z-index:1}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes borderGlow{0%,100%{border-color:#7F77DD}50%{border-color:#534AB7}}
+.anim{animation:fadeUp .5s ease}
+.header{text-align:center;margin-bottom:2.5rem}
+.logo{display:inline-flex;align-items:baseline;gap:4px;margin-bottom:.5rem}
+.logo-meta{font-size:36px;font-weight:900;color:#fff;letter-spacing:-.03em}
+.logo-2{font-size:36px;font-weight:900;color:#7F77DD;letter-spacing:-.03em}
+.logo-t4{font-size:14px;font-weight:700;color:#534AB7;background:#1a1229;border:1px solid #2d1f5e;border-radius:6px;padding:3px 8px;margin-left:6px;letter-spacing:.06em;align-self:center}
+.tagline{font-size:11px;color:#333;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
+.card{background:#111118;border:1px solid #1e1e30;border-radius:16px;padding:1.5rem;margin-bottom:1rem;transition:border-color .3s}
+.card:hover{border-color:#2a2a45}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#534AB7;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:#1e1e30}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-size:12px;color:#666;font-weight:500;display:flex;align-items:center;gap:6px}
+.tag{font-size:10px;font-weight:600;border-radius:4px;padding:2px 7px;letter-spacing:.04em}
+.tag.req{background:#1a1229;color:#7F77DD;border:1px solid #2d1f5e}
+.tag.fix{background:#0d1f1a;color:#1D9E75;border:1px solid #0f3d2e}
+.tag.opt{background:#1a1a1a;color:#555;border:1px solid #2a2a2a}
+.tag.test{background:#1f1500;color:#BA7517;border:1px solid #3d2a00}
+input[type=text]{width:100%;background:#0d0d16;border:1px solid #1e1e30;border-radius:8px;padding:9px 12px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+input[type=text]:focus{border-color:#534AB7;box-shadow:0 0 0 3px rgba(83,74,183,.15)}
+input[type=text]::placeholder{color:#555}
+.fixed{background:#0a0a12;border:1px solid #151520;border-radius:8px;padding:9px 12px;font-size:13px;color:#1D9E75;font-family:'Inter',monospace}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .2s;user-select:none}
+.toggle-row:hover{border-color:#2d1f5e}
+.toggle-row.active{border-color:#BA7517;background:#100e00}
+.toggle-left{display:flex;flex-direction:column;gap:2px}
+.toggle-title{font-size:13px;color:#888;font-weight:500;display:flex;align-items:center;gap:8px}
+.toggle-title.active{color:#EF9F27}
+.toggle-sub{font-size:11px;color:#333;font-family:'Inter',monospace}
+.toggle-sub.active{color:#BA7517}
+.switch{width:34px;height:20px;background:#1e1e30;border-radius:10px;position:relative;transition:background .2s;flex-shrink:0}
+.switch.on{background:#854F0B}
+.switch::after{content:'';position:absolute;width:14px;height:14px;background:#555;border-radius:50%;top:3px;left:3px;transition:transform .2s,background .2s}
+.switch.on::after{transform:translateX(14px);background:#EF9F27}
+.result-card{background:#0d0d16;border:1px solid #1e1e30;border-radius:16px;padding:1.5rem;margin-top:1rem;transition:border-color .3s}
+.result-card.has-url{border-color:#2d1f5e;animation:borderGlow 3s infinite}
+.result-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.result-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#534AB7}
+.status{font-size:10px;color:#555;display:flex;align-items:center;gap:4px}
+.status.ready{color:#1D9E75}
+.status-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.url-text{font-size:12px;font-family:'Inter',monospace;color:#AFA9EC;word-break:break-all;line-height:1.8;min-height:40px}
+.url-text.empty{color:#444;font-family:'Inter',sans-serif;font-size:13px}
+.divider{height:1px;background:#1e1e30;margin:1rem 0}
+.copy-btn{width:100%;padding:11px;background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:background .2s,transform .1s;letter-spacing:.02em}
+.copy-btn:hover{background:#534AB7}
+.copy-btn:active{transform:scale(.98)}
+.copy-btn.copied{background:#0F6E56}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h2>Білдер лінки</h2>
+<canvas id="bg"></canvas>
 
-      <div class="section-title">Обовʼязкові параметри</div>
-      <div class="grid">
-        <div class="field full">
-          <label>Домен <span class="req">обовʼязково</span></label>
-          <input type="text" id="domain" placeholder="bdncas.online" oninput="build()">
-        </div>
-        <div class="field">
-          <label>sub1 <span class="req">фіксовано</span></label>
-          <div class="fixed-val">fb</div>
-        </div>
-        <div class="field">
-          <label>sub2 <span class="req">фіксовано</span></label>
-          <div class="fixed-val">{{adset.name}}</div>
-        </div>
-        <div class="field">
-          <label>sub3 — саб у Кейтаро <span class="req">обовʼязково</span></label>
-          <input type="text" id="sub3" placeholder="264" oninput="build()">
-        </div>
-        <div class="field">
-          <label>sub5 — ID компанії <span class="req">обовʼязково</span></label>
-          <input type="text" id="sub5" placeholder="1877575242852085_1" oninput="build()">
-        </div>
-        <div class="field">
-          <label>fbp — ID пікселя <span class="req">обовʼязково</span></label>
-          <input type="text" id="fbp" placeholder="1591931045350979" oninput="build()">
-        </div>
-        <div class="field">
-          <label>ad_campaign_id <span class="req">обовʼязково</span></label>
-          <input type="text" id="cid" placeholder="1877575242852085_at" oninput="build()">
-        </div>
+<div class="wrap anim">
+  <div class="header">
+    <div class="logo">
+      <span class="logo-meta">META</span><span class="logo-2">2</span>
+      <span class="logo-t4">T4</span>
+    </div>
+    <div class="tagline">Link Builder</div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Обовʼязкові</div>
+    <div class="grid">
+      <div class="field full">
+        <label>Домен <span class="tag req">обовʼязково</span></label>
+        <input type="text" id="domain" placeholder="bdncas.online" oninput="build()">
       </div>
-
-      <hr>
-      <div class="section-title">Необовʼязкові параметри</div>
-      <div class="grid">
-        <div class="field">
-          <label>sub6 <span class="opt">необовʼязково</span></label>
-          <input type="text" id="sub6" oninput="build()">
-        </div>
-        <div class="field">
-          <label>sub7 <span class="opt">необовʼязково</span></label>
-          <input type="text" id="sub7" oninput="build()">
-        </div>
-        <div class="field full">
-          <label>offer_id <span class="opt">необовʼязково</span></label>
-          <input type="text" id="offer" placeholder="ID з AirTable або Кейтаро" oninput="build()">
-        </div>
+      <div class="field">
+        <label>sub1 <span class="tag fix">фіксовано</span></label>
+        <div class="fixed">fb</div>
       </div>
+      <div class="field">
+        <label>sub2 <span class="tag fix">фіксовано</span></label>
+        <div class="fixed">{{adset.name}}</div>
+      </div>
+      <div class="field">
+        <label>sub3 — саб Кейтаро <span class="tag req">обовʼязково</span></label>
+        <input type="text" id="sub3" placeholder="264" oninput="build()">
+      </div>
+      <div class="field">
+        <label>sub5 — ID кампанії <span class="tag req">обовʼязково</span></label>
+        <input type="text" id="sub5" placeholder="1877575242852085_1" oninput="build()">
+      </div>
+      <div class="field">
+        <label>fbp — ID пікселя <span class="tag req">обовʼязково</span></label>
+        <input type="text" id="fbp" placeholder="1591931045350979" oninput="build()">
+      </div>
+      <div class="field">
+        <label>ad_campaign_id <span class="tag req">обовʼязково</span></label>
+        <input type="text" id="cid" placeholder="1877575242852085_at" oninput="build()">
+      </div>
+    </div>
+  </div>
 
-      <div class="result-box">
-        <div class="result-label">Готова лінка</div>
-        <div class="result-url" id="output">Заповніть обовʼязкові поля — лінка зʼявиться тут.</div>
-        <div class="actions">
-          <button onclick="copy()">Копіювати</button>
-          <span class="copied" id="copied">Скопійовано!</span>
+  <div class="card">
+    <div class="section-label">Необовʼязкові</div>
+    <div class="grid">
+      <div class="field">
+        <label>sub6 <span class="tag opt">необовʼязково</span></label>
+        <input type="text" id="sub6" oninput="build()">
+      </div>
+      <div class="field">
+        <label>sub7 <span class="tag opt">необовʼязково</span></label>
+        <input type="text" id="sub7" oninput="build()">
+      </div>
+      <div class="field full">
+        <label>offer_id <span class="tag opt">необовʼязково</span></label>
+        <input type="text" id="offer" placeholder="ID з AirTable або Кейтаро" oninput="build()">
+      </div>
+      <div class="field full" style="margin-top:4px">
+        <div class="toggle-row" id="fbclid-row" onclick="toggleFbclid()">
+          <div class="toggle-left">
+            <div class="toggle-title" id="toggle-title">Додати fbclid для тесту <span class="tag test">тест</span></div>
+            <div class="toggle-sub" id="toggle-sub">&fbclid=21412412</div>
+          </div>
+          <div class="switch" id="switch"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    function build() {
-      const domain = document.getElementById('domain').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
-      const sub3 = document.getElementById('sub3').value.trim();
-      const sub5 = document.getElementById('sub5').value.trim();
-      const fbp = document.getElementById('fbp').value.trim();
-      const cid = document.getElementById('cid').value.trim();
-      const sub6 = document.getElementById('sub6').value.trim();
-      const sub7 = document.getElementById('sub7').value.trim();
-      const offer = document.getElementById('offer').value.trim();
-      const out = document.getElementById('output');
+  <div class="result-card" id="result-card">
+    <div class="result-top">
+      <div class="result-label">Готова лінка</div>
+      <div class="status" id="status"><span class="status-dot"></span>очікування</div>
+    </div>
+    <div class="url-text empty" id="output">Заповніть обовʼязкові поля...</div>
+    <div class="divider"></div>
+    <button class="copy-btn" id="copy-btn" onclick="copy()">Копіювати лінку</button>
+  </div>
+</div>
 
-      if (!domain || !sub3 || !sub5 || !fbp || !cid) {
-        out.textContent = 'Заповніть обовʼязкові поля — лінка зʼявиться тут.';
-        return;
-      }
+<script>
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();
+window.addEventListener('resize',resize);
+for(let i=0;i<60;i++){particles.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.5+.3,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,o:Math.random()*.5+.1})}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(127,119,221,${p.o})`;ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
 
-      let params = `sub1=fb&sub2={{adset.name}}&sub3=${sub3}&sub5=${sub5}`;
-      if (sub6) params += `&sub6=${sub6}`;
-      if (sub7) params += `&sub7=${sub7}`;
-      params += `&fbp=${fbp}&ad_campaign_id=${cid}`;
-      if (offer) params += `&offer_id=${offer}`;
-
-      out.textContent = `https://${domain}/?${params}`;
-    }
-
-    function copy() {
-      const text = document.getElementById('output').textContent;
-      if (text.includes('Заповніть')) return;
-      navigator.clipboard.writeText(text);
-      const c = document.getElementById('copied');
-      c.style.display = 'inline';
-      setTimeout(() => c.style.display = 'none', 2000);
-    }
-  </script>
+let fbclidOn=false;
+function toggleFbclid(){
+  fbclidOn=!fbclidOn;
+  document.getElementById('switch').className='switch'+(fbclidOn?' on':'');
+  document.getElementById('fbclid-row').className='toggle-row'+(fbclidOn?' active':'');
+  document.getElementById('toggle-title').className='toggle-title'+(fbclidOn?' active':'');
+  document.getElementById('toggle-sub').className='toggle-sub'+(fbclidOn?' active':'');
+  build();
+}
+function build(){
+  const domain=document.getElementById('domain').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');
+  const sub3=document.getElementById('sub3').value.trim();
+  const sub5=document.getElementById('sub5').value.trim();
+  const fbp=document.getElementById('fbp').value.trim();
+  const cid=document.getElementById('cid').value.trim();
+  const sub6=document.getElementById('sub6').value.trim();
+  const sub7=document.getElementById('sub7').value.trim();
+  const offer=document.getElementById('offer').value.trim();
+  const out=document.getElementById('output');
+  const card=document.getElementById('result-card');
+  const status=document.getElementById('status');
+  if(!domain||!sub3||!sub5||!fbp||!cid){
+    out.textContent='Заповніть обовʼязкові поля...';
+    out.className='url-text empty';
+    card.className='result-card';
+    status.innerHTML='<span class="status-dot"></span>очікування';
+    status.className='status';
+    return;
+  }
+  let params=`sub1=fb&sub2={{adset.name}}&sub3=${sub3}&sub5=${sub5}`;
+  if(sub6)params+=`&sub6=${sub6}`;
+  if(sub7)params+=`&sub7=${sub7}`;
+  params+=`&fbp=${fbp}&ad_campaign_id=${cid}`;
+  if(offer)params+=`&offer_id=${offer}`;
+  if(fbclidOn)params+=`&fbclid=21412412`;
+  out.textContent=`https://${domain}/?${params}`;
+  out.className='url-text';
+  card.className='result-card has-url';
+  status.innerHTML='<span class="status-dot"></span>готово';
+  status.className='status ready';
+}
+function copy(){
+  const text=document.getElementById('output').textContent;
+  if(text.includes('Заповніть'))return;
+  navigator.clipboard.writeText(text);
+  const btn=document.getElementById('copy-btn');
+  btn.textContent='Скопійовано!';
+  btn.className='copy-btn copied';
+  setTimeout(()=>{btn.textContent='Копіювати лінку';btn.className='copy-btn';},2000);
+}
+</script>
 </body>
 </html>
