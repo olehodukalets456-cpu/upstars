@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEAM T4 M2 — Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;min-height:100vh;padding:2rem 1rem;position:relative;overflow-x:hidden}
+canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.wrap{max-width:720px;margin:0 auto;position:relative;z-index:1}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px}
+.header-left{display:flex;flex-direction:column;gap:6px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-team{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.02em}
+.logo-t4{font-size:22px;font-weight:900;color:#7F77DD}
+.logo-m2{font-size:11px;font-weight:700;color:#534AB7;background:#1a1229;border:1px solid #2d1f5e;border-radius:5px;padding:2px 8px}
+.logo-sep{color:#222;font-size:14px;margin:0 2px}
+.logo-tracker{font-size:11px;color:#444;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.buyer-badge{display:inline-flex;align-items:center;gap:6px;background:#0d0d16;border:1px solid #1e1e30;border-radius:20px;padding:4px 12px;width:fit-content}
+.buyer-avatar{width:20px;height:20px;border-radius:50%;background:#7F77DD;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff}
+.buyer-name{font-size:11px;color:#666;font-weight:600}
+.buyer-id{font-size:11px;color:#534AB7;font-weight:700;font-family:'Inter',monospace}
+.add-btn{background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:12px;font-weight:700;padding:9px 16px;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.03em;display:flex;align-items:center;gap:6px;transition:background .2s}
+.add-btn:hover{background:#534AB7}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.5rem}
+.stat-card{background:#111118;border:1px solid #1e1e30;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.stat-val{font-size:24px;font-weight:900;line-height:1}
+.stat-val.blue{color:#378ADD}
+.stat-val.green{color:#1D9E75}
+.stat-val.red{color:#E24B4A}
+.stat-val.amber{color:#EF9F27}
+.stat-lbl{font-size:10px;color:#444;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.stat-line{height:2px;border-radius:2px;margin-top:4px}
+.stat-line.blue{background:#185FA5}
+.stat-line.green{background:#0F6E56}
+.stat-line.red{background:#A32D2D}
+.stat-line.amber{background:#854F0B}
+.card{background:#111118;border:1px solid #1e1e30;border-radius:16px;padding:1.25rem;margin-bottom:1rem;animation:fadeUp .3s ease;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#534AB7,#7F77DD,#534AB7)}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.card-num{font-size:10px;font-weight:700;color:#252535;font-family:'Inter',monospace;flex-shrink:0}
+.card-name-input{flex:1;background:transparent;border:none;outline:none;font-size:14px;font-weight:700;color:#fff;font-family:'Inter',sans-serif}
+.card-name-input::placeholder{color:#252535}
+.del-btn{background:none;border:none;color:#252535;font-size:18px;cursor:pointer;line-height:1;padding:2px 4px;margin-left:auto;transition:color .2s;font-family:'Inter',sans-serif}
+.del-btn:hover{color:#A32D2D}
+.card-progress{display:flex;gap:2px;margin-bottom:1rem}
+.cp-seg{height:3px;flex:1;border-radius:2px;background:#1e1e30;transition:background .3s}
+.cp-seg.work{background:#185FA5}
+.cp-seg.done{background:#0F6E56}
+.cp-seg.block{background:#A32D2D}
+.cp-seg.wait{background:#854F0B}
+.rows{display:flex;flex-direction:column;gap:7px;margin-bottom:1rem}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.row-tag{font-size:9px;font-weight:700;color:#2d2d50;width:40px;flex-shrink:0;letter-spacing:.06em;text-transform:uppercase}
+.row-label-input{background:transparent;border:none;border-bottom:1px solid #1e1e30;outline:none;font-size:12px;font-weight:600;color:#666;font-family:'Inter',sans-serif;width:90px;flex-shrink:0;padding:1px 4px;transition:border-color .2s;min-width:0}
+.row-label-input:focus{border-color:#534AB7;color:#AFA9EC}
+.row-label-input::placeholder{color:#252535}
+.statuses{display:flex;gap:3px;flex-wrap:wrap;flex:1}
+.s-btn{font-size:10px;font-weight:700;border:1px solid transparent;border-radius:5px;padding:3px 8px;cursor:pointer;opacity:.25;transition:opacity .15s;font-family:'Inter',sans-serif}
+.s-btn.active{opacity:1}
+.s-work{background:#0d1829;color:#85B7EB}
+.s-work.active{background:#185FA5;color:#E6F1FB}
+.s-done{background:#091a14;color:#5DCAA5}
+.s-done.active{background:#0F6E56;color:#E1F5EE}
+.s-block{background:#1a0909;color:#F09595}
+.s-block.active{background:#A32D2D;color:#FCEBEB}
+.s-wait{background:#1a1000;color:#EF9F27}
+.s-wait.active{background:#854F0B;color:#FAEEDA}
+.note{width:100%;background:#0a0a12;border:1px solid #161625;border-radius:8px;padding:8px 12px;font-size:12px;color:#666;font-family:'Inter',sans-serif;resize:none;outline:none;line-height:1.6}
+.note:focus{border-color:#2d2d50;color:#aaa}
+.note::placeholder{color:#1e1e30}
+.empty-state{text-align:center;padding:4rem 1rem;color:#252535}
+.empty-icon{font-size:28px;margin-bottom:1rem;opacity:.3}
+.empty-text{font-size:14px;font-weight:700;color:#2d2d50}
+.empty-sub{font-size:12px;margin-top:6px;color:#1e1e30}
+@media(max-width:480px){
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .row-label-input{width:70px}
+}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="wrap">
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-team">TEAM</span>
+        <span class="logo-t4">T4</span>
+        <span class="logo-m2">M2</span>
+        <span class="logo-sep">/</span>
+        <span class="logo-tracker">Tracker</span>
+      </div>
+      <div class="buyer-badge">
+        <div class="buyer-avatar">O</div>
+        <span class="buyer-name">Buyer</span>
+        <span class="buyer-id">#264</span>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addFunnel()"><span style="font-size:16px;font-weight:400">+</span> Нова воронка</button>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-val blue" id="s-work">0</div><div class="stat-lbl">В роботі</div><div class="stat-line blue"></div></div>
+    <div class="stat-card"><div class="stat-val green" id="s-done">0</div><div class="stat-lbl">Готово</div><div class="stat-line green"></div></div>
+    <div class="stat-card"><div class="stat-val red" id="s-block">0</div><div class="stat-lbl">Блок</div><div class="stat-line red"></div></div>
+    <div class="stat-card"><div class="stat-val amber" id="s-wait">0</div><div class="stat-lbl">Очікування</div><div class="stat-line amber"></div></div>
+  </div>
+
+  <div id="funnels"></div>
+</div>
+
+<script>
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+let W,H,dots=[];
+const DOTS=70,DIST=130;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();
+window.addEventListener('resize',resize);
+for(let i=0;i<DOTS;i++)dots.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.4+.4});
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<dots.length;i++){
+    const d=dots[i];
+    d.x+=d.vx;d.y+=d.vy;
+    if(d.x<0)d.x=W;if(d.x>W)d.x=0;
+    if(d.y<0)d.y=H;if(d.y>H)d.y=0;
+    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(127,119,221,0.45)';ctx.fill();
+    for(let j=i+1;j<dots.length;j++){
+      const d2=dots[j];
+      const dx=d.x-d2.x,dy=d.y-d2.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<DIST){
+        ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);
+        ctx.strokeStyle=`rgba(127,119,221,${(1-dist/DIST)*0.1})`;ctx.lineWidth=.6;ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+const DEFAULT_STAGES=['PWA','Крео','Назва','ГЕО','Офер'];
+const STATUSES=[
+  {key:'work',label:'В роботі',cls:'s-work'},
+  {key:'done',label:'Готово',cls:'s-done'},
+  {key:'block',label:'Блок',cls:'s-block'},
+  {key:'wait',label:'Очікування',cls:'s-wait'}
+];
+
+let funnels=[];
+try{const d=localStorage.getItem('t4_tracker_v2');if(d)funnels=JSON.parse(d);}catch(e){}
+
+function save(){try{localStorage.setItem('t4_tracker_v2',JSON.stringify(funnels));}catch(e){}}
+
+function addFunnel(){
+  const id='f_'+Date.now();
+  const stages=DEFAULT_STAGES.map(s=>({tag:s,label:'',status:'work'}));
+  funnels.unshift({id,name:'',stages,note:''});
+  save();render();
+  setTimeout(()=>{const i=document.getElementById('n_'+id);if(i)i.focus();},50);
+}
+
+function deleteFunnel(id){
+  if(!confirm('Видалити воронку?'))return;
+  funnels=funnels.filter(f=>f.id!==id);
+  save();render();
+}
+
+function setStatus(id,idx,key){
+  const f=funnels.find(f=>f.id===id);
+  if(f){f.stages[idx].status=key;save();updateStats();updateProgress(id);}
+}
+
+function setName(id,v){const f=funnels.find(f=>f.id===id);if(f){f.name=v;save();}}
+function setNote(id,v){const f=funnels.find(f=>f.id===id);if(f){f.note=v;save();}}
+function setStageLabel(id,idx,v){const f=funnels.find(f=>f.id===id);if(f){f.stages[idx].label=v;save();}}
+
+function updateStats(){
+  const c={work:0,done:0,block:0,wait:0};
+  funnels.forEach(f=>f.stages.forEach(s=>c[s.status]++));
+  document.getElementById('s-work').textContent=c.work;
+  document.getElementById('s-done').textContent=c.done;
+  document.getElementById('s-block').textContent=c.block;
+  document.getElementById('s-wait').textContent=c.wait;
+}
+
+function updateProgress(id){
+  const f=funnels.find(f=>f.id===id);
+  if(!f)return;
+  const segs=document.querySelectorAll('#prog_'+id+' .cp-seg');
+  f.stages.forEach((s,i)=>{if(segs[i])segs[i].className='cp-seg '+s.status;});
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function render(){
+  const el=document.getElementById('funnels');
+  if(!funnels.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-icon">&#9671;</div><div class="empty-text">Немає воронок</div><div class="empty-sub">Натисни "+ Нова воронка" щоб почати</div></div>`;
+    updateStats();return;
+  }
+  el.innerHTML=funnels.map((f,idx)=>`
+    <div class="card" id="card_${f.id}">
+      <div class="card-top">
+        <span class="card-num">#${String(funnels.length-idx).padStart(2,'0')}</span>
+        <input class="card-name-input" id="n_${f.id}" value="${esc(f.name)}" placeholder="Назва воронки..." oninput="setName('${f.id}',this.value)">
+        <button class="del-btn" onclick="deleteFunnel('${f.id}')" title="Видалити">&#215;</button>
+      </div>
+      <div class="card-progress" id="prog_${f.id}">
+        ${f.stages.map(s=>`<div class="cp-seg ${s.status}"></div>`).join('')}
+      </div>
+      <div class="rows">
+        ${f.stages.map((stage,i)=>`
+          <div class="row">
+            <div class="row-tag">${stage.tag}</div>
+            <input class="row-label-input" value="${esc(stage.label)}" placeholder="${stage.tag}..." oninput="setStageLabel('${f.id}',${i},this.value)">
+            <div class="statuses" id="st_${f.id}_${i}">
+              ${STATUSES.map(st=>`
+                <button class="s-btn ${st.cls}${stage.status===st.key?' active':''}"
+                  onclick="setStatus('${f.id}',${i},'${st.key}');document.querySelectorAll('#st_${f.id}_${i} .s-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+                  ${st.label}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <textarea class="note" rows="2" placeholder="Замітка..." oninput="setNote('${f.id}',this.value)">${esc(f.note)}</textarea>
+    </div>
+  `).join('');
+  updateStats();
+}
+
+render();
+</script>
+</body>
+</html>
