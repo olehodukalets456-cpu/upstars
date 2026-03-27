@@ -11,6 +11,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0f;min-height:100vh;padding:
 canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .wrap{max-width:960px;margin:0 auto;position:relative;z-index:1}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:12px}
 .header-left{display:flex;flex-direction:column;gap:8px}
 .logo{display:flex;align-items:center;gap:10px}
@@ -29,8 +30,13 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .sync-dot.ok{background:#0F6E56}
 .sync-dot.saving{background:#854F0B}
 .sync-dot.err{background:#A32D2D}
+.header-actions{display:flex;align-items:center;gap:10px}
 .add-btn{background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.03em;display:flex;align-items:center;gap:8px;transition:background .2s}
 .add-btn:hover{background:#534AB7}
+.mode-badge{display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif;border:1px solid #1e1e30;color:#444;cursor:pointer;transition:all .2s}
+.mode-badge.edit{border-color:#0F6E56;color:#1D9E75;background:#091a14}
+.mode-badge.view{border-color:#1e1e30;color:#444;background:transparent}
+.mode-badge:hover{border-color:#534AB7;color:#7F77DD}
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:2rem}
 .stat-card{background:#111118;border:1px solid #1e1e30;border-radius:14px;padding:14px 18px;display:flex;flex-direction:column;gap:6px}
 .stat-val{font-size:32px;font-weight:900;line-height:1}
@@ -50,6 +56,7 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .card-num{font-size:11px;font-weight:700;color:#252535;font-family:'Inter',monospace;flex-shrink:0}
 .card-name-input{flex:1;background:transparent;border:none;outline:none;font-size:17px;font-weight:700;color:#fff;font-family:'Inter',sans-serif}
 .card-name-input::placeholder{color:#252535}
+.card-name-input:read-only{cursor:default}
 .del-btn{background:none;border:none;color:#252535;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;margin-left:auto;transition:color .2s}
 .del-btn:hover{color:#A32D2D}
 .card-progress{display:flex;gap:3px;margin-bottom:1.25rem}
@@ -63,10 +70,12 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .row-tag{font-size:10px;font-weight:700;color:#2d2d50;width:48px;flex-shrink:0;letter-spacing:.08em;text-transform:uppercase}
 .row-label-input{background:#0d0d16;border:1px solid #1a1a2e;border-radius:7px;outline:none;font-size:13px;font-weight:600;color:#777;font-family:'Inter',sans-serif;width:140px;flex-shrink:0;padding:5px 10px;transition:border-color .2s}
 .row-label-input:focus{border-color:#534AB7;color:#AFA9EC}
+.row-label-input:read-only{opacity:.6;cursor:default}
 .row-label-input::placeholder{color:#252535}
 .statuses{display:flex;gap:5px;flex:1;flex-wrap:wrap}
 .s-btn{font-size:12px;font-weight:700;border:1px solid transparent;border-radius:7px;padding:5px 13px;cursor:pointer;opacity:.2;transition:opacity .15s;font-family:'Inter',sans-serif}
 .s-btn.active{opacity:1}
+.s-btn.readonly{cursor:default;pointer-events:none}
 .s-work{background:#0d1829;color:#85B7EB}
 .s-work.active{background:#185FA5;color:#E6F1FB}
 .s-done{background:#091a14;color:#5DCAA5}
@@ -77,11 +86,25 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .s-wait.active{background:#854F0B;color:#FAEEDA}
 .note{width:100%;background:#0a0a12;border:1px solid #161625;border-radius:10px;padding:10px 14px;font-size:13px;color:#666;font-family:'Inter',sans-serif;resize:none;outline:none;line-height:1.6}
 .note:focus{border-color:#2d2d50;color:#aaa}
+.note:read-only{cursor:default;opacity:.6}
 .note::placeholder{color:#1e1e30}
 .empty-state{text-align:center;padding:5rem 1rem}
 .empty-text{font-size:16px;font-weight:700;color:#2d2d50}
 .empty-sub{font-size:13px;margin-top:8px;color:#1e1e30}
 .loading{text-align:center;padding:3rem;color:#2d2d50;font-size:14px}
+.pw-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,15,.97);z-index:100;display:flex;align-items:center;justify-content:center}
+.pw-box{background:#111118;border:1px solid #1e1e30;border-radius:20px;padding:2.5rem;width:100%;max-width:380px;text-align:center}
+.pw-logo{font-size:22px;font-weight:900;color:#fff;margin-bottom:.5rem}
+.pw-logo span{color:#7F77DD}
+.pw-sub{font-size:13px;color:#444;margin-bottom:1.5rem}
+.pw-input{width:100%;background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:12px 16px;font-size:14px;color:#fff;font-family:'Inter',sans-serif;outline:none;text-align:center;letter-spacing:.1em;margin-bottom:12px;transition:border-color .2s}
+.pw-input:focus{border-color:#534AB7}
+.pw-input.error{border-color:#A32D2D;animation:shake .3s}
+.pw-btn{width:100%;background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;margin-bottom:10px}
+.pw-btn:hover{background:#534AB7}
+.pw-skip{font-size:12px;color:#333;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Inter',sans-serif}
+.pw-skip:hover{color:#666}
+.pw-err{font-size:12px;color:#E24B4A;margin-top:8px;min-height:16px}
 @media(max-width:600px){
   .stats-bar{grid-template-columns:repeat(2,1fr)}
   .row-label-input{width:90px}
@@ -92,6 +115,18 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 </head>
 <body>
 <canvas id="bg"></canvas>
+
+<div class="pw-overlay" id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">TEAM <span>T4</span></div>
+    <div class="pw-sub">Введи пароль для редагування або пропусти щоб переглядати</div>
+    <input class="pw-input" id="pw-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">Увійти як редактор</button>
+    <button class="pw-skip" onclick="skipPw()">Тільки перегляд</button>
+    <div class="pw-err" id="pw-err"></div>
+  </div>
+</div>
+
 <div class="wrap">
   <div class="header">
     <div class="header-left">
@@ -110,7 +145,10 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
     </div>
     <div class="header-right">
       <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-text">завантаження...</span></div>
-      <button class="add-btn" onclick="addFunnel()"><span style="font-size:18px;font-weight:400">+</span> Нова воронка</button>
+      <div class="header-actions">
+        <div class="mode-badge view" id="mode-badge" onclick="toggleMode()">&#128274; перегляд</div>
+        <button class="add-btn" id="add-btn" onclick="addFunnel()" style="display:none">+ Нова воронка</button>
+      </div>
     </div>
   </div>
 
@@ -127,6 +165,7 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 <script>
 const API_KEY='$2a$10$7Xef9jg3UMbuONAEF7yBP.Nevalf3APcYT7HryCWCbjRUPOG7Hea6';
 const BIN_ID='69c6cc56b7ec241ddcae03d7';
+const CORRECT_PW='upstars264_oleh';
 const POLL_INTERVAL=5000;
 
 const canvas=document.getElementById('bg');
@@ -170,9 +209,62 @@ const STATUSES=[
 
 let funnels=[];
 let saveTimer=null;
-let pollTimer=null;
 let isSaving=false;
 let lastSavedJSON='';
+let canEdit=false;
+
+function checkPw(){
+  const val=document.getElementById('pw-input').value;
+  const inp=document.getElementById('pw-input');
+  if(val===CORRECT_PW){
+    localStorage.setItem('t4_auth','1');
+    canEdit=true;
+    hidePwOverlay();
+    applyMode();
+  } else {
+    inp.className='pw-input error';
+    document.getElementById('pw-err').textContent='Невірний пароль';
+    setTimeout(()=>{inp.className='pw-input';document.getElementById('pw-err').textContent='';},1500);
+  }
+}
+
+function skipPw(){
+  canEdit=false;
+  hidePwOverlay();
+  applyMode();
+}
+
+function hidePwOverlay(){
+  document.getElementById('pw-overlay').style.display='none';
+}
+
+function toggleMode(){
+  if(canEdit){
+    canEdit=false;
+    localStorage.removeItem('t4_auth');
+    applyMode();
+  } else {
+    document.getElementById('pw-overlay').style.display='flex';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-err').textContent='';
+    setTimeout(()=>document.getElementById('pw-input').focus(),100);
+  }
+}
+
+function applyMode(){
+  const badge=document.getElementById('mode-badge');
+  const addBtn=document.getElementById('add-btn');
+  if(canEdit){
+    badge.className='mode-badge edit';
+    badge.textContent='✓ редактор';
+    addBtn.style.display='flex';
+  } else {
+    badge.className='mode-badge view';
+    badge.textContent='🔒 перегляд';
+    addBtn.style.display='none';
+  }
+  render();
+}
 
 function syncStatus(state,text){
   document.getElementById('sync-dot').className='sync-dot '+state;
@@ -182,9 +274,7 @@ function syncStatus(state,text){
 async function loadData(silent=false){
   if(isSaving)return;
   try{
-    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
-      headers:{'X-Master-Key':API_KEY}
-    });
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
     const json=await res.json();
     const incoming=JSON.stringify(json.record?.funnels||[]);
     if(incoming!==lastSavedJSON){
@@ -206,70 +296,59 @@ async function loadData(silent=false){
 }
 
 async function saveData(){
+  if(!canEdit)return;
   isSaving=true;
   syncStatus('saving','збереження...');
   try{
-    const body=JSON.stringify({funnels});
     await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
       method:'PUT',
       headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
-      body
+      body:JSON.stringify({funnels})
     });
     lastSavedJSON=JSON.stringify(funnels);
     localStorage.setItem('t4_backup',lastSavedJSON);
     syncStatus('ok','збережено');
-  }catch(e){
-    syncStatus('err','помилка збереження');
-  }
+  }catch(e){syncStatus('err','помилка збереження');}
   isSaving=false;
 }
 
-function scheduleSave(){
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(saveData,600);
-}
-
-function startPolling(){
-  pollTimer=setInterval(()=>loadData(true),POLL_INTERVAL);
-}
+function scheduleSave(){if(canEdit){clearTimeout(saveTimer);saveTimer=setTimeout(saveData,600);}}
 
 function addFunnel(){
+  if(!canEdit)return;
   const id='f_'+Date.now();
-  const stages=DEFAULT_STAGES.map(s=>({tag:s,label:'',status:'work'}));
-  funnels.unshift({id,name:'',stages,note:''});
+  funnels.unshift({id,name:'',stages:DEFAULT_STAGES.map(s=>({tag:s,label:'',status:'work'})),note:''});
   scheduleSave();render();
   setTimeout(()=>{const i=document.getElementById('n_'+id);if(i)i.focus();},50);
 }
 
 function deleteFunnel(id){
+  if(!canEdit)return;
   if(!confirm('Видалити воронку?'))return;
   funnels=funnels.filter(f=>f.id!==id);
   scheduleSave();render();
 }
 
 function setStatus(id,idx,key){
+  if(!canEdit)return;
   const f=funnels.find(f=>f.id===id);
   if(f){f.stages[idx].status=key;scheduleSave();updateStats();updateProgress(id);}
 }
 
-function setName(id,v){const f=funnels.find(f=>f.id===id);if(f){f.name=v;scheduleSave();}}
-function setNote(id,v){const f=funnels.find(f=>f.id===id);if(f){f.note=v;scheduleSave();}}
-function setStageLabel(id,idx,v){const f=funnels.find(f=>f.id===id);if(f){f.stages[idx].label=v;scheduleSave();}}
+function setName(id,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.name=v;scheduleSave();}}
+function setNote(id,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.note=v;scheduleSave();}}
+function setStageLabel(id,idx,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.stages[idx].label=v;scheduleSave();}}
 
 function updateStats(){
   const c={work:0,done:0,block:0,wait:0};
   funnels.forEach(f=>f.stages.forEach(s=>c[s.status]++));
-  document.getElementById('s-work').textContent=c.work;
-  document.getElementById('s-done').textContent=c.done;
-  document.getElementById('s-block').textContent=c.block;
-  document.getElementById('s-wait').textContent=c.wait;
+  ['work','done','block','wait'].forEach(k=>document.getElementById('s-'+k).textContent=c[k]);
 }
 
 function updateProgress(id){
   const f=funnels.find(f=>f.id===id);
   if(!f)return;
-  const segs=document.querySelectorAll('#prog_'+id+' .cp-seg');
-  f.stages.forEach((s,i)=>{if(segs[i])segs[i].className='cp-seg '+s.status;});
+  document.querySelectorAll('#prog_'+id+' .cp-seg').forEach((seg,i)=>{if(f.stages[i])seg.className='cp-seg '+f.stages[i].status;});
 }
 
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -277,15 +356,15 @@ function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 function render(){
   const el=document.getElementById('funnels');
   if(!funnels.length){
-    el.innerHTML=`<div class="empty-state"><div class="empty-text">Немає воронок</div><div class="empty-sub">Натисни "+ Нова воронка" щоб почати</div></div>`;
+    el.innerHTML=`<div class="empty-state"><div class="empty-text">Немає воронок</div><div class="empty-sub">${canEdit?'Натисни "+ Нова воронка" щоб почати':'Поки що порожньо'}</div></div>`;
     updateStats();return;
   }
   el.innerHTML=funnels.map((f,idx)=>`
     <div class="card" id="card_${f.id}">
       <div class="card-top">
         <span class="card-num">#${String(funnels.length-idx).padStart(2,'0')}</span>
-        <input class="card-name-input" id="n_${f.id}" value="${esc(f.name)}" placeholder="Назва воронки..." oninput="setName('${f.id}',this.value)">
-        <button class="del-btn" onclick="deleteFunnel('${f.id}')" title="Видалити">&#215;</button>
+        <input class="card-name-input" id="n_${f.id}" value="${esc(f.name)}" placeholder="Назва воронки..." oninput="setName('${f.id}',this.value)" ${canEdit?'':'readonly'}>
+        ${canEdit?`<button class="del-btn" onclick="deleteFunnel('${f.id}')" title="Видалити">&#215;</button>`:''}
       </div>
       <div class="card-progress" id="prog_${f.id}">
         ${f.stages.map(s=>`<div class="cp-seg ${s.status}"></div>`).join('')}
@@ -294,11 +373,11 @@ function render(){
         ${f.stages.map((stage,i)=>`
           <div class="row">
             <div class="row-tag">${stage.tag}</div>
-            <input class="row-label-input" value="${esc(stage.label)}" placeholder="${stage.tag}..." oninput="setStageLabel('${f.id}',${i},this.value)">
+            <input class="row-label-input" value="${esc(stage.label)}" placeholder="${stage.tag}..." oninput="setStageLabel('${f.id}',${i},this.value)" ${canEdit?'':'readonly'}>
             <div class="statuses" id="st_${f.id}_${i}">
               ${STATUSES.map(st=>`
-                <button class="s-btn ${st.cls}${stage.status===st.key?' active':''}"
-                  onclick="setStatus('${f.id}',${i},'${st.key}');document.querySelectorAll('#st_${f.id}_${i} .s-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+                <button class="s-btn ${st.cls}${stage.status===st.key?' active':''}${canEdit?'':' readonly'}"
+                  ${canEdit?`onclick="setStatus('${f.id}',${i},'${st.key}');document.querySelectorAll('#st_${f.id}_${i} .s-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')"`:''}>
                   ${st.label}
                 </button>
               `).join('')}
@@ -306,13 +385,22 @@ function render(){
           </div>
         `).join('')}
       </div>
-      <textarea class="note" rows="2" placeholder="Замітка..." oninput="setNote('${f.id}',this.value)">${esc(f.note)}</textarea>
+      <textarea class="note" rows="2" placeholder="Замітка..." oninput="setNote('${f.id}',this.value)" ${canEdit?'':'readonly'}>${esc(f.note)}</textarea>
     </div>
   `).join('');
   updateStats();
 }
 
-loadData().then(()=>startPolling());
+const saved=localStorage.getItem('t4_auth');
+if(saved==='1'){
+  canEdit=true;
+  hidePwOverlay();
+  applyMode();
+} else {
+  setTimeout(()=>document.getElementById('pw-input').focus(),100);
+}
+
+loadData().then(()=>setInterval(()=>loadData(true),POLL_INTERVAL));
 </script>
 </body>
 </html>
