@@ -23,6 +23,12 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .buyer-avatar{width:24px;height:24px;border-radius:50%;background:#7F77DD;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff}
 .buyer-name{font-size:13px;color:#666;font-weight:600}
 .buyer-id{font-size:13px;color:#534AB7;font-weight:700;font-family:'Inter',monospace}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.sync-status{font-size:11px;display:flex;align-items:center;gap:6px;color:#444}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#444}
+.sync-dot.ok{background:#0F6E56}
+.sync-dot.saving{background:#854F0B}
+.sync-dot.err{background:#A32D2D}
 .add-btn{background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.03em;display:flex;align-items:center;gap:8px;transition:background .2s}
 .add-btn:hover{background:#534AB7}
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:2rem}
@@ -44,7 +50,7 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .card-num{font-size:11px;font-weight:700;color:#252535;font-family:'Inter',monospace;flex-shrink:0}
 .card-name-input{flex:1;background:transparent;border:none;outline:none;font-size:17px;font-weight:700;color:#fff;font-family:'Inter',sans-serif}
 .card-name-input::placeholder{color:#252535}
-.del-btn{background:none;border:none;color:#252535;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;margin-left:auto;transition:color .2s;font-family:'Inter',sans-serif}
+.del-btn{background:none;border:none;color:#252535;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;margin-left:auto;transition:color .2s}
 .del-btn:hover{color:#A32D2D}
 .card-progress{display:flex;gap:3px;margin-bottom:1.25rem}
 .cp-seg{height:4px;flex:1;border-radius:2px;background:#1e1e30;transition:background .3s}
@@ -55,11 +61,11 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .rows{display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem}
 .row{display:flex;align-items:center;gap:12px}
 .row-tag{font-size:10px;font-weight:700;color:#2d2d50;width:48px;flex-shrink:0;letter-spacing:.08em;text-transform:uppercase}
-.row-label-input{background:#0d0d16;border:1px solid #1a1a2e;border-radius:7px;outline:none;font-size:13px;font-weight:600;color:#777;font-family:'Inter',sans-serif;width:160px;flex-shrink:0;padding:6px 10px;transition:border-color .2s}
+.row-label-input{background:#0d0d16;border:1px solid #1a1a2e;border-radius:7px;outline:none;font-size:13px;font-weight:600;color:#777;font-family:'Inter',sans-serif;width:140px;flex-shrink:0;padding:5px 10px;transition:border-color .2s}
 .row-label-input:focus{border-color:#534AB7;color:#AFA9EC}
 .row-label-input::placeholder{color:#252535}
-.statuses{display:flex;gap:6px;flex:1;flex-wrap:wrap}
-.s-btn{font-size:12px;font-weight:700;border:1px solid transparent;border-radius:7px;padding:6px 14px;cursor:pointer;opacity:.2;transition:opacity .15s;font-family:'Inter',sans-serif;white-space:nowrap}
+.statuses{display:flex;gap:5px;flex:1;flex-wrap:wrap}
+.s-btn{font-size:12px;font-weight:700;border:1px solid transparent;border-radius:7px;padding:5px 13px;cursor:pointer;opacity:.2;transition:opacity .15s;font-family:'Inter',sans-serif}
 .s-btn.active{opacity:1}
 .s-work{background:#0d1829;color:#85B7EB}
 .s-work.active{background:#185FA5;color:#E6F1FB}
@@ -75,10 +81,11 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .empty-state{text-align:center;padding:5rem 1rem}
 .empty-text{font-size:16px;font-weight:700;color:#2d2d50}
 .empty-sub{font-size:13px;margin-top:8px;color:#1e1e30}
+.loading{text-align:center;padding:3rem;color:#2d2d50;font-size:14px}
 @media(max-width:600px){
   .stats-bar{grid-template-columns:repeat(2,1fr)}
   .row-label-input{width:90px}
-  .s-btn{font-size:11px;padding:5px 10px}
+  .s-btn{font-size:11px;padding:4px 9px}
   body{padding:1.5rem 1rem}
 }
 </style>
@@ -101,7 +108,10 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
         <span class="buyer-id">#264</span>
       </div>
     </div>
-    <button class="add-btn" onclick="addFunnel()"><span style="font-size:18px;font-weight:400">+</span> Нова воронка</button>
+    <div class="header-right">
+      <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-text">завантаження...</span></div>
+      <button class="add-btn" onclick="addFunnel()"><span style="font-size:18px;font-weight:400">+</span> Нова воронка</button>
+    </div>
   </div>
 
   <div class="stats-bar">
@@ -111,10 +121,14 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
     <div class="stat-card"><div class="stat-val amber" id="s-wait">0</div><div class="stat-lbl">Очікування</div><div class="stat-line amber"></div></div>
   </div>
 
-  <div id="funnels"></div>
+  <div id="funnels"><div class="loading">Завантаження даних...</div></div>
 </div>
 
 <script>
+const API_KEY='$2a$10$7Xef9jg3UMbuONAEF7yBP.Nevalf3APcYT7HryCWCbjRUPOG7Hea6';
+const BIN_NAME='t4-tracker-264';
+let BIN_ID=localStorage.getItem('t4_bin_id')||null;
+
 const canvas=document.getElementById('bg');
 const ctx=canvas.getContext('2d');
 let W,H,dots=[];
@@ -155,32 +169,94 @@ const STATUSES=[
 ];
 
 let funnels=[];
-try{const d=localStorage.getItem('t4_tracker_v2');if(d)funnels=JSON.parse(d);}catch(e){}
+let saveTimer=null;
 
-function save(){try{localStorage.setItem('t4_tracker_v2',JSON.stringify(funnels));}catch(e){}}
+function syncStatus(state,text){
+  const dot=document.getElementById('sync-dot');
+  const txt=document.getElementById('sync-text');
+  dot.className='sync-dot '+state;
+  txt.textContent=text;
+}
+
+async function createBin(data){
+  const res=await fetch('https://api.jsonbin.io/v3/b',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Name':BIN_NAME,'X-Bin-Private':'false'},
+    body:JSON.stringify({funnels:data})
+  });
+  const json=await res.json();
+  return json.metadata.id;
+}
+
+async function loadData(){
+  try{
+    if(!BIN_ID){
+      const res=await fetch(`https://api.jsonbin.io/v3/b?collections=false`,{headers:{'X-Master-Key':API_KEY}});
+      const json=await res.json();
+      const found=Array.isArray(json)&&json.find(b=>b.record===BIN_NAME||b.snippetMeta?.name===BIN_NAME);
+      if(found){BIN_ID=found.id||found._id;localStorage.setItem('t4_bin_id',BIN_ID);}
+    }
+    if(BIN_ID){
+      const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
+      const json=await res.json();
+      funnels=json.record?.funnels||[];
+      syncStatus('ok','синхронізовано');
+    } else {
+      BIN_ID=await createBin([]);
+      localStorage.setItem('t4_bin_id',BIN_ID);
+      funnels=[];
+      syncStatus('ok','створено сховище');
+    }
+  }catch(e){
+    funnels=JSON.parse(localStorage.getItem('t4_backup')||'[]');
+    syncStatus('err','офлайн — локальні дані');
+  }
+  render();
+}
+
+async function saveData(){
+  syncStatus('saving','збереження...');
+  try{
+    localStorage.setItem('t4_backup',JSON.stringify(funnels));
+    if(!BIN_ID){BIN_ID=await createBin(funnels);localStorage.setItem('t4_bin_id',BIN_ID);}
+    else{
+      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+        body:JSON.stringify({funnels})
+      });
+    }
+    syncStatus('ok','збережено');
+  }catch(e){syncStatus('err','помилка збереження');}
+}
+
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveData,800);
+}
 
 function addFunnel(){
   const id='f_'+Date.now();
   const stages=DEFAULT_STAGES.map(s=>({tag:s,label:'',status:'work'}));
   funnels.unshift({id,name:'',stages,note:''});
-  save();render();
+  scheduleSave();render();
   setTimeout(()=>{const i=document.getElementById('n_'+id);if(i)i.focus();},50);
 }
 
 function deleteFunnel(id){
   if(!confirm('Видалити воронку?'))return;
   funnels=funnels.filter(f=>f.id!==id);
-  save();render();
+  scheduleSave();render();
 }
 
 function setStatus(id,idx,key){
   const f=funnels.find(f=>f.id===id);
-  if(f){f.stages[idx].status=key;save();updateStats();updateProgress(id);}
+  if(f){f.stages[idx].status=key;scheduleSave();updateStats();updateProgress(id);}
 }
 
-function setName(id,v){const f=funnels.find(f=>f.id===id);if(f){f.name=v;save();}}
-function setNote(id,v){const f=funnels.find(f=>f.id===id);if(f){f.note=v;save();}}
-function setStageLabel(id,idx,v){const f=funnels.find(f=>f.id===id);if(f){f.stages[idx].label=v;save();}}
+function setName(id,v){const f=funnels.find(f=>f.id===id);if(f){f.name=v;scheduleSave();}}
+function setNote(id,v){const f=funnels.find(f=>f.id===id);if(f){f.note=v;scheduleSave();}}
+function setStageLabel(id,idx,v){const f=funnels.find(f=>f.id===id);if(f){f.stages[idx].label=v;scheduleSave();}}
 
 function updateStats(){
   const c={work:0,done:0,block:0,wait:0};
@@ -238,7 +314,7 @@ function render(){
   updateStats();
 }
 
-render();
+loadData();
 </script>
 </body>
 </html>
