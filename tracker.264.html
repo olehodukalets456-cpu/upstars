@@ -126,8 +126,8 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 
 <script>
 const API_KEY='$2a$10$7Xef9jg3UMbuONAEF7yBP.Nevalf3APcYT7HryCWCbjRUPOG7Hea6';
-const BIN_NAME='t4-tracker-264';
-let BIN_ID=localStorage.getItem('t4_bin_id')||null;
+const BIN_ID='69c6cc56b7ec241ddcae03d7';
+const POLL_INTERVAL=5000;
 
 const canvas=document.getElementById('bg');
 const ctx=canvas.getContext('2d');
@@ -170,69 +170,67 @@ const STATUSES=[
 
 let funnels=[];
 let saveTimer=null;
+let pollTimer=null;
+let isSaving=false;
+let lastSavedJSON='';
 
 function syncStatus(state,text){
-  const dot=document.getElementById('sync-dot');
-  const txt=document.getElementById('sync-text');
-  dot.className='sync-dot '+state;
-  txt.textContent=text;
+  document.getElementById('sync-dot').className='sync-dot '+state;
+  document.getElementById('sync-text').textContent=text;
 }
 
-async function createBin(data){
-  const res=await fetch('https://api.jsonbin.io/v3/b',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Name':BIN_NAME,'X-Bin-Private':'false'},
-    body:JSON.stringify({funnels:data})
-  });
-  const json=await res.json();
-  return json.metadata.id;
-}
-
-async function loadData(){
+async function loadData(silent=false){
+  if(isSaving)return;
   try{
-    if(!BIN_ID){
-      const res=await fetch(`https://api.jsonbin.io/v3/b?collections=false`,{headers:{'X-Master-Key':API_KEY}});
-      const json=await res.json();
-      const found=Array.isArray(json)&&json.find(b=>b.record===BIN_NAME||b.snippetMeta?.name===BIN_NAME);
-      if(found){BIN_ID=found.id||found._id;localStorage.setItem('t4_bin_id',BIN_ID);}
-    }
-    if(BIN_ID){
-      const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
-      const json=await res.json();
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
+      headers:{'X-Master-Key':API_KEY}
+    });
+    const json=await res.json();
+    const incoming=JSON.stringify(json.record?.funnels||[]);
+    if(incoming!==lastSavedJSON){
       funnels=json.record?.funnels||[];
-      syncStatus('ok','синхронізовано');
+      lastSavedJSON=incoming;
+      localStorage.setItem('t4_backup',incoming);
+      render();
+      if(!silent)syncStatus('ok','синхронізовано');
     } else {
-      BIN_ID=await createBin([]);
-      localStorage.setItem('t4_bin_id',BIN_ID);
-      funnels=[];
-      syncStatus('ok','створено сховище');
+      if(!silent)syncStatus('ok','актуально');
     }
   }catch(e){
-    funnels=JSON.parse(localStorage.getItem('t4_backup')||'[]');
-    syncStatus('err','офлайн — локальні дані');
+    if(!silent){
+      funnels=JSON.parse(localStorage.getItem('t4_backup')||'[]');
+      syncStatus('err','офлайн');
+      render();
+    }
   }
-  render();
 }
 
 async function saveData(){
+  isSaving=true;
   syncStatus('saving','збереження...');
   try{
-    localStorage.setItem('t4_backup',JSON.stringify(funnels));
-    if(!BIN_ID){BIN_ID=await createBin(funnels);localStorage.setItem('t4_bin_id',BIN_ID);}
-    else{
-      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
-        method:'PUT',
-        headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
-        body:JSON.stringify({funnels})
-      });
-    }
+    const body=JSON.stringify({funnels});
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+      body
+    });
+    lastSavedJSON=JSON.stringify(funnels);
+    localStorage.setItem('t4_backup',lastSavedJSON);
     syncStatus('ok','збережено');
-  }catch(e){syncStatus('err','помилка збереження');}
+  }catch(e){
+    syncStatus('err','помилка збереження');
+  }
+  isSaving=false;
 }
 
 function scheduleSave(){
   clearTimeout(saveTimer);
-  saveTimer=setTimeout(saveData,800);
+  saveTimer=setTimeout(saveData,600);
+}
+
+function startPolling(){
+  pollTimer=setInterval(()=>loadData(true),POLL_INTERVAL);
 }
 
 function addFunnel(){
@@ -314,7 +312,7 @@ function render(){
   updateStats();
 }
 
-loadData();
+loadData().then(()=>startPolling());
 </script>
 </body>
 </html>
