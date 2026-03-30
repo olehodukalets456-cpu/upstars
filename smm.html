@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMM Планер — Vika</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0d0f14;min-height:100vh;color:#fff}
+canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.4}
+.app{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* HEADER */
+.header{background:#111318;border-bottom:1px solid #1e2130;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.header-left{display:flex;align-items:center;gap:16px}
+.logo{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.02em}
+.logo span{color:#a78bfa}
+.channel-tabs{display:flex;gap:4px}
+.ch-tab{font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px;border:1px solid #1e2130;color:#555;cursor:pointer;transition:all .2s;background:transparent;font-family:'Inter',sans-serif}
+.ch-tab.active{background:#1e1b4b;border-color:#6d28d9;color:#a78bfa}
+.header-right{display:flex;align-items:center;gap:10px}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#444;flex-shrink:0}
+.sync-dot.ok{background:#10b981}
+.sync-dot.saving{background:#f59e0b}
+.sync-dot.err{background:#ef4444}
+.sync-txt{font-size:11px;color:#444}
+.add-post-btn{background:#7c3aed;border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;padding:9px 18px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;display:flex;align-items:center;gap:6px}
+.add-post-btn:hover{background:#6d28d9}
+
+/* TOOLBAR */
+.toolbar{background:#0d0f14;padding:1rem 2rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #1a1d2e}
+.view-btns{display:flex;gap:4px;background:#111318;border-radius:8px;padding:3px}
+.view-btn{font-size:12px;font-weight:600;padding:5px 12px;border-radius:6px;border:none;color:#555;cursor:pointer;background:transparent;font-family:'Inter',sans-serif;transition:all .2s}
+.view-btn.active{background:#1e2130;color:#fff}
+.sep{width:1px;height:24px;background:#1e2130}
+.filter-select{background:#111318;border:1px solid #1e2130;border-radius:8px;color:#aaa;font-size:12px;font-weight:600;padding:6px 10px;font-family:'Inter',sans-serif;outline:none;cursor:pointer}
+.filter-select:focus{border-color:#7c3aed}
+.filter-tag{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #1e2130;color:#555;cursor:pointer;background:transparent;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap}
+.filter-tag.active{background:#1e1b4b;border-color:#6d28d9;color:#a78bfa}
+
+/* MAIN */
+.main{flex:1;padding:1.5rem 2rem;max-width:1400px;margin:0 auto;width:100%}
+
+/* CALENDAR */
+.cal-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.cal-nav{background:#111318;border:1px solid #1e2130;border-radius:8px;color:#aaa;font-size:18px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;transition:all .2s}
+.cal-nav:hover{border-color:#7c3aed;color:#a78bfa}
+.cal-month{font-size:18px;font-weight:700;color:#fff;min-width:160px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#1a1d2e;border-radius:12px;overflow:hidden}
+.cal-day-name{background:#111318;padding:8px;text-align:center;font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase}
+.cal-day{background:#111318;min-height:100px;padding:6px;transition:background .2s;vertical-align:top}
+.cal-day.other-month{background:#0d0f14}
+.cal-day.today{background:#0f0e1f}
+.cal-day-num{font-size:11px;font-weight:600;color:#333;margin-bottom:4px}
+.cal-day.today .cal-day-num{color:#a78bfa;font-weight:900}
+.cal-post-pill{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .15s}
+.cal-post-pill:hover{opacity:.8}
+.cal-add{font-size:10px;color:#222;cursor:pointer;margin-top:2px;padding:1px 4px;border-radius:3px;transition:all .2s}
+.cal-add:hover{color:#7c3aed;background:#1e1b4b}
+
+/* TABLE */
+.table-wrap{background:#111318;border:1px solid #1e2130;border-radius:14px;overflow:hidden}
+.table-wrap table{width:100%;border-collapse:collapse}
+.table-wrap th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #1a1d2e;background:#0d0f14}
+.table-wrap td{padding:10px 14px;font-size:13px;color:#aaa;border-bottom:1px solid #1a1d2e;vertical-align:middle}
+.table-wrap tr:last-child td{border-bottom:none}
+.table-wrap tr:hover td{background:#141720}
+.post-name-cell{color:#fff;font-weight:500;cursor:pointer}
+.post-name-cell:hover{color:#a78bfa}
+
+/* PLATFORM BADGES */
+.plat-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin:1px}
+.plat-instagram{background:#831843;color:#fce7f3}
+.plat-linkedin{background:#1e3a5f;color:#bfdbfe}
+.plat-tiktok{background:#1a1a1a;color:#e4e4e7}
+.plat-facebook{background:#1e3a8a;color:#dbeafe}
+.plat-youtube{background:#7f1d1d;color:#fee2e2}
+.plat-telegram{background:#0c3547;color:#bae6fd}
+.plat-twitter{background:#1e3a5f;color:#bfdbfe}
+
+/* STATUS BADGES */
+.status-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+.status-idea{background:#1e1b4b;color:#a78bfa}
+.status-scheduled{background:#451a03;color:#fdba74}
+.status-published{background:#052e16;color:#4ade80}
+
+/* TYPE BADGES */
+.type-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:#1e2130;color:#666}
+
+/* POST MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.hidden{display:none}
+.modal{background:#111318;border:1px solid #1e2130;border-radius:20px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;animation:fadeUp .2s ease}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #1a1d2e}
+.modal-title{font-size:16px;font-weight:700;color:#fff}
+.modal-close{background:none;border:none;color:#444;font-size:20px;cursor:pointer;line-height:1;padding:2px}
+.modal-close:hover{color:#fff}
+.modal-body{padding:1.5rem}
+.form-row{margin-bottom:1rem}
+.form-label{font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:block}
+.form-input{width:100%;background:#0d0f14;border:1px solid #1e2130;border-radius:8px;padding:9px 12px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:#7c3aed}
+.form-input::placeholder{color:#2a2d3e}
+.form-textarea{resize:vertical;min-height:80px}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.plat-checkboxes{display:flex;flex-wrap:wrap;gap:6px}
+.plat-check{display:flex;align-items:center;gap:6px;cursor:pointer;padding:5px 10px;border-radius:7px;border:1px solid #1e2130;transition:all .2s;user-select:none}
+.plat-check.checked{border-color:#7c3aed;background:#1e1b4b}
+.plat-check input{display:none}
+.plat-check-label{font-size:12px;font-weight:600;color:#666}
+.plat-check.checked .plat-check-label{color:#a78bfa}
+.cross-post-info{background:#0d0f14;border:1px solid #1e2130;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:12px;color:#555}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;padding:1rem 1.5rem;border-top:1px solid #1a1d2e}
+.btn-save{background:#7c3aed;border:none;border-radius:9px;color:#fff;font-size:13px;font-weight:700;padding:9px 20px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
+.btn-save:hover{background:#6d28d9}
+.btn-cancel{background:transparent;border:1px solid #1e2130;border-radius:9px;color:#555;font-size:13px;font-weight:600;padding:9px 16px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-cancel:hover{border-color:#555;color:#aaa}
+.btn-delete{background:transparent;border:1px solid #1e2130;border-radius:9px;color:#ef4444;font-size:13px;font-weight:600;padding:9px 16px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-right:auto}
+.btn-delete:hover{background:#1a0909;border-color:#ef4444}
+
+/* PASSWORD */
+.pw-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,15,.97);z-index:300;display:flex;align-items:center;justify-content:center}
+.pw-box{background:#111318;border:1px solid #1e2130;border-radius:20px;padding:2.5rem;width:100%;max-width:360px;text-align:center}
+.pw-logo{font-size:22px;font-weight:900;color:#fff;margin-bottom:.5rem}
+.pw-logo span{color:#a78bfa}
+.pw-sub{font-size:13px;color:#444;margin-bottom:1.5rem}
+.pw-input{width:100%;background:#0d0f14;border:1px solid #1e2130;border-radius:10px;padding:12px 16px;font-size:14px;color:#fff;font-family:'Inter',sans-serif;outline:none;text-align:center;letter-spacing:.1em;margin-bottom:12px;transition:border-color .2s}
+.pw-input:focus{border-color:#7c3aed}
+.pw-input.error{border-color:#ef4444;animation:shake .3s}
+.pw-btn{width:100%;background:#7c3aed;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
+.pw-btn:hover{background:#6d28d9}
+.pw-err{font-size:12px;color:#ef4444;margin-top:8px;min-height:16px}
+
+/* EMPTY */
+.empty{text-align:center;padding:4rem 1rem;color:#2a2d3e}
+.empty-t{font-size:15px;font-weight:700;color:#2a2d3e;margin-bottom:6px}
+.empty-s{font-size:13px;color:#1e2130}
+
+/* STATS */
+.stats-row{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+.stat-pill{background:#111318;border:1px solid #1e2130;border-radius:10px;padding:8px 16px;display:flex;align-items:center;gap:8px}
+.stat-num{font-size:20px;font-weight:900}
+.stat-lbl{font-size:11px;color:#444;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+
+@media(max-width:640px){
+  .main{padding:1rem}
+  .toolbar{padding:.75rem 1rem}
+  .header{padding:.75rem 1rem}
+  .form-row-2{grid-template-columns:1fr}
+  .cal-day{min-height:60px}
+}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<div class="pw-overlay" id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">SMM <span>Планер</span></div>
+    <div class="pw-sub">Введи пароль для доступу</div>
+    <input class="pw-input" id="pw-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">Увійти</button>
+    <div class="pw-err" id="pw-err"></div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Новий пост</div>
+      <button class="modal-close" onclick="closeModal()">&#215;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label class="form-label">Назва посту</label>
+        <input class="form-input" id="f-name" placeholder="Назва посту...">
+      </div>
+      <div class="form-row-2">
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">Канал</label>
+          <select class="form-input" id="f-channel">
+            <option value="cpamatica">Cpamatica</option>
+            <option value="resality">Resality</option>
+          </select>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">Дата публікації</label>
+          <input class="form-input" id="f-date" type="date">
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:1rem">
+        <label class="form-label">Платформи (крос-постинг)</label>
+        <div class="plat-checkboxes" id="plat-checkboxes"></div>
+        <div class="cross-post-info" id="cross-post-info" style="display:none">
+          Цей пост буде опублікований на кількох платформах одночасно
+        </div>
+      </div>
+      <div class="form-row-2" style="margin-top:1rem">
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">Тип контенту</label>
+          <select class="form-input" id="f-type">
+            <option value="">— оберіть —</option>
+            <option>Reels</option>
+            <option>Carousel</option>
+            <option>Stories</option>
+            <option>Post</option>
+            <option>Video</option>
+            <option>Article</option>
+          </select>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label">Статус</label>
+          <select class="form-input" id="f-status">
+            <option value="idea">Post idea</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:1rem">
+        <label class="form-label">URL</label>
+        <input class="form-input" id="f-url" placeholder="https://...">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Нотатки</label>
+        <textarea class="form-input form-textarea" id="f-notes" placeholder="Нотатки..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-delete" id="btn-delete" onclick="deletePost()" style="display:none">Видалити</button>
+      <button class="btn-cancel" onclick="closeModal()">Скасувати</button>
+      <button class="btn-save" onclick="savePost()">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">SMM <span>Планер</span></div>
+      <div class="channel-tabs">
+        <button class="ch-tab active" data-ch="all" onclick="setChannel('all')">Всі</button>
+        <button class="ch-tab" data-ch="cpamatica" onclick="setChannel('cpamatica')">Cpamatica</button>
+        <button class="ch-tab" data-ch="resality" onclick="setChannel('resality')">Resality</button>
+      </div>
+    </div>
+    <div class="header-right">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="sync-dot" id="sync-dot"></div>
+        <span class="sync-txt" id="sync-txt">завантаження...</span>
+      </div>
+      <button class="add-post-btn" onclick="openModal()">+ Новий пост</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="view-btns">
+      <button class="view-btn active" data-view="calendar" onclick="setView('calendar')">Календар</button>
+      <button class="view-btn" data-view="table" onclick="setView('table')">Таблиця</button>
+    </div>
+    <div class="sep"></div>
+    <select class="filter-select" id="month-filter" onchange="render()">
+      <option value="">Всі місяці</option>
+    </select>
+    <div class="sep"></div>
+    <div id="plat-filters" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    <div class="sep"></div>
+    <div id="type-filters" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+  </div>
+
+  <div class="main">
+    <div class="stats-row" id="stats-row"></div>
+    <div id="view-container"></div>
+  </div>
+</div>
+
+<script>
+const API_KEY='$2a$10$7Xef9jg3UMbuONAEF7yBP.Nevalf3APcYT7HryCWCbjRUPOG7Hea6';
+const BIN_ID='69c6cc56b7ec241ddcae03d7';
+const CORRECT_PW='221529';
+const SAVE_INTERVAL=5*60*1000;
+const POLL_INTERVAL=8000;
+const SMM_KEY='smm_posts';
+
+const PLATFORMS=['Instagram','LinkedIn','TikTok','Facebook','YouTube','Telegram','Twitter'];
+const PLAT_COLORS={
+  Instagram:'plat-instagram',LinkedIn:'plat-linkedin',TikTok:'plat-tiktok',
+  Facebook:'plat-facebook',YouTube:'plat-youtube',Telegram:'plat-telegram',Twitter:'plat-twitter'
+};
+const MONTHS=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+const DAY_NAMES=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+
+let posts=[];
+let currentView='calendar';
+let currentChannel='all';
+let activePlatFilter='';
+let activeTypeFilter='';
+let calYear=new Date().getFullYear();
+let calMonth=new Date().getMonth();
+let editingId=null;
+let isDirty=false;
+let isSaving=false;
+let lastJSON='';
+
+// BG
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+let W,H,dots=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+for(let i=0;i<50;i++)dots.push({x:Math.random()*2000,y:Math.random()*2000,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.2+.3});
+function drawBg(){
+  ctx.clearRect(0,0,W,H);
+  dots.forEach((d,i)=>{
+    d.x+=d.vx;d.y+=d.vy;
+    if(d.x<0)d.x=W;if(d.x>W)d.x=0;if(d.y<0)d.y=H;if(d.y>H)d.y=0;
+    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(124,58,237,0.4)';ctx.fill();
+    dots.slice(i+1).forEach(d2=>{
+      const dx=d.x-d2.x,dy=d.y-d2.y,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);ctx.strokeStyle=`rgba(124,58,237,${(1-dist/120)*0.08})`;ctx.lineWidth=.5;ctx.stroke();}
+    });
+  });
+  requestAnimationFrame(drawBg);
+}
+drawBg();
+
+// PASSWORD
+function checkPw(){
+  const v=document.getElementById('pw-input').value;
+  const inp=document.getElementById('pw-input');
+  if(v===CORRECT_PW){
+    localStorage.setItem('smm_auth','1');
+    document.getElementById('pw-overlay').style.display='none';
+    init();
+  } else {
+    inp.className='pw-input error';
+    document.getElementById('pw-err').textContent='Невірний пароль';
+    setTimeout(()=>{inp.className='pw-input';document.getElementById('pw-err').textContent='';},1500);
+  }
+}
+
+if(localStorage.getItem('smm_auth')==='1'){
+  document.getElementById('pw-overlay').style.display='none';
+  init();
+} else {
+  setTimeout(()=>document.getElementById('pw-input').focus(),100);
+}
+
+// SYNC
+function syncStatus(state,txt){
+  document.getElementById('sync-dot').className='sync-dot '+state;
+  document.getElementById('sync-txt').textContent=txt;
+}
+
+async function loadData(silent=false){
+  if(isSaving)return;
+  try{
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
+    const json=await res.json();
+    const incoming=JSON.stringify(json.record?.[SMM_KEY]||[]);
+    if(incoming!==lastJSON){
+      posts=json.record?.[SMM_KEY]||[];
+      lastJSON=incoming;
+      localStorage.setItem('smm_backup',incoming);
+      render();
+      if(!silent)syncStatus('ok','синхронізовано');
+    } else {
+      if(!silent)syncStatus('ok','актуально');
+    }
+  }catch(e){
+    if(!silent){
+      posts=JSON.parse(localStorage.getItem('smm_backup')||'[]');
+      syncStatus('err','офлайн');
+      render();
+    }
+  }
+}
+
+async function saveData(){
+  if(!isDirty)return;
+  isSaving=true;
+  syncStatus('saving','збереження...');
+  try{
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
+    const json=await res.json();
+    const current=json.record||{};
+    current[SMM_KEY]=posts;
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+      body:JSON.stringify(current)
+    });
+    lastJSON=JSON.stringify(posts);
+    localStorage.setItem('smm_backup',lastJSON);
+    isDirty=false;
+    syncStatus('ok','збережено');
+  }catch(e){syncStatus('err','помилка збереження');}
+  isSaving=false;
+}
+
+function markDirty(){isDirty=true;syncStatus('saving','незбережені зміни');}
+
+async function init(){
+  await loadData();
+  buildMonthFilter();
+  buildPlatFilters();
+  buildTypeFilters();
+  buildPlatCheckboxes();
+  setInterval(()=>loadData(true),POLL_INTERVAL);
+  setInterval(saveData,SAVE_INTERVAL);
+}
+
+// FILTERS
+function setChannel(ch){
+  currentChannel=ch;
+  document.querySelectorAll('.ch-tab').forEach(t=>t.classList.toggle('active',t.dataset.ch===ch));
+  render();
+}
+
+function setView(v){
+  currentView=v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  render();
+}
+
+function buildMonthFilter(){
+  const sel=document.getElementById('month-filter');
+  const existing=[...sel.options].map(o=>o.value);
+  const years=[...new Set(posts.map(p=>p.date?new Date(p.date).getFullYear():null).filter(Boolean))].sort();
+  years.forEach(y=>{
+    MONTHS.forEach((m,mi)=>{
+      const val=`${y}-${String(mi+1).padStart(2,'0')}`;
+      if(!existing.includes(val)){
+        const opt=document.createElement('option');
+        opt.value=val;opt.textContent=`${m} ${y}`;
+        sel.appendChild(opt);
+      }
+    });
+  });
+}
+
+function buildPlatFilters(){
+  const platfs=[...new Set(posts.flatMap(p=>p.platforms||[]))].sort();
+  const el=document.getElementById('plat-filters');
+  el.innerHTML=`<button class="filter-tag${!activePlatFilter?' active':''}" onclick="setPlatFilter('')">Всі</button>`+
+    platfs.map(p=>`<button class="filter-tag${activePlatFilter===p?' active':''}" onclick="setPlatFilter('${p}')">${p}</button>`).join('');
+}
+
+function buildTypeFilters(){
+  const types=[...new Set(posts.map(p=>p.type).filter(Boolean))].sort();
+  const el=document.getElementById('type-filters');
+  el.innerHTML=`<button class="filter-tag${!activeTypeFilter?' active':''}" onclick="setTypeFilter('')">Всі типи</button>`+
+    types.map(t=>`<button class="filter-tag${activeTypeFilter===t?' active':''}" onclick="setTypeFilter('${t}')">${t}</button>`).join('');
+}
+
+function setPlatFilter(p){activePlatFilter=p;buildPlatFilters();render();}
+function setTypeFilter(t){activeTypeFilter=t;buildTypeFilters();render();}
+
+function getFiltered(){
+  return posts.filter(p=>{
+    if(currentChannel!=='all'&&p.channel!==currentChannel)return false;
+    const mf=document.getElementById('month-filter').value;
+    if(mf&&p.date&&!p.date.startsWith(mf))return false;
+    if(activePlatFilter&&!(p.platforms||[]).includes(activePlatFilter))return false;
+    if(activeTypeFilter&&p.type!==activeTypeFilter)return false;
+    return true;
+  });
+}
+
+// STATS
+function renderStats(filtered){
+  const c={idea:0,scheduled:0,published:0};
+  filtered.forEach(p=>c[p.status]=(c[p.status]||0)+1);
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat-pill"><span class="stat-num" style="color:#a78bfa">${c.idea||0}</span><span class="stat-lbl">Post idea</span></div>
+    <div class="stat-pill"><span class="stat-num" style="color:#fb923c">${c.scheduled||0}</span><span class="stat-lbl">Scheduled</span></div>
+    <div class="stat-pill"><span class="stat-num" style="color:#4ade80">${c.published||0}</span><span class="stat-lbl">Published</span></div>
+    <div class="stat-pill"><span class="stat-num" style="color:#fff">${filtered.length}</span><span class="stat-lbl">Всього</span></div>
+  `;
+}
+
+// RENDER
+function render(){
+  const filtered=getFiltered();
+  renderStats(filtered);
+  buildMonthFilter();
+  buildPlatFilters();
+  buildTypeFilters();
+  if(currentView==='calendar')renderCalendar(filtered);
+  else renderTable(filtered);
+}
+
+// CALENDAR
+function renderCalendar(filtered){
+  const el=document.getElementById('view-container');
+  const firstDay=new Date(calYear,calMonth,1);
+  const lastDay=new Date(calYear,calMonth+1,0);
+  let startDow=firstDay.getDay();
+
+  let html=`<div class="cal-header">
+    <button class="cal-nav" onclick="prevMonth()">&#8249;</button>
+    <div class="cal-month">${MONTHS[calMonth]} ${calYear}</div>
+    <button class="cal-nav" onclick="nextMonth()">&#8250;</button>
+  </div>
+  <div class="cal-grid">
+    ${DAY_NAMES.map(d=>`<div class="cal-day-name">${d}</div>`).join('')}`;
+
+  const today=new Date();
+  for(let i=0;i<startDow;i++){
+    const d=new Date(calYear,calMonth,1-startDow+i);
+    html+=`<div class="cal-day other-month"><div class="cal-day-num">${d.getDate()}</div></div>`;
+  }
+
+  for(let d=1;d<=lastDay.getDate();d++){
+    const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
+    const dayPosts=filtered.filter(p=>p.date===dateStr);
+    html+=`<div class="cal-day${isToday?' today':''}">
+      <div class="cal-day-num">${d}</div>
+      ${dayPosts.map(p=>{
+        const mainPlat=p.platforms?.[0]||'';
+        const cls=PLAT_COLORS[mainPlat]||'';
+        const cross=p.platforms?.length>1?` +${p.platforms.length-1}`:'';
+        return `<div class="cal-post-pill ${cls}" onclick="openModal('${p.id}')" title="${esc(p.name)}">${esc(p.name)}${cross}</div>`;
+      }).join('')}
+      <div class="cal-add" onclick="openModalDate('${dateStr}')">+</div>
+    </div>`;
+  }
+
+  const remaining=(7-((startDow+lastDay.getDate())%7))%7;
+  for(let i=1;i<=remaining;i++){
+    html+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+  }
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+function prevMonth(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}render();}
+function nextMonth(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}render();}
+
+// TABLE
+function renderTable(filtered){
+  const sorted=[...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(!sorted.length){
+    document.getElementById('view-container').innerHTML=`<div class="empty"><div class="empty-t">Немає постів</div><div class="empty-s">Додай перший пост</div></div>`;
+    return;
+  }
+  const STATUS_MAP={idea:'Post idea',scheduled:'Scheduled',published:'Published'};
+  const STATUS_CLS={idea:'status-idea',scheduled:'status-scheduled',published:'status-published'};
+  document.getElementById('view-container').innerHTML=`
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Назва</th><th>Канал</th><th>Дата</th><th>Платформи</th><th>Тип</th><th>Статус</th><th>URL</th>
+        </tr></thead>
+        <tbody>
+          ${sorted.map(p=>`<tr>
+            <td class="post-name-cell" onclick="openModal('${p.id}')">${esc(p.name)||'—'}</td>
+            <td><span style="font-size:11px;font-weight:700;color:#666;text-transform:capitalize">${p.channel||'—'}</span></td>
+            <td style="white-space:nowrap;color:#666">${formatDate(p.date)}</td>
+            <td>${(p.platforms||[]).map(pl=>`<span class="plat-badge ${PLAT_COLORS[pl]||''}">${pl}</span>`).join('')}</td>
+            <td>${p.type?`<span class="type-badge">${esc(p.type)}</span>`:'—'}</td>
+            <td><span class="status-badge ${STATUS_CLS[p.status]||'status-idea'}">${STATUS_MAP[p.status]||'Post idea'}</span></td>
+            <td>${p.url?`<a href="${esc(p.url)}" target="_blank" style="color:#7c3aed;font-size:12px">Посилання</a>`:'—'}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function formatDate(d){
+  if(!d)return'—';
+  const [y,m,day]=d.split('-');
+  return`${day}.${m}.${y}`;
+}
+
+// MODAL
+function buildPlatCheckboxes(){
+  document.getElementById('plat-checkboxes').innerHTML=PLATFORMS.map(p=>`
+    <label class="plat-check" id="plc-${p}" onclick="togglePlat(this,'${p}')">
+      <input type="checkbox" value="${p}">
+      <span class="plat-check-label">${p}</span>
+    </label>`).join('');
+}
+
+function togglePlat(el,p){
+  el.classList.toggle('checked');
+  const checked=document.querySelectorAll('.plat-check.checked').length;
+  document.getElementById('cross-post-info').style.display=checked>1?'block':'none';
+}
+
+function getCheckedPlats(){
+  return [...document.querySelectorAll('.plat-check.checked')].map(el=>el.querySelector('input').value);
+}
+
+function setCheckedPlats(plats){
+  document.querySelectorAll('.plat-check').forEach(el=>{
+    const v=el.querySelector('input').value;
+    el.classList.toggle('checked',plats?.includes(v));
+  });
+  document.getElementById('cross-post-info').style.display=(plats?.length>1)?'block':'none';
+}
+
+function openModal(id,date){
+  editingId=id||null;
+  const post=id?posts.find(p=>p.id===id):null;
+  document.getElementById('modal-title').textContent=post?'Редагувати пост':'Новий пост';
+  document.getElementById('btn-delete').style.display=post?'block':'none';
+  document.getElementById('f-name').value=post?.name||'';
+  document.getElementById('f-channel').value=post?.channel||'cpamatica';
+  document.getElementById('f-date').value=post?.date||date||'';
+  document.getElementById('f-type').value=post?.type||'';
+  document.getElementById('f-status').value=post?.status||'idea';
+  document.getElementById('f-url').value=post?.url||'';
+  document.getElementById('f-notes').value=post?.notes||'';
+  setCheckedPlats(post?.platforms||[]);
+  document.getElementById('modal-overlay').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('f-name').focus(),100);
+}
+
+function openModalDate(date){openModal(null,date);}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.add('hidden');
+  editingId=null;
+}
+
+function savePost(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name)return;
+  const post={
+    id:editingId||'p_'+Date.now(),
+    name,
+    channel:document.getElementById('f-channel').value,
+    date:document.getElementById('f-date').value,
+    platforms:getCheckedPlats(),
+    type:document.getElementById('f-type').value,
+    status:document.getElementById('f-status').value,
+    url:document.getElementById('f-url').value.trim(),
+    notes:document.getElementById('f-notes').value.trim()
+  };
+  if(editingId){
+    const idx=posts.findIndex(p=>p.id===editingId);
+    if(idx>-1)posts[idx]=post;
+  } else {
+    posts.push(post);
+  }
+  markDirty();
+  closeModal();
+  buildMonthFilter();
+  render();
+}
+
+function deletePost(){
+  if(!editingId)return;
+  if(!confirm('Видалити пост?'))return;
+  posts=posts.filter(p=>p.id!==editingId);
+  markDirty();
+  closeModal();
+  render();
+}
+
+document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('modal-overlay'))closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+</script>
+</body>
+</html>
