@@ -3,205 +3,259 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMM Планер — Vika</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<title>Expla — SMM Планер</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#0d0f14;min-height:100vh;color:#fff}
-canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.4}
-.app{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+:root{
+  --bg:#f8f7fc;
+  --surface:#ffffff;
+  --border:#ebe8f5;
+  --border2:#d8d3ef;
+  --accent:#6c47ff;
+  --accent-light:#f0edff;
+  --accent-mid:#8b6dff;
+  --text:#1c1733;
+  --text2:#6b6894;
+  --text3:#a09dc0;
+  --ig:#e1306c;--ig-bg:#fff0f5;--ig-border:#f9c0d4;
+  --li:#0a66c2;--li-bg:#eff6ff;--li-border:#bfdbfe;
+  --tg:#229ed9;--tg-bg:#e8f7ff;--tg-border:#a8ddff;
+  --tt:#010101;--tt-bg:#f3f3f3;--tt-border:#d1d1d1;
+  --fb:#1877f2;--fb-bg:#eff6ff;--fb-border:#bfdbfe;
+  --yt:#ff0000;--yt-bg:#fff5f5;--yt-border:#fecaca;
+  --tw:#1da1f2;--tw-bg:#e8f5fe;--tw-border:#a8d8f8;
+  --idea-bg:#f0edff;--idea-c:#5b21b6;
+  --sched-bg:#fffbeb;--sched-c:#92400e;
+  --pub-bg:#ecfdf5;--pub-c:#065f46;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* HEADER */
-.header{background:#111318;border-bottom:1px solid #1e2130;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.header-left{display:flex;align-items:center;gap:16px}
-.logo{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.02em}
-.logo span{color:#a78bfa}
-.channel-tabs{display:flex;gap:4px}
-.ch-tab{font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px;border:1px solid #1e2130;color:#555;cursor:pointer;transition:all .2s;background:transparent;font-family:'Inter',sans-serif}
-.ch-tab.active{background:#1e1b4b;border-color:#6d28d9;color:#a78bfa}
-.header-right{display:flex;align-items:center;gap:10px}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:#444;flex-shrink:0}
+/* PASSWORD */
+.pw-screen{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center}
+.pw-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:360px;text-align:center}
+.pw-logo{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem}
+.pw-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:.5rem}
+.pw-sub{font-size:13px;color:var(--text2);margin-bottom:1.5rem}
+.pw-input{width:100%;border:1.5px solid var(--border2);border-radius:10px;padding:11px 14px;font-size:15px;color:var(--text);font-family:'Inter',sans-serif;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .2s;background:var(--surface);margin-bottom:10px}
+.pw-input:focus{border-color:var(--accent)}
+.pw-input.err{border-color:#ef4444}
+.pw-btn{width:100%;background:var(--accent);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:12px;cursor:pointer;font-family:'Inter',sans-serif}
+.pw-btn:hover{background:#5538e6}
+.pw-err{font-size:12px;color:#ef4444;margin-top:6px;min-height:16px}
+
+/* LAYOUT */
+.layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column;padding:1.25rem 0}
+.sb-logo{padding:0 1.25rem 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1rem}
+.sb-logo-name{font-size:16px;font-weight:900;color:var(--text);letter-spacing:-.02em}
+.sb-logo-name span{color:var(--accent)}
+.sb-logo-sub{font-size:11px;color:var(--text3);font-weight:600;margin-top:2px}
+.sb-section{font-size:10px;font-weight:800;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:0 1.25rem;margin:1rem 0 .5rem}
+.sb-item{display:flex;align-items:center;gap:10px;padding:.6rem 1.25rem;cursor:pointer;border-radius:0;transition:all .15s;font-size:13px;font-weight:600;color:var(--text2);border-left:3px solid transparent;margin:1px 0}
+.sb-item:hover{background:var(--accent-light);color:var(--accent)}
+.sb-item.active{background:var(--accent-light);color:var(--accent);border-left-color:var(--accent)}
+.sb-icon{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.sb-icon.cp{background:#e0f2fe;color:#0369a1}
+.sb-icon.rs{background:#fce7f3;color:#9d174d}
+.sb-icon.all{background:var(--accent-light);color:var(--accent)}
+.sb-bottom{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid var(--border)}
+.sync-row{display:flex;align-items:center;gap:6px}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0}
 .sync-dot.ok{background:#10b981}
 .sync-dot.saving{background:#f59e0b}
 .sync-dot.err{background:#ef4444}
-.sync-txt{font-size:11px;color:#444}
-.add-post-btn{background:#7c3aed;border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;padding:9px 18px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;display:flex;align-items:center;gap:6px}
-.add-post-btn:hover{background:#6d28d9}
-
-/* TOOLBAR */
-.toolbar{background:#0d0f14;padding:1rem 2rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #1a1d2e}
-.view-btns{display:flex;gap:4px;background:#111318;border-radius:8px;padding:3px}
-.view-btn{font-size:12px;font-weight:600;padding:5px 12px;border-radius:6px;border:none;color:#555;cursor:pointer;background:transparent;font-family:'Inter',sans-serif;transition:all .2s}
-.view-btn.active{background:#1e2130;color:#fff}
-.sep{width:1px;height:24px;background:#1e2130}
-.filter-select{background:#111318;border:1px solid #1e2130;border-radius:8px;color:#aaa;font-size:12px;font-weight:600;padding:6px 10px;font-family:'Inter',sans-serif;outline:none;cursor:pointer}
-.filter-select:focus{border-color:#7c3aed}
-.filter-tag{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #1e2130;color:#555;cursor:pointer;background:transparent;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap}
-.filter-tag.active{background:#1e1b4b;border-color:#6d28d9;color:#a78bfa}
+.sync-txt{font-size:11px;color:var(--text3);font-weight:600}
 
 /* MAIN */
-.main{flex:1;padding:1.5rem 2rem;max-width:1400px;margin:0 auto;width:100%}
+.content{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.page-title{font-size:17px;font-weight:800;color:var(--text)}
+.view-tabs{display:flex;gap:2px;background:var(--accent-light);border-radius:9px;padding:3px}
+.view-tab{font-size:12px;font-weight:700;padding:5px 14px;border-radius:7px;border:none;color:var(--accent);cursor:pointer;background:transparent;font-family:'Inter',sans-serif;transition:all .2s}
+.view-tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(108,71,255,.12)}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.filter-sel{background:var(--surface);border:1.5px solid var(--border2);border-radius:9px;color:var(--text);font-size:12px;font-weight:600;padding:7px 10px;font-family:'Inter',sans-serif;outline:none;cursor:pointer}
+.filter-sel:focus{border-color:var(--accent)}
+.new-btn{background:var(--accent);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;padding:9px 18px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;white-space:nowrap}
+.new-btn:hover{background:#5538e6}
+
+.filters-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:.625rem 1.5rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fb-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-right:4px}
+.ftag{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;border:1.5px solid var(--border2);color:var(--text2);cursor:pointer;background:transparent;font-family:'Inter',sans-serif;transition:all .15s}
+.ftag:hover{border-color:var(--accent);color:var(--accent)}
+.ftag.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.fdiv{width:1px;height:18px;background:var(--border);margin:0 4px}
+
+.main-area{flex:1;padding:1.25rem 1.5rem;overflow:auto}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+.stat-c{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.stat-n{font-size:26px;font-weight:900;line-height:1}
+.stat-n.purple{color:var(--accent)}
+.stat-n.amber{color:#d97706}
+.stat-n.green{color:#059669}
+.stat-n.gray{color:var(--text)}
+.stat-l{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
 
 /* CALENDAR */
-.cal-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
-.cal-nav{background:#111318;border:1px solid #1e2130;border-radius:8px;color:#aaa;font-size:18px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;transition:all .2s}
-.cal-nav:hover{border-color:#7c3aed;color:#a78bfa}
-.cal-month{font-size:18px;font-weight:700;color:#fff;min-width:160px}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#1a1d2e;border-radius:12px;overflow:hidden}
-.cal-day-name{background:#111318;padding:8px;text-align:center;font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase}
-.cal-day{background:#111318;min-height:100px;padding:6px;transition:background .2s;vertical-align:top}
-.cal-day.other-month{background:#0d0f14}
-.cal-day.today{background:#0f0e1f}
-.cal-day-num{font-size:11px;font-weight:600;color:#333;margin-bottom:4px}
-.cal-day.today .cal-day-num{color:#a78bfa;font-weight:900}
-.cal-post-pill{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .15s}
-.cal-post-pill:hover{opacity:.8}
-.cal-add{font-size:10px;color:#222;cursor:pointer;margin-top:2px;padding:1px 4px;border-radius:3px;transition:all .2s}
-.cal-add:hover{color:#7c3aed;background:#1e1b4b}
+.cal-nav-row{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.cal-btn{background:var(--surface);border:1.5px solid var(--border2);border-radius:8px;color:var(--accent);font-size:16px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:800;transition:all .15s}
+.cal-btn:hover{background:var(--accent-light);border-color:var(--accent)}
+.cal-month-label{font-size:17px;font-weight:800;color:var(--text)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.cal-dn{background:var(--accent-light);padding:8px 6px;text-align:center;font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.04em}
+.cal-cell{background:var(--surface);padding:6px;min-height:120px;vertical-align:top;transition:background .15s}
+.cal-cell:hover{background:#faf9ff}
+.cal-cell.other{background:var(--bg);opacity:.6}
+.cal-cell.today{background:#faf8ff}
+.cal-cell.today .day-num-inner{background:var(--accent);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.day-num{font-size:11px;font-weight:700;color:var(--text3);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
+.day-num-inner{font-size:12px;font-weight:700}
+.cal-post-card{border-radius:7px;padding:5px 7px;margin-bottom:4px;cursor:pointer;border:1.5px solid transparent;transition:all .15s}
+.cal-post-card:hover{filter:brightness(.97)}
+.cal-post-title{font-size:11px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-post-plats{display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin-bottom:3px}
+.pbadge{font-size:9px;font-weight:800;padding:2px 5px;border-radius:4px;border:1px solid;display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
+.cal-post-bottom{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.type-pill{font-size:9px;font-weight:700;background:rgba(108,71,255,.1);color:var(--accent);border-radius:3px;padding:1px 5px}
+.cross-pill{font-size:9px;font-weight:700;background:#fef3c7;color:#92400e;border-radius:3px;padding:1px 5px}
+.status-dot-cal{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sd-idea{background:var(--accent)}
+.sd-scheduled{background:#d97706}
+.sd-published{background:#059669}
+.cal-add-btn{font-size:10px;color:var(--text3);cursor:pointer;text-align:center;margin-top:3px;padding:2px;border-radius:4px;transition:all .15s}
+.cal-add-btn:hover{background:var(--accent-light);color:var(--accent)}
+
+/* PLATFORM COLORS */
+.p-ig{background:var(--ig-bg);border-color:var(--ig-border);color:var(--ig)}
+.p-li{background:var(--li-bg);border-color:var(--li-border);color:var(--li)}
+.p-tg{background:var(--tg-bg);border-color:var(--tg-border);color:var(--tg)}
+.p-tt{background:var(--tt-bg);border-color:var(--tt-border);color:var(--tt)}
+.p-fb{background:var(--fb-bg);border-color:var(--fb-border);color:var(--fb)}
+.p-yt{background:var(--yt-bg);border-color:var(--yt-border);color:var(--yt)}
+.p-tw{background:var(--tw-bg);border-color:var(--tw-border);color:var(--tw)}
+
+/* POST CARD left border colors by first platform */
+.pc-ig{background:var(--ig-bg);border-color:var(--ig-border)}
+.pc-li{background:var(--li-bg);border-color:var(--li-border)}
+.pc-tg{background:var(--tg-bg);border-color:var(--tg-border)}
+.pc-tt{background:var(--tt-bg);border-color:var(--tt-border)}
+.pc-fb{background:var(--fb-bg);border-color:var(--fb-border)}
+.pc-yt{background:var(--yt-bg);border-color:var(--yt-border)}
+.pc-tw{background:var(--tw-bg);border-color:var(--tw-border)}
+.pc-none{background:#f8f7fc;border-color:var(--border2)}
 
 /* TABLE */
-.table-wrap{background:#111318;border:1px solid #1e2130;border-radius:14px;overflow:hidden}
-.table-wrap table{width:100%;border-collapse:collapse}
-.table-wrap th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #1a1d2e;background:#0d0f14}
-.table-wrap td{padding:10px 14px;font-size:13px;color:#aaa;border-bottom:1px solid #1a1d2e;vertical-align:middle}
-.table-wrap tr:last-child td{border-bottom:none}
-.table-wrap tr:hover td{background:#141720}
-.post-name-cell{color:#fff;font-weight:500;cursor:pointer}
-.post-name-cell:hover{color:#a78bfa}
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.tbl-wrap table{width:100%;border-collapse:collapse}
+.tbl-wrap th{padding:10px 14px;text-align:left;font-size:10px;font-weight:800;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--border);background:var(--accent-light)}
+.tbl-wrap td{padding:10px 14px;font-size:13px;color:var(--text2);border-bottom:1px solid var(--border)}
+.tbl-wrap tr:last-child td{border-bottom:none}
+.tbl-wrap tr:hover td{background:var(--accent-light)}
+.td-name{color:var(--text);font-weight:600;cursor:pointer}
+.td-name:hover{color:var(--accent)}
+.status-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block}
+.sb-idea{background:var(--idea-bg);color:var(--idea-c)}
+.sb-scheduled{background:var(--sched-bg);color:var(--sched-c)}
+.sb-published{background:var(--pub-bg);color:var(--pub-c)}
+.tbl-type{font-size:10px;font-weight:700;background:var(--accent-light);color:var(--accent);padding:3px 8px;border-radius:5px}
 
-/* PLATFORM BADGES */
-.plat-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin:1px}
-.plat-instagram{background:#831843;color:#fce7f3}
-.plat-linkedin{background:#1e3a5f;color:#bfdbfe}
-.plat-tiktok{background:#1a1a1a;color:#e4e4e7}
-.plat-facebook{background:#1e3a8a;color:#dbeafe}
-.plat-youtube{background:#7f1d1d;color:#fee2e2}
-.plat-telegram{background:#0c3547;color:#bae6fd}
-.plat-twitter{background:#1e3a5f;color:#bfdbfe}
-
-/* STATUS BADGES */
-.status-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
-.status-idea{background:#1e1b4b;color:#a78bfa}
-.status-scheduled{background:#451a03;color:#fdba74}
-.status-published{background:#052e16;color:#4ade80}
-
-/* TYPE BADGES */
-.type-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:#1e2130;color:#666}
-
-/* POST MODAL */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
-.modal-overlay.hidden{display:none}
-.modal{background:#111318;border:1px solid #1e2130;border-radius:20px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;animation:fadeUp .2s ease}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #1a1d2e}
-.modal-title{font-size:16px;font-weight:700;color:#fff}
-.modal-close{background:none;border:none;color:#444;font-size:20px;cursor:pointer;line-height:1;padding:2px}
-.modal-close:hover{color:#fff}
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(28,23,51,.35);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border-radius:20px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;border:1px solid var(--border)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
+.modal-head-title{font-size:16px;font-weight:800;color:var(--text)}
+.modal-x{background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;line-height:1;padding:2px;transition:color .15s}
+.modal-x:hover{color:var(--text)}
 .modal-body{padding:1.5rem}
-.form-row{margin-bottom:1rem}
-.form-label{font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:block}
-.form-input{width:100%;background:#0d0f14;border:1px solid #1e2130;border-radius:8px;padding:9px 12px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
-.form-input:focus{border-color:#7c3aed}
-.form-input::placeholder{color:#2a2d3e}
-.form-textarea{resize:vertical;min-height:80px}
-.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.plat-checkboxes{display:flex;flex-wrap:wrap;gap:6px}
-.plat-check{display:flex;align-items:center;gap:6px;cursor:pointer;padding:5px 10px;border-radius:7px;border:1px solid #1e2130;transition:all .2s;user-select:none}
-.plat-check.checked{border-color:#7c3aed;background:#1e1b4b}
-.plat-check input{display:none}
-.plat-check-label{font-size:12px;font-weight:600;color:#666}
-.plat-check.checked .plat-check-label{color:#a78bfa}
-.cross-post-info{background:#0d0f14;border:1px solid #1e2130;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:12px;color:#555}
-.modal-footer{display:flex;gap:10px;justify-content:flex-end;padding:1rem 1.5rem;border-top:1px solid #1a1d2e}
-.btn-save{background:#7c3aed;border:none;border-radius:9px;color:#fff;font-size:13px;font-weight:700;padding:9px 20px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
-.btn-save:hover{background:#6d28d9}
-.btn-cancel{background:transparent;border:1px solid #1e2130;border-radius:9px;color:#555;font-size:13px;font-weight:600;padding:9px 16px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
-.btn-cancel:hover{border-color:#555;color:#aaa}
-.btn-delete{background:transparent;border:1px solid #1e2130;border-radius:9px;color:#ef4444;font-size:13px;font-weight:600;padding:9px 16px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-right:auto}
-.btn-delete:hover{background:#1a0909;border-color:#ef4444}
+.f-label{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:6px}
+.f-input{width:100%;border:1.5px solid var(--border2);border-radius:9px;padding:9px 12px;font-size:13px;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;background:var(--surface)}
+.f-input:focus{border-color:var(--accent)}
+.f-input::placeholder{color:var(--text3)}
+.f-textarea{resize:vertical;min-height:70px}
+.f-row{margin-bottom:1rem}
+.f-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+.plat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.plat-option{border:1.5px solid var(--border2);border-radius:9px;padding:8px 6px;text-align:center;cursor:pointer;transition:all .15s;font-size:11px;font-weight:700;color:var(--text2);user-select:none}
+.plat-option:hover{border-color:var(--accent);color:var(--accent)}
+.plat-option.sel{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.plat-option .po-icon{font-size:14px;margin-bottom:2px;display:block;height:18px;width:18px;border-radius:4px;margin:0 auto 3px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.po-ig{background:var(--ig-bg);color:var(--ig)}
+.po-li{background:var(--li-bg);color:var(--li)}
+.po-tg{background:var(--tg-bg);color:var(--tg)}
+.po-tt{background:var(--tt-bg);color:var(--tt)}
+.po-fb{background:var(--fb-bg);color:var(--fb)}
+.po-yt{background:var(--yt-bg);color:var(--yt)}
+.po-tw{background:var(--tw-bg);color:var(--tw)}
+.cross-note{background:var(--sched-bg);border:1px solid #fde68a;border-radius:8px;padding:8px 12px;font-size:12px;color:var(--sched-c);margin-top:8px;display:none}
+.modal-foot{display:flex;align-items:center;gap:8px;padding:1rem 1.5rem;border-top:1px solid var(--border)}
+.del-btn{background:none;border:1.5px solid var(--border2);border-radius:9px;color:#ef4444;font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;margin-right:auto}
+.del-btn:hover{background:#fff5f5;border-color:#ef4444}
+.cancel-btn{background:none;border:1.5px solid var(--border2);border-radius:9px;color:var(--text2);font-size:13px;font-weight:600;padding:8px 16px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.cancel-btn:hover{border-color:var(--text2)}
+.save-btn{background:var(--accent);border:none;border-radius:9px;color:#fff;font-size:13px;font-weight:700;padding:9px 22px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
+.save-btn:hover{background:#5538e6}
 
-/* PASSWORD */
-.pw-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,15,.97);z-index:300;display:flex;align-items:center;justify-content:center}
-.pw-box{background:#111318;border:1px solid #1e2130;border-radius:20px;padding:2.5rem;width:100%;max-width:360px;text-align:center}
-.pw-logo{font-size:22px;font-weight:900;color:#fff;margin-bottom:.5rem}
-.pw-logo span{color:#a78bfa}
-.pw-sub{font-size:13px;color:#444;margin-bottom:1.5rem}
-.pw-input{width:100%;background:#0d0f14;border:1px solid #1e2130;border-radius:10px;padding:12px 16px;font-size:14px;color:#fff;font-family:'Inter',sans-serif;outline:none;text-align:center;letter-spacing:.1em;margin-bottom:12px;transition:border-color .2s}
-.pw-input:focus{border-color:#7c3aed}
-.pw-input.error{border-color:#ef4444;animation:shake .3s}
-.pw-btn{width:100%;background:#7c3aed;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
-.pw-btn:hover{background:#6d28d9}
-.pw-err{font-size:12px;color:#ef4444;margin-top:8px;min-height:16px}
+.empty{text-align:center;padding:4rem 1rem;color:var(--text3)}
+.empty-t{font-size:15px;font-weight:700;margin-bottom:6px}
 
-/* EMPTY */
-.empty{text-align:center;padding:4rem 1rem;color:#2a2d3e}
-.empty-t{font-size:15px;font-weight:700;color:#2a2d3e;margin-bottom:6px}
-.empty-s{font-size:13px;color:#1e2130}
-
-/* STATS */
-.stats-row{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
-.stat-pill{background:#111318;border:1px solid #1e2130;border-radius:10px;padding:8px 16px;display:flex;align-items:center;gap:8px}
-.stat-num{font-size:20px;font-weight:900}
-.stat-lbl{font-size:11px;color:#444;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-
-@media(max-width:640px){
-  .main{padding:1rem}
-  .toolbar{padding:.75rem 1rem}
-  .header{padding:.75rem 1rem}
-  .form-row-2{grid-template-columns:1fr}
-  .cal-day{min-height:60px}
+@media(max-width:768px){
+  .sidebar{display:none}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .plat-grid{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
 
-<div class="pw-overlay" id="pw-overlay">
-  <div class="pw-box">
-    <div class="pw-logo">SMM <span>Планер</span></div>
-    <div class="pw-sub">Введи пароль для доступу</div>
-    <input class="pw-input" id="pw-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+<div class="pw-screen" id="pw-screen">
+  <div class="pw-card">
+    <div class="pw-logo">Expla · SMM Studio</div>
+    <div class="pw-title">Вітаємо, Вікторіє!</div>
+    <div class="pw-sub">Введи пароль для входу в планер</div>
+    <input class="pw-input" id="pw-inp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
     <button class="pw-btn" onclick="checkPw()">Увійти</button>
     <div class="pw-err" id="pw-err"></div>
   </div>
 </div>
 
-<div class="modal-overlay hidden" id="modal-overlay">
-  <div class="modal" id="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title">Новий пост</div>
-      <button class="modal-close" onclick="closeModal()">&#215;</button>
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-title" id="modal-title">Новий пост</div>
+      <button class="modal-x" onclick="closeModal()">&#215;</button>
     </div>
     <div class="modal-body">
-      <div class="form-row">
-        <label class="form-label">Назва посту</label>
-        <input class="form-input" id="f-name" placeholder="Назва посту...">
+      <div class="f-row">
+        <label class="f-label">Назва посту</label>
+        <input class="f-input" id="fi-name" placeholder="Назва посту...">
       </div>
-      <div class="form-row-2">
-        <div class="form-row" style="margin-bottom:0">
-          <label class="form-label">Канал</label>
-          <select class="form-input" id="f-channel">
+      <div class="f-grid2">
+        <div>
+          <label class="f-label">Проєкт</label>
+          <select class="f-input" id="fi-channel">
             <option value="cpamatica">Cpamatica</option>
             <option value="resality">Resality</option>
           </select>
         </div>
-        <div class="form-row" style="margin-bottom:0">
-          <label class="form-label">Дата публікації</label>
-          <input class="form-input" id="f-date" type="date">
+        <div>
+          <label class="f-label">Дата публікації</label>
+          <input class="f-input" id="fi-date" type="date">
         </div>
       </div>
-      <div class="form-row" style="margin-top:1rem">
-        <label class="form-label">Платформи (крос-постинг)</label>
-        <div class="plat-checkboxes" id="plat-checkboxes"></div>
-        <div class="cross-post-info" id="cross-post-info" style="display:none">
-          Цей пост буде опублікований на кількох платформах одночасно
-        </div>
+      <div class="f-row">
+        <label class="f-label">Платформи</label>
+        <div class="plat-grid" id="plat-grid"></div>
+        <div class="cross-note" id="cross-note">Крос-постинг — пост вийде на кількох платформах одночасно</div>
       </div>
-      <div class="form-row-2" style="margin-top:1rem">
-        <div class="form-row" style="margin-bottom:0">
-          <label class="form-label">Тип контенту</label>
-          <select class="form-input" id="f-type">
+      <div class="f-grid2">
+        <div>
+          <label class="f-label">Тип контенту</label>
+          <select class="f-input" id="fi-type">
             <option value="">— оберіть —</option>
             <option>Reels</option>
             <option>Carousel</option>
@@ -209,163 +263,139 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
             <option>Post</option>
             <option>Video</option>
             <option>Article</option>
+            <option>Meme</option>
           </select>
         </div>
-        <div class="form-row" style="margin-bottom:0">
-          <label class="form-label">Статус</label>
-          <select class="form-input" id="f-status">
+        <div>
+          <label class="f-label">Статус</label>
+          <select class="f-input" id="fi-status">
             <option value="idea">Post idea</option>
             <option value="scheduled">Scheduled</option>
             <option value="published">Published</option>
           </select>
         </div>
       </div>
-      <div class="form-row" style="margin-top:1rem">
-        <label class="form-label">URL</label>
-        <input class="form-input" id="f-url" placeholder="https://...">
+      <div class="f-row">
+        <label class="f-label">URL (посилання на пост)</label>
+        <input class="f-input" id="fi-url" placeholder="https://...">
       </div>
-      <div class="form-row">
-        <label class="form-label">Нотатки</label>
-        <textarea class="form-input form-textarea" id="f-notes" placeholder="Нотатки..."></textarea>
+      <div class="f-row">
+        <label class="f-label">Нотатки</label>
+        <textarea class="f-input f-textarea" id="fi-notes" placeholder="Нотатки, ідеї, референси..."></textarea>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-delete" id="btn-delete" onclick="deletePost()" style="display:none">Видалити</button>
-      <button class="btn-cancel" onclick="closeModal()">Скасувати</button>
-      <button class="btn-save" onclick="savePost()">Зберегти</button>
+    <div class="modal-foot">
+      <button class="del-btn" id="del-btn" onclick="deletePost()" style="display:none">Видалити пост</button>
+      <button class="cancel-btn" onclick="closeModal()">Скасувати</button>
+      <button class="save-btn" onclick="savePost()">Зберегти</button>
     </div>
   </div>
 </div>
 
-<div class="app">
-  <div class="header">
-    <div class="header-left">
-      <div class="logo">SMM <span>Планер</span></div>
-      <div class="channel-tabs">
-        <button class="ch-tab active" data-ch="all" onclick="setChannel('all')">Всі</button>
-        <button class="ch-tab" data-ch="cpamatica" onclick="setChannel('cpamatica')">Cpamatica</button>
-        <button class="ch-tab" data-ch="resality" onclick="setChannel('resality')">Resality</button>
-      </div>
+<div class="layout" id="app" style="display:none">
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">SMM <span>Планер</span></div>
+      <div class="sb-logo-sub">Expla · Content Studio</div>
     </div>
-    <div class="header-right">
-      <div style="display:flex;align-items:center;gap:6px">
+    <div class="sb-section">Проєкти</div>
+    <div class="sb-item active" data-ch="all" onclick="setChannel('all')">
+      <div class="sb-icon all">✦</div>Всі проєкти
+    </div>
+    <div class="sb-item" data-ch="cpamatica" onclick="setChannel('cpamatica')">
+      <div class="sb-icon cp">CP</div>Cpamatica
+    </div>
+    <div class="sb-item" data-ch="resality" onclick="setChannel('resality')">
+      <div class="sb-icon rs">RS</div>Resality
+    </div>
+    <div class="sb-section">Перегляд</div>
+    <div class="sb-item active" data-view="calendar" onclick="setView('calendar')">
+      <div class="sb-icon all">▦</div>Календар
+    </div>
+    <div class="sb-item" data-view="table" onclick="setView('table')">
+      <div class="sb-icon all">≡</div>Таблиця
+    </div>
+    <div class="sb-bottom">
+      <div class="sync-row">
         <div class="sync-dot" id="sync-dot"></div>
         <span class="sync-txt" id="sync-txt">завантаження...</span>
       </div>
-      <button class="add-post-btn" onclick="openModal()">+ Новий пост</button>
     </div>
   </div>
 
-  <div class="toolbar">
-    <div class="view-btns">
-      <button class="view-btn active" data-view="calendar" onclick="setView('calendar')">Календар</button>
-      <button class="view-btn" data-view="table" onclick="setView('table')">Таблиця</button>
+  <div class="content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="page-title" id="page-title">Всі проєкти</div>
+        <div class="view-tabs">
+          <button class="view-tab active" data-view="calendar" onclick="setView('calendar')">Календар</button>
+          <button class="view-tab" data-view="table" onclick="setView('table')">Таблиця</button>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <select class="filter-sel" id="month-sel" onchange="render()">
+          <option value="">Всі місяці</option>
+        </select>
+        <button class="new-btn" onclick="openModal()">+ Новий пост</button>
+      </div>
     </div>
-    <div class="sep"></div>
-    <select class="filter-select" id="month-filter" onchange="render()">
-      <option value="">Всі місяці</option>
-    </select>
-    <div class="sep"></div>
-    <div id="plat-filters" style="display:flex;gap:6px;flex-wrap:wrap"></div>
-    <div class="sep"></div>
-    <div id="type-filters" style="display:flex;gap:6px;flex-wrap:wrap"></div>
-  </div>
 
-  <div class="main">
-    <div class="stats-row" id="stats-row"></div>
-    <div id="view-container"></div>
+    <div class="filters-bar">
+      <span class="fb-label">Платформа:</span>
+      <div id="plat-filters"></div>
+      <div class="fdiv"></div>
+      <span class="fb-label">Тип:</span>
+      <div id="type-filters"></div>
+    </div>
+
+    <div class="main-area">
+      <div class="stats-row" id="stats-row"></div>
+      <div id="view-area"></div>
+    </div>
   </div>
 </div>
 
 <script>
 const API_KEY='$2a$10$7Xef9jg3UMbuONAEF7yBP.Nevalf3APcYT7HryCWCbjRUPOG7Hea6';
 const BIN_ID='69c6cc56b7ec241ddcae03d7';
+const SMM_KEY='smm_v2';
 const CORRECT_PW='221529';
-const SAVE_INTERVAL=5*60*1000;
-const POLL_INTERVAL=8000;
-const SMM_KEY='smm_posts';
 
-const PLATFORMS=['Instagram','LinkedIn','TikTok','Facebook','YouTube','Telegram','Twitter'];
-const PLAT_COLORS={
-  Instagram:'plat-instagram',LinkedIn:'plat-linkedin',TikTok:'plat-tiktok',
-  Facebook:'plat-facebook',YouTube:'plat-youtube',Telegram:'plat-telegram',Twitter:'plat-twitter'
-};
-const MONTHS=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
-const DAY_NAMES=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+const PLATS=['Instagram','LinkedIn','Telegram','TikTok','Facebook','YouTube','Twitter'];
+const PLAT_CLS={Instagram:'ig',LinkedIn:'li',Telegram:'tg',TikTok:'tt',Facebook:'fb',YouTube:'yt',Twitter:'tw'};
+const PLAT_SHORT={Instagram:'IG',LinkedIn:'LI',Telegram:'TG',TikTok:'TT',Facebook:'FB',YouTube:'YT',Twitter:'TW'};
+const MONTHS_UA=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+const DAYS_UA=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
 
 let posts=[];
-let currentView='calendar';
-let currentChannel='all';
-let activePlatFilter='';
-let activeTypeFilter='';
-let calYear=new Date().getFullYear();
-let calMonth=new Date().getMonth();
-let editingId=null;
+let view='calendar';
+let channel='all';
+let platF='';
+let typeF='';
+let calY=new Date().getFullYear();
+let calM=new Date().getMonth();
+let editId=null;
 let isDirty=false;
 let isSaving=false;
 let lastJSON='';
 
-// BG
-const canvas=document.getElementById('bg');
-const ctx=canvas.getContext('2d');
-let W,H,dots=[];
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
-resize();window.addEventListener('resize',resize);
-for(let i=0;i<50;i++)dots.push({x:Math.random()*2000,y:Math.random()*2000,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.2+.3});
-function drawBg(){
-  ctx.clearRect(0,0,W,H);
-  dots.forEach((d,i)=>{
-    d.x+=d.vx;d.y+=d.vy;
-    if(d.x<0)d.x=W;if(d.x>W)d.x=0;if(d.y<0)d.y=H;if(d.y>H)d.y=0;
-    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(124,58,237,0.4)';ctx.fill();
-    dots.slice(i+1).forEach(d2=>{
-      const dx=d.x-d2.x,dy=d.y-d2.y,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<120){ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);ctx.strokeStyle=`rgba(124,58,237,${(1-dist/120)*0.08})`;ctx.lineWidth=.5;ctx.stroke();}
-    });
-  });
-  requestAnimationFrame(drawBg);
-}
-drawBg();
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
-// PASSWORD
-function checkPw(){
-  const v=document.getElementById('pw-input').value;
-  const inp=document.getElementById('pw-input');
-  if(v===CORRECT_PW){
-    localStorage.setItem('smm_auth','1');
-    document.getElementById('pw-overlay').style.display='none';
-    init();
-  } else {
-    inp.className='pw-input error';
-    document.getElementById('pw-err').textContent='Невірний пароль';
-    setTimeout(()=>{inp.className='pw-input';document.getElementById('pw-err').textContent='';},1500);
-  }
-}
-
-if(localStorage.getItem('smm_auth')==='1'){
-  document.getElementById('pw-overlay').style.display='none';
-  init();
-} else {
-  setTimeout(()=>document.getElementById('pw-input').focus(),100);
-}
-
-// SYNC
-function syncStatus(state,txt){
-  document.getElementById('sync-dot').className='sync-dot '+state;
-  document.getElementById('sync-txt').textContent=txt;
+function syncStatus(s,t){
+  document.getElementById('sync-dot').className='sync-dot '+s;
+  document.getElementById('sync-txt').textContent=t;
 }
 
 async function loadData(silent=false){
   if(isSaving)return;
   try{
-    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
-    const json=await res.json();
-    const incoming=JSON.stringify(json.record?.[SMM_KEY]||[]);
-    if(incoming!==lastJSON){
-      posts=json.record?.[SMM_KEY]||[];
-      lastJSON=incoming;
-      localStorage.setItem('smm_backup',incoming);
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
+    const j=await r.json();
+    const inc=JSON.stringify(j.record?.[SMM_KEY]||[]);
+    if(inc!==lastJSON){
+      posts=j.record?.[SMM_KEY]||[];
+      lastJSON=inc;
+      localStorage.setItem('smm_bak',inc);
       render();
       if(!silent)syncStatus('ok','синхронізовано');
     } else {
@@ -373,7 +403,7 @@ async function loadData(silent=false){
     }
   }catch(e){
     if(!silent){
-      posts=JSON.parse(localStorage.getItem('smm_backup')||'[]');
+      posts=JSON.parse(localStorage.getItem('smm_bak')||'[]');
       syncStatus('err','офлайн');
       render();
     }
@@ -385,17 +415,17 @@ async function saveData(){
   isSaving=true;
   syncStatus('saving','збереження...');
   try{
-    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
-    const json=await res.json();
-    const current=json.record||{};
-    current[SMM_KEY]=posts;
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{'X-Master-Key':API_KEY}});
+    const j=await r.json();
+    const cur=j.record||{};
+    cur[SMM_KEY]=posts;
     await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
       method:'PUT',
       headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
-      body:JSON.stringify(current)
+      body:JSON.stringify(cur)
     });
     lastJSON=JSON.stringify(posts);
-    localStorage.setItem('smm_backup',lastJSON);
+    localStorage.setItem('smm_bak',lastJSON);
     isDirty=false;
     syncStatus('ok','збережено');
   }catch(e){syncStatus('err','помилка збереження');}
@@ -404,270 +434,276 @@ async function saveData(){
 
 function markDirty(){isDirty=true;syncStatus('saving','незбережені зміни');}
 
-async function init(){
-  await loadData();
-  buildMonthFilter();
-  buildPlatFilters();
-  buildTypeFilters();
-  buildPlatCheckboxes();
-  setInterval(()=>loadData(true),POLL_INTERVAL);
-  setInterval(saveData,SAVE_INTERVAL);
+function checkPw(){
+  const v=document.getElementById('pw-inp').value;
+  if(v===CORRECT_PW){
+    localStorage.setItem('smm_auth','1');
+    document.getElementById('pw-screen').style.display='none';
+    document.getElementById('app').style.display='flex';
+    init();
+  } else {
+    const inp=document.getElementById('pw-inp');
+    inp.className='pw-input err';
+    document.getElementById('pw-err').textContent='Невірний пароль';
+    setTimeout(()=>{inp.className='pw-input';document.getElementById('pw-err').textContent='';},1400);
+  }
 }
 
-// FILTERS
+async function init(){
+  buildPlatGrid();
+  await loadData();
+  buildMonthSel();
+  buildPlatFilters();
+  buildTypeFilters();
+  setInterval(()=>loadData(true),8000);
+  setInterval(saveData,5*60*1000);
+}
+
+if(localStorage.getItem('smm_auth')==='1'){
+  document.getElementById('pw-screen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  init();
+} else {
+  setTimeout(()=>document.getElementById('pw-inp').focus(),100);
+}
+
 function setChannel(ch){
-  currentChannel=ch;
-  document.querySelectorAll('.ch-tab').forEach(t=>t.classList.toggle('active',t.dataset.ch===ch));
+  channel=ch;
+  document.querySelectorAll('.sb-item[data-ch]').forEach(el=>el.classList.toggle('active',el.dataset.ch===ch));
+  const titles={all:'Всі проєкти',cpamatica:'Cpamatica',resality:'Resality'};
+  document.getElementById('page-title').textContent=titles[ch]||ch;
   render();
 }
 
 function setView(v){
-  currentView=v;
-  document.querySelectorAll('.view-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  view=v;
+  document.querySelectorAll('[data-view]').forEach(el=>el.classList.toggle('active',el.dataset.view===v));
   render();
 }
 
-function buildMonthFilter(){
-  const sel=document.getElementById('month-filter');
-  const existing=[...sel.options].map(o=>o.value);
-  const years=[...new Set(posts.map(p=>p.date?new Date(p.date).getFullYear():null).filter(Boolean))].sort();
-  years.forEach(y=>{
-    MONTHS.forEach((m,mi)=>{
-      const val=`${y}-${String(mi+1).padStart(2,'0')}`;
-      if(!existing.includes(val)){
-        const opt=document.createElement('option');
-        opt.value=val;opt.textContent=`${m} ${y}`;
-        sel.appendChild(opt);
-      }
-    });
-  });
-}
-
-function buildPlatFilters(){
-  const platfs=[...new Set(posts.flatMap(p=>p.platforms||[]))].sort();
-  const el=document.getElementById('plat-filters');
-  el.innerHTML=`<button class="filter-tag${!activePlatFilter?' active':''}" onclick="setPlatFilter('')">Всі</button>`+
-    platfs.map(p=>`<button class="filter-tag${activePlatFilter===p?' active':''}" onclick="setPlatFilter('${p}')">${p}</button>`).join('');
-}
-
-function buildTypeFilters(){
-  const types=[...new Set(posts.map(p=>p.type).filter(Boolean))].sort();
-  const el=document.getElementById('type-filters');
-  el.innerHTML=`<button class="filter-tag${!activeTypeFilter?' active':''}" onclick="setTypeFilter('')">Всі типи</button>`+
-    types.map(t=>`<button class="filter-tag${activeTypeFilter===t?' active':''}" onclick="setTypeFilter('${t}')">${t}</button>`).join('');
-}
-
-function setPlatFilter(p){activePlatFilter=p;buildPlatFilters();render();}
-function setTypeFilter(t){activeTypeFilter=t;buildTypeFilters();render();}
-
 function getFiltered(){
   return posts.filter(p=>{
-    if(currentChannel!=='all'&&p.channel!==currentChannel)return false;
-    const mf=document.getElementById('month-filter').value;
-    if(mf&&p.date&&!p.date.startsWith(mf))return false;
-    if(activePlatFilter&&!(p.platforms||[]).includes(activePlatFilter))return false;
-    if(activeTypeFilter&&p.type!==activeTypeFilter)return false;
+    if(channel!=='all'&&p.channel!==channel)return false;
+    const ms=document.getElementById('month-sel').value;
+    if(ms&&p.date&&!p.date.startsWith(ms))return false;
+    if(platF&&!(p.platforms||[]).includes(platF))return false;
+    if(typeF&&p.type!==typeF)return false;
     return true;
   });
 }
 
-// STATS
-function renderStats(filtered){
+function buildMonthSel(){
+  const sel=document.getElementById('month-sel');
+  const cur=[...sel.options].map(o=>o.value);
+  const ys=[...new Set(posts.map(p=>p.date?new Date(p.date).getFullYear():null).filter(Boolean))].sort();
+  ys.forEach(y=>MONTHS_UA.forEach((m,mi)=>{
+    const v=`${y}-${String(mi+1).padStart(2,'0')}`;
+    if(!cur.includes(v)){const o=document.createElement('option');o.value=v;o.textContent=`${m} ${y}`;sel.appendChild(o);}
+  }));
+}
+
+function buildPlatFilters(){
+  const plats=[...new Set(posts.flatMap(p=>p.platforms||[]))].sort();
+  document.getElementById('plat-filters').innerHTML=
+    `<button class="ftag${!platF?' active':''}" onclick="setPlatF('')">Всі</button>`+
+    plats.map(p=>`<button class="ftag${platF===p?' active':''}" onclick="setPlatF('${p}')">${p}</button>`).join('');
+}
+
+function buildTypeFilters(){
+  const types=[...new Set(posts.map(p=>p.type).filter(Boolean))].sort();
+  document.getElementById('type-filters').innerHTML=
+    `<button class="ftag${!typeF?' active':''}" onclick="setTypeF('')">Всі</button>`+
+    types.map(t=>`<button class="ftag${typeF===t?' active':''}" onclick="setTypeF('${t}')">${t}</button>`).join('');
+}
+
+function setPlatF(p){platF=p;buildPlatFilters();render();}
+function setTypeF(t){typeF=t;buildTypeFilters();render();}
+
+function renderStats(f){
   const c={idea:0,scheduled:0,published:0};
-  filtered.forEach(p=>c[p.status]=(c[p.status]||0)+1);
+  f.forEach(p=>c[p.status]=(c[p.status]||0)+1);
   document.getElementById('stats-row').innerHTML=`
-    <div class="stat-pill"><span class="stat-num" style="color:#a78bfa">${c.idea||0}</span><span class="stat-lbl">Post idea</span></div>
-    <div class="stat-pill"><span class="stat-num" style="color:#fb923c">${c.scheduled||0}</span><span class="stat-lbl">Scheduled</span></div>
-    <div class="stat-pill"><span class="stat-num" style="color:#4ade80">${c.published||0}</span><span class="stat-lbl">Published</span></div>
-    <div class="stat-pill"><span class="stat-num" style="color:#fff">${filtered.length}</span><span class="stat-lbl">Всього</span></div>
+    <div class="stat-c"><div class="stat-n purple">${c.idea||0}</div><div class="stat-l">Post idea</div></div>
+    <div class="stat-c"><div class="stat-n amber">${c.scheduled||0}</div><div class="stat-l">Scheduled</div></div>
+    <div class="stat-c"><div class="stat-n green">${c.published||0}</div><div class="stat-l">Published</div></div>
+    <div class="stat-c"><div class="stat-n gray">${f.length}</div><div class="stat-l">Всього постів</div></div>
   `;
 }
 
-// RENDER
-function render(){
-  const filtered=getFiltered();
-  renderStats(filtered);
-  buildMonthFilter();
-  buildPlatFilters();
-  buildTypeFilters();
-  if(currentView==='calendar')renderCalendar(filtered);
-  else renderTable(filtered);
+function platCardClass(plats){
+  const p=(plats||[])[0];
+  if(!p)return'pc-none';
+  return'pc-'+(PLAT_CLS[p]||'none');
 }
 
-// CALENDAR
-function renderCalendar(filtered){
-  const el=document.getElementById('view-container');
-  const firstDay=new Date(calYear,calMonth,1);
-  const lastDay=new Date(calYear,calMonth+1,0);
-  let startDow=firstDay.getDay();
+function platBadges(plats){
+  return(plats||[]).map(p=>`<span class="pbadge p-${PLAT_CLS[p]||''}">${PLAT_SHORT[p]||p}</span>`).join('');
+}
 
-  let html=`<div class="cal-header">
-    <button class="cal-nav" onclick="prevMonth()">&#8249;</button>
-    <div class="cal-month">${MONTHS[calMonth]} ${calYear}</div>
-    <button class="cal-nav" onclick="nextMonth()">&#8250;</button>
+function statusDot(s){
+  const m={idea:'sd-idea',scheduled:'sd-scheduled',published:'sd-published'};
+  return`<div class="status-dot-cal ${m[s]||'sd-idea'}"></div>`;
+}
+
+function render(){
+  const f=getFiltered();
+  renderStats(f);
+  buildMonthSel();
+  buildPlatFilters();
+  buildTypeFilters();
+  if(view==='calendar')renderCal(f);
+  else renderTable(f);
+}
+
+function renderCal(filtered){
+  const el=document.getElementById('view-area');
+  const first=new Date(calY,calM,1);
+  const last=new Date(calY,calM+1,0);
+  const startDow=first.getDay();
+  const today=new Date();
+
+  let html=`<div class="cal-nav-row">
+    <button class="cal-btn" onclick="prevM()">&#8249;</button>
+    <div class="cal-month-label">${MONTHS_UA[calM]} ${calY}</div>
+    <button class="cal-btn" onclick="nextM()">&#8250;</button>
   </div>
   <div class="cal-grid">
-    ${DAY_NAMES.map(d=>`<div class="cal-day-name">${d}</div>`).join('')}`;
+    ${DAYS_UA.map(d=>`<div class="cal-dn">${d}</div>`).join('')}`;
 
-  const today=new Date();
   for(let i=0;i<startDow;i++){
-    const d=new Date(calYear,calMonth,1-startDow+i);
-    html+=`<div class="cal-day other-month"><div class="cal-day-num">${d.getDate()}</div></div>`;
+    const d=new Date(calY,calM,1-startDow+i);
+    html+=`<div class="cal-cell other"><div class="day-num"><span class="day-num-inner">${d.getDate()}</span></div></div>`;
   }
 
-  for(let d=1;d<=lastDay.getDate();d++){
-    const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
-    const dayPosts=filtered.filter(p=>p.date===dateStr);
-    html+=`<div class="cal-day${isToday?' today':''}">
-      <div class="cal-day-num">${d}</div>
-      ${dayPosts.map(p=>{
-        const mainPlat=p.platforms?.[0]||'';
-        const cls=PLAT_COLORS[mainPlat]||'';
-        const cross=p.platforms?.length>1?` +${p.platforms.length-1}`:'';
-        return `<div class="cal-post-pill ${cls}" onclick="openModal('${p.id}')" title="${esc(p.name)}">${esc(p.name)}${cross}</div>`;
-      }).join('')}
-      <div class="cal-add" onclick="openModalDate('${dateStr}')">+</div>
+  for(let d=1;d<=last.getDate();d++){
+    const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=today.getFullYear()===calY&&today.getMonth()===calM&&today.getDate()===d;
+    const dayPosts=filtered.filter(p=>p.date===ds);
+    html+=`<div class="cal-cell${isToday?' today':''}">
+      <div class="day-num"><span class="day-num-inner">${d}</span></div>
+      ${dayPosts.map(p=>`
+        <div class="cal-post-card ${platCardClass(p.platforms)}" onclick="openModal('${p.id}')">
+          <div class="cal-post-title">${esc(p.name)}</div>
+          <div class="cal-post-plats">${platBadges(p.platforms)}</div>
+          <div class="cal-post-bottom">
+            ${statusDot(p.status)}
+            ${p.type?`<span class="type-pill">${esc(p.type)}</span>`:''}
+            ${(p.platforms||[]).length>1?`<span class="cross-pill">крос ×${p.platforms.length}</span>`:''}
+            ${p.channel?`<span style="font-size:9px;font-weight:700;color:var(--text3);margin-left:auto">${p.channel==='cpamatica'?'CP':'RS'}</span>`:''}
+          </div>
+        </div>`).join('')}
+      <div class="cal-add-btn" onclick="openModalDate('${ds}')">+ додати</div>
     </div>`;
   }
 
-  const remaining=(7-((startDow+lastDay.getDate())%7))%7;
-  for(let i=1;i<=remaining;i++){
-    html+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+  const rem=(7-((startDow+last.getDate())%7))%7;
+  for(let i=1;i<=rem;i++){
+    html+=`<div class="cal-cell other"><div class="day-num"><span class="day-num-inner">${i}</span></div></div>`;
   }
   html+='</div>';
   el.innerHTML=html;
 }
 
-function prevMonth(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}render();}
-function nextMonth(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}render();}
+function prevM(){calM--;if(calM<0){calM=11;calY--;}render();}
+function nextM(){calM++;if(calM>11){calM=0;calY++;}render();}
 
-// TABLE
 function renderTable(filtered){
+  const el=document.getElementById('view-area');
+  if(!filtered.length){el.innerHTML=`<div class="empty"><div class="empty-t">Немає постів</div></div>`;return;}
   const sorted=[...filtered].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-  if(!sorted.length){
-    document.getElementById('view-container').innerHTML=`<div class="empty"><div class="empty-t">Немає постів</div><div class="empty-s">Додай перший пост</div></div>`;
-    return;
-  }
-  const STATUS_MAP={idea:'Post idea',scheduled:'Scheduled',published:'Published'};
-  const STATUS_CLS={idea:'status-idea',scheduled:'status-scheduled',published:'status-published'};
-  document.getElementById('view-container').innerHTML=`
-    <div class="table-wrap">
-      <table>
-        <thead><tr>
-          <th>Назва</th><th>Канал</th><th>Дата</th><th>Платформи</th><th>Тип</th><th>Статус</th><th>URL</th>
-        </tr></thead>
-        <tbody>
-          ${sorted.map(p=>`<tr>
-            <td class="post-name-cell" onclick="openModal('${p.id}')">${esc(p.name)||'—'}</td>
-            <td><span style="font-size:11px;font-weight:700;color:#666;text-transform:capitalize">${p.channel||'—'}</span></td>
-            <td style="white-space:nowrap;color:#666">${formatDate(p.date)}</td>
-            <td>${(p.platforms||[]).map(pl=>`<span class="plat-badge ${PLAT_COLORS[pl]||''}">${pl}</span>`).join('')}</td>
-            <td>${p.type?`<span class="type-badge">${esc(p.type)}</span>`:'—'}</td>
-            <td><span class="status-badge ${STATUS_CLS[p.status]||'status-idea'}">${STATUS_MAP[p.status]||'Post idea'}</span></td>
-            <td>${p.url?`<a href="${esc(p.url)}" target="_blank" style="color:#7c3aed;font-size:12px">Посилання</a>`:'—'}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>`;
+  const STATUS_LBL={idea:'Post idea',scheduled:'Scheduled',published:'Published'};
+  const STATUS_CLS={idea:'sb-idea',scheduled:'sb-scheduled',published:'sb-published'};
+  el.innerHTML=`<div class="tbl-wrap"><table>
+    <thead><tr><th>Назва</th><th>Проєкт</th><th>Дата</th><th>Платформи</th><th>Тип</th><th>Статус</th><th>URL</th></tr></thead>
+    <tbody>${sorted.map(p=>`<tr>
+      <td class="td-name" onclick="openModal('${p.id}')">${esc(p.name)||'—'}</td>
+      <td style="font-size:11px;font-weight:700;color:var(--text3);text-transform:capitalize">${p.channel||'—'}</td>
+      <td style="white-space:nowrap;font-size:12px">${fmtDate(p.date)}</td>
+      <td>${(p.platforms||[]).map(pl=>`<span class="pbadge p-${PLAT_CLS[pl]||''}">${pl}</span>`).join('')}</td>
+      <td>${p.type?`<span class="tbl-type">${esc(p.type)}</span>`:'—'}</td>
+      <td><span class="status-badge ${STATUS_CLS[p.status]||'sb-idea'}">${STATUS_LBL[p.status]||'Post idea'}</span></td>
+      <td>${p.url?`<a href="${esc(p.url)}" target="_blank" style="color:var(--accent);font-size:12px;font-weight:600">Відкрити</a>`:'—'}</td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
 }
 
-function formatDate(d){
-  if(!d)return'—';
-  const [y,m,day]=d.split('-');
-  return`${day}.${m}.${y}`;
+function fmtDate(d){if(!d)return'—';const[y,m,day]=d.split('-');return`${day}.${m}.${y}`;}
+
+function buildPlatGrid(){
+  document.getElementById('plat-grid').innerHTML=PLATS.map(p=>`
+    <div class="plat-option" id="po-${p}" onclick="togglePlat('${p}')">
+      <div class="po-icon po-${PLAT_CLS[p]||''}">${PLAT_SHORT[p]||p[0]}</div>
+      ${p}
+    </div>`).join('');
 }
 
-// MODAL
-function buildPlatCheckboxes(){
-  document.getElementById('plat-checkboxes').innerHTML=PLATFORMS.map(p=>`
-    <label class="plat-check" id="plc-${p}" onclick="togglePlat(this,'${p}')">
-      <input type="checkbox" value="${p}">
-      <span class="plat-check-label">${p}</span>
-    </label>`).join('');
+function togglePlat(p){
+  const el=document.getElementById('po-'+p);
+  el.classList.toggle('sel');
+  const cnt=document.querySelectorAll('.plat-option.sel').length;
+  document.getElementById('cross-note').style.display=cnt>1?'block':'none';
 }
 
-function togglePlat(el,p){
-  el.classList.toggle('checked');
-  const checked=document.querySelectorAll('.plat-check.checked').length;
-  document.getElementById('cross-post-info').style.display=checked>1?'block':'none';
-}
-
-function getCheckedPlats(){
-  return [...document.querySelectorAll('.plat-check.checked')].map(el=>el.querySelector('input').value);
-}
-
-function setCheckedPlats(plats){
-  document.querySelectorAll('.plat-check').forEach(el=>{
-    const v=el.querySelector('input').value;
-    el.classList.toggle('checked',plats?.includes(v));
+function getSelPlats(){return[...document.querySelectorAll('.plat-option.sel')].map(el=>el.id.replace('po-',''));}
+function setSelPlats(plats){
+  document.querySelectorAll('.plat-option').forEach(el=>{
+    const p=el.id.replace('po-','');
+    el.classList.toggle('sel',(plats||[]).includes(p));
   });
-  document.getElementById('cross-post-info').style.display=(plats?.length>1)?'block':'none';
+  document.getElementById('cross-note').style.display=(plats||[]).length>1?'block':'none';
 }
 
 function openModal(id,date){
-  editingId=id||null;
-  const post=id?posts.find(p=>p.id===id):null;
-  document.getElementById('modal-title').textContent=post?'Редагувати пост':'Новий пост';
-  document.getElementById('btn-delete').style.display=post?'block':'none';
-  document.getElementById('f-name').value=post?.name||'';
-  document.getElementById('f-channel').value=post?.channel||'cpamatica';
-  document.getElementById('f-date').value=post?.date||date||'';
-  document.getElementById('f-type').value=post?.type||'';
-  document.getElementById('f-status').value=post?.status||'idea';
-  document.getElementById('f-url').value=post?.url||'';
-  document.getElementById('f-notes').value=post?.notes||'';
-  setCheckedPlats(post?.platforms||[]);
-  document.getElementById('modal-overlay').classList.remove('hidden');
-  setTimeout(()=>document.getElementById('f-name').focus(),100);
+  editId=id||null;
+  const p=id?posts.find(x=>x.id===id):null;
+  document.getElementById('modal-title').textContent=p?'Редагувати пост':'Новий пост';
+  document.getElementById('del-btn').style.display=p?'block':'none';
+  document.getElementById('fi-name').value=p?.name||'';
+  document.getElementById('fi-channel').value=p?.channel||'cpamatica';
+  document.getElementById('fi-date').value=p?.date||date||'';
+  document.getElementById('fi-type').value=p?.type||'';
+  document.getElementById('fi-status').value=p?.status||'idea';
+  document.getElementById('fi-url').value=p?.url||'';
+  document.getElementById('fi-notes').value=p?.notes||'';
+  setSelPlats(p?.platforms||[]);
+  document.getElementById('modal-bg').classList.add('open');
+  setTimeout(()=>document.getElementById('fi-name').focus(),100);
 }
 
 function openModalDate(date){openModal(null,date);}
 
 function closeModal(){
-  document.getElementById('modal-overlay').classList.add('hidden');
-  editingId=null;
+  document.getElementById('modal-bg').classList.remove('open');
+  editId=null;
 }
 
 function savePost(){
-  const name=document.getElementById('f-name').value.trim();
+  const name=document.getElementById('fi-name').value.trim();
   if(!name)return;
-  const post={
-    id:editingId||'p_'+Date.now(),
+  const p={
+    id:editId||'p_'+Date.now(),
     name,
-    channel:document.getElementById('f-channel').value,
-    date:document.getElementById('f-date').value,
-    platforms:getCheckedPlats(),
-    type:document.getElementById('f-type').value,
-    status:document.getElementById('f-status').value,
-    url:document.getElementById('f-url').value.trim(),
-    notes:document.getElementById('f-notes').value.trim()
+    channel:document.getElementById('fi-channel').value,
+    date:document.getElementById('fi-date').value,
+    platforms:getSelPlats(),
+    type:document.getElementById('fi-type').value,
+    status:document.getElementById('fi-status').value,
+    url:document.getElementById('fi-url').value.trim(),
+    notes:document.getElementById('fi-notes').value.trim()
   };
-  if(editingId){
-    const idx=posts.findIndex(p=>p.id===editingId);
-    if(idx>-1)posts[idx]=post;
-  } else {
-    posts.push(post);
-  }
-  markDirty();
-  closeModal();
-  buildMonthFilter();
-  render();
+  if(editId){const i=posts.findIndex(x=>x.id===editId);if(i>-1)posts[i]=p;}
+  else posts.push(p);
+  markDirty();closeModal();buildMonthSel();render();
 }
 
 function deletePost(){
-  if(!editingId)return;
-  if(!confirm('Видалити пост?'))return;
-  posts=posts.filter(p=>p.id!==editingId);
-  markDirty();
-  closeModal();
-  render();
+  if(!editId||!confirm('Видалити пост?'))return;
+  posts=posts.filter(p=>p.id!==editId);
+  markDirty();closeModal();render();
 }
 
-document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('modal-overlay'))closeModal();});
+document.getElementById('modal-bg').addEventListener('click',e=>{if(e.target===document.getElementById('modal-bg'))closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 </script>
 </body>
 </html>
