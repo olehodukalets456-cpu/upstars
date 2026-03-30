@@ -31,13 +31,13 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .sync-dot.saving{background:#854F0B}
 .sync-dot.err{background:#A32D2D}
 .header-actions{display:flex;align-items:center;gap:10px}
-.add-btn{background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.03em;display:flex;align-items:center;gap:8px;transition:background .2s}
+.add-btn{background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:8px;transition:background .2s}
 .add-btn:hover{background:#534AB7}
 .mode-badge{display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif;border:1px solid #1e1e30;color:#444;cursor:pointer;transition:all .2s}
 .mode-badge.edit{border-color:#0F6E56;color:#1D9E75;background:#091a14}
-.mode-badge.view{border-color:#1e1e30;color:#444;background:transparent}
+.mode-badge.view{border-color:#1e1e30;color:#444}
 .mode-badge:hover{border-color:#534AB7;color:#7F77DD}
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:2rem}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
 .stat-card{background:#111118;border:1px solid #1e1e30;border-radius:14px;padding:14px 18px;display:flex;flex-direction:column;gap:6px}
 .stat-val{font-size:32px;font-weight:900;line-height:1}
 .stat-val.blue{color:#378ADD}
@@ -50,21 +50,39 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .stat-line.green{background:#0F6E56}
 .stat-line.red{background:#A32D2D}
 .stat-line.amber{background:#854F0B}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+.filter-label{font-size:11px;color:#444;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.geo-btn{font-size:12px;font-weight:700;border:1px solid #1e1e30;border-radius:20px;padding:5px 14px;cursor:pointer;background:transparent;color:#555;font-family:'Inter',sans-serif;transition:all .2s}
+.geo-btn:hover{border-color:#534AB7;color:#7F77DD}
+.geo-btn.active{background:#1a1229;border-color:#7F77DD;color:#AFA9EC}
+.section-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#333;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.section-title::after{content:'';flex:1;height:1px;background:#151520}
+.archive-section{margin-top:2rem;opacity:.6}
+.archive-section:hover{opacity:.8}
 .card{background:#111118;border:1px solid #1e1e30;border-radius:18px;padding:1.75rem;margin-bottom:1.25rem;animation:fadeUp .3s ease;position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#534AB7,#7F77DD,#534AB7)}
-.card-top{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem}
+.card.dead::before{background:linear-gradient(90deg,#2a0a0a,#A32D2D,#2a0a0a)}
+.card-top{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
 .card-num{font-size:11px;font-weight:700;color:#252535;font-family:'Inter',monospace;flex-shrink:0}
 .card-name-input{flex:1;background:transparent;border:none;outline:none;font-size:17px;font-weight:700;color:#fff;font-family:'Inter',sans-serif}
 .card-name-input::placeholder{color:#252535}
 .card-name-input:read-only{cursor:default}
-.del-btn{background:none;border:none;color:#252535;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;margin-left:auto;transition:color .2s}
+.card-geo{font-size:11px;font-weight:700;color:#534AB7;background:#1a1229;border:1px solid #2d1f5e;border-radius:5px;padding:2px 8px;white-space:nowrap}
+.del-btn{background:none;border:none;color:#252535;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;transition:color .2s}
 .del-btn:hover{color:#A32D2D}
 .card-progress{display:flex;gap:3px;margin-bottom:1.25rem}
 .cp-seg{height:4px;flex:1;border-radius:2px;background:#1e1e30;transition:background .3s}
 .cp-seg.work{background:#185FA5}
-.cp-seg.done{background:#0F6E56}
-.cp-seg.block{background:#A32D2D}
+.cp-seg.pour{background:#0F6E56}
+.cp-seg.dead{background:#A32D2D}
 .cp-seg.wait{background:#854F0B}
+.card-meta{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.geo-field-wrap{display:flex;align-items:center;gap:8px;flex:1}
+.geo-field-label{font-size:10px;font-weight:700;color:#2d2d50;letter-spacing:.08em;text-transform:uppercase}
+.geo-field{background:#0d0d16;border:1px solid #1a1a2e;border-radius:7px;outline:none;font-size:13px;font-weight:700;color:#7F77DD;font-family:'Inter',sans-serif;padding:5px 10px;transition:border-color .2s;width:120px;text-transform:uppercase}
+.geo-field:focus{border-color:#534AB7}
+.geo-field:read-only{opacity:.7;cursor:default}
+.geo-field::placeholder{color:#252535;text-transform:none;font-weight:400}
 .rows{display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem}
 .row{display:flex;align-items:center;gap:12px}
 .row-tag{font-size:10px;font-weight:700;color:#2d2d50;width:48px;flex-shrink:0;letter-spacing:.08em;text-transform:uppercase}
@@ -78,17 +96,17 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 .s-btn.readonly{cursor:default;pointer-events:none}
 .s-work{background:#0d1829;color:#85B7EB}
 .s-work.active{background:#185FA5;color:#E6F1FB}
-.s-done{background:#091a14;color:#5DCAA5}
-.s-done.active{background:#0F6E56;color:#E1F5EE}
-.s-block{background:#1a0909;color:#F09595}
-.s-block.active{background:#A32D2D;color:#FCEBEB}
+.s-pour{background:#091a14;color:#5DCAA5}
+.s-pour.active{background:#0F6E56;color:#E1F5EE}
+.s-dead{background:#1a0909;color:#F09595}
+.s-dead.active{background:#A32D2D;color:#FCEBEB}
 .s-wait{background:#1a1000;color:#EF9F27}
 .s-wait.active{background:#854F0B;color:#FAEEDA}
 .note{width:100%;background:#0a0a12;border:1px solid #161625;border-radius:10px;padding:10px 14px;font-size:13px;color:#666;font-family:'Inter',sans-serif;resize:none;outline:none;line-height:1.6}
 .note:focus{border-color:#2d2d50;color:#aaa}
 .note:read-only{cursor:default;opacity:.6}
 .note::placeholder{color:#1e1e30}
-.empty-state{text-align:center;padding:5rem 1rem}
+.empty-state{text-align:center;padding:4rem 1rem}
 .empty-text{font-size:16px;font-weight:700;color:#2d2d50}
 .empty-sub{font-size:13px;margin-top:8px;color:#1e1e30}
 .loading{text-align:center;padding:3rem;color:#2d2d50;font-size:14px}
@@ -146,7 +164,7 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
     <div class="header-right">
       <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-text">завантаження...</span></div>
       <div class="header-actions">
-        <div class="mode-badge view" id="mode-badge" onclick="toggleMode()">&#128274; перегляд</div>
+        <div class="mode-badge view" id="mode-badge" onclick="toggleMode()">🔒 перегляд</div>
         <button class="add-btn" id="add-btn" onclick="addFunnel()" style="display:none">+ Нова воронка</button>
       </div>
     </div>
@@ -154,11 +172,12 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 
   <div class="stats-bar">
     <div class="stat-card"><div class="stat-val blue" id="s-work">0</div><div class="stat-lbl">В роботі</div><div class="stat-line blue"></div></div>
-    <div class="stat-card"><div class="stat-val green" id="s-done">0</div><div class="stat-lbl">Готово</div><div class="stat-line green"></div></div>
-    <div class="stat-card"><div class="stat-val red" id="s-block">0</div><div class="stat-lbl">Блок</div><div class="stat-line red"></div></div>
+    <div class="stat-card"><div class="stat-val green" id="s-pour">0</div><div class="stat-lbl">Залив</div><div class="stat-line green"></div></div>
+    <div class="stat-card"><div class="stat-val red" id="s-dead">0</div><div class="stat-lbl">Не працює</div><div class="stat-line red"></div></div>
     <div class="stat-card"><div class="stat-val amber" id="s-wait">0</div><div class="stat-lbl">Очікування</div><div class="stat-line amber"></div></div>
   </div>
 
+  <div class="filters" id="filters"></div>
   <div id="funnels"><div class="loading">Завантаження даних...</div></div>
 </div>
 
@@ -166,6 +185,7 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 const API_KEY='$2a$10$7Xef9jg3UMbuONAEF7yBP.Nevalf3APcYT7HryCWCbjRUPOG7Hea6';
 const BIN_ID='69c6cc56b7ec241ddcae03d7';
 const CORRECT_PW='upstars264_oleh';
+const SAVE_INTERVAL=5*60*1000;
 const POLL_INTERVAL=5000;
 
 const canvas=document.getElementById('bg');
@@ -199,19 +219,31 @@ function draw(){
 }
 draw();
 
-const DEFAULT_STAGES=['PWA','Крео','Назва','ГЕО','Офер'];
+const DEFAULT_STAGES=['PWA','Крео','Офер'];
 const STATUSES=[
   {key:'work',label:'В роботі',cls:'s-work'},
-  {key:'done',label:'Готово',cls:'s-done'},
-  {key:'block',label:'Блок',cls:'s-block'},
+  {key:'pour',label:'Залив',cls:'s-pour'},
+  {key:'dead',label:'Не працює',cls:'s-dead'},
   {key:'wait',label:'Очікування',cls:'s-wait'}
 ];
 
 let funnels=[];
 let saveTimer=null;
+let pollTimer=null;
 let isSaving=false;
+let isDirty=false;
 let lastSavedJSON='';
 let canEdit=false;
+let activeGeo='all';
+
+function getFunnelStatus(f){
+  const statuses=f.stages.map(s=>s.status);
+  const allSame=statuses.every(s=>s===statuses[0]);
+  if(allSame)return statuses[0];
+  return 'work';
+}
+
+function isDead(f){return f.stages.every(s=>s.status==='dead');}
 
 function checkPw(){
   const val=document.getElementById('pw-input').value;
@@ -228,15 +260,8 @@ function checkPw(){
   }
 }
 
-function skipPw(){
-  canEdit=false;
-  hidePwOverlay();
-  applyMode();
-}
-
-function hidePwOverlay(){
-  document.getElementById('pw-overlay').style.display='none';
-}
+function skipPw(){canEdit=false;hidePwOverlay();applyMode();}
+function hidePwOverlay(){document.getElementById('pw-overlay').style.display='none';}
 
 function toggleMode(){
   if(canEdit){
@@ -296,7 +321,7 @@ async function loadData(silent=false){
 }
 
 async function saveData(){
-  if(!canEdit)return;
+  if(!canEdit||!isDirty)return;
   isSaving=true;
   syncStatus('saving','збереження...');
   try{
@@ -307,18 +332,22 @@ async function saveData(){
     });
     lastSavedJSON=JSON.stringify(funnels);
     localStorage.setItem('t4_backup',lastSavedJSON);
+    isDirty=false;
     syncStatus('ok','збережено');
   }catch(e){syncStatus('err','помилка збереження');}
   isSaving=false;
 }
 
-function scheduleSave(){if(canEdit){clearTimeout(saveTimer);saveTimer=setTimeout(saveData,600);}}
+function markDirty(){
+  isDirty=true;
+  syncStatus('saving','є незбережені зміни');
+}
 
 function addFunnel(){
   if(!canEdit)return;
   const id='f_'+Date.now();
-  funnels.unshift({id,name:'',stages:DEFAULT_STAGES.map(s=>({tag:s,label:'',status:'work'})),note:''});
-  scheduleSave();render();
+  funnels.unshift({id,name:'',geo:'',stages:DEFAULT_STAGES.map(s=>({tag:s,label:'',status:'work'})),note:''});
+  markDirty();render();
   setTimeout(()=>{const i=document.getElementById('n_'+id);if(i)i.focus();},50);
 }
 
@@ -326,23 +355,41 @@ function deleteFunnel(id){
   if(!canEdit)return;
   if(!confirm('Видалити воронку?'))return;
   funnels=funnels.filter(f=>f.id!==id);
-  scheduleSave();render();
+  markDirty();render();
 }
 
 function setStatus(id,idx,key){
   if(!canEdit)return;
   const f=funnels.find(f=>f.id===id);
-  if(f){f.stages[idx].status=key;scheduleSave();updateStats();updateProgress(id);}
+  if(f){f.stages[idx].status=key;markDirty();updateStats();updateProgress(id);}
 }
 
-function setName(id,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.name=v;scheduleSave();}}
-function setNote(id,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.note=v;scheduleSave();}}
-function setStageLabel(id,idx,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.stages[idx].label=v;scheduleSave();}}
+function setName(id,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.name=v;markDirty();}}
+function setNote(id,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.note=v;markDirty();}}
+function setStageLabel(id,idx,v){if(!canEdit)return;const f=funnels.find(f=>f.id===id);if(f){f.stages[idx].label=v;markDirty();}}
+function setGeo(id,v){
+  if(!canEdit)return;
+  const f=funnels.find(f=>f.id===id);
+  if(f){f.geo=v.toUpperCase();markDirty();renderFilters();}
+}
+
+function setGeoFilter(geo){
+  activeGeo=geo;
+  document.querySelectorAll('.geo-btn').forEach(b=>b.classList.toggle('active',b.dataset.geo===geo));
+  renderFunnels();
+}
 
 function updateStats(){
-  const c={work:0,done:0,block:0,wait:0};
-  funnels.forEach(f=>f.stages.forEach(s=>c[s.status]++));
-  ['work','done','block','wait'].forEach(k=>document.getElementById('s-'+k).textContent=c[k]);
+  const c={work:0,pour:0,dead:0,wait:0};
+  funnels.forEach(f=>{
+    const st=getFunnelStatus(f);
+    if(c[st]!==undefined)c[st]++;
+    else c.work++;
+  });
+  document.getElementById('s-work').textContent=c.work;
+  document.getElementById('s-pour').textContent=c.pour;
+  document.getElementById('s-dead').textContent=c.dead;
+  document.getElementById('s-wait').textContent=c.wait;
 }
 
 function updateProgress(id){
@@ -351,23 +398,36 @@ function updateProgress(id){
   document.querySelectorAll('#prog_'+id+' .cp-seg').forEach((seg,i)=>{if(f.stages[i])seg.className='cp-seg '+f.stages[i].status;});
 }
 
+function renderFilters(){
+  const geos=[...new Set(funnels.map(f=>f.geo).filter(Boolean))].sort();
+  const el=document.getElementById('filters');
+  if(!geos.length){el.innerHTML='';return;}
+  el.innerHTML=`
+    <span class="filter-label">ГЕО:</span>
+    <button class="geo-btn${activeGeo==='all'?' active':''}" data-geo="all" onclick="setGeoFilter('all')">Всі</button>
+    ${geos.map(g=>`<button class="geo-btn${activeGeo===g?' active':''}" data-geo="${g}" onclick="setGeoFilter('${g}')">${g}</button>`).join('')}
+  `;
+}
+
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
-function render(){
-  const el=document.getElementById('funnels');
-  if(!funnels.length){
-    el.innerHTML=`<div class="empty-state"><div class="empty-text">Немає воронок</div><div class="empty-sub">${canEdit?'Натисни "+ Нова воронка" щоб почати':'Поки що порожньо'}</div></div>`;
-    updateStats();return;
-  }
-  el.innerHTML=funnels.map((f,idx)=>`
-    <div class="card" id="card_${f.id}">
+function renderCard(f,idx){
+  return `
+    <div class="card${isDead(f)?' dead':''}" id="card_${f.id}">
       <div class="card-top">
-        <span class="card-num">#${String(funnels.length-idx).padStart(2,'0')}</span>
+        <span class="card-num">#${String(idx+1).padStart(2,'0')}</span>
         <input class="card-name-input" id="n_${f.id}" value="${esc(f.name)}" placeholder="Назва воронки..." oninput="setName('${f.id}',this.value)" ${canEdit?'':'readonly'}>
+        ${f.geo?`<span class="card-geo">${esc(f.geo)}</span>`:''}
         ${canEdit?`<button class="del-btn" onclick="deleteFunnel('${f.id}')" title="Видалити">&#215;</button>`:''}
       </div>
       <div class="card-progress" id="prog_${f.id}">
         ${f.stages.map(s=>`<div class="cp-seg ${s.status}"></div>`).join('')}
+      </div>
+      <div class="card-meta">
+        <div class="geo-field-wrap">
+          <div class="geo-field-label">ГЕО</div>
+          <input class="geo-field" value="${esc(f.geo||'')}" placeholder="UA, FR..." oninput="setGeo('${f.id}',this.value)" ${canEdit?'':'readonly'} maxlength="5">
+        </div>
       </div>
       <div class="rows">
         ${f.stages.map((stage,i)=>`
@@ -387,20 +447,47 @@ function render(){
       </div>
       <textarea class="note" rows="2" placeholder="Замітка..." oninput="setNote('${f.id}',this.value)" ${canEdit?'':'readonly'}>${esc(f.note)}</textarea>
     </div>
-  `).join('');
+  `;
+}
+
+function renderFunnels(){
+  const el=document.getElementById('funnels');
+  let filtered=activeGeo==='all'?funnels:funnels.filter(f=>f.geo===activeGeo);
+  const active=filtered.filter(f=>!isDead(f));
+  const archive=filtered.filter(f=>isDead(f));
+
+  if(!filtered.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-text">Немає воронок${activeGeo!=='all'?' для '+activeGeo:''}</div><div class="empty-sub">${canEdit?'Натисни "+ Нова воронка"':'Поки що порожньо'}</div></div>`;
+    return;
+  }
+
+  let html='';
+  if(active.length){
+    html+=active.map((f,i)=>renderCard(f,i)).join('');
+  }
+  if(archive.length){
+    html+=`<div class="archive-section">
+      <div class="section-title">Не працює — архів</div>
+      ${archive.map((f,i)=>renderCard(f,active.length+i)).join('')}
+    </div>`;
+  }
+  el.innerHTML=html;
+}
+
+function render(){
+  renderFilters();
+  renderFunnels();
   updateStats();
 }
 
 const saved=localStorage.getItem('t4_auth');
-if(saved==='1'){
-  canEdit=true;
-  hidePwOverlay();
-  applyMode();
-} else {
-  setTimeout(()=>document.getElementById('pw-input').focus(),100);
-}
+if(saved==='1'){canEdit=true;hidePwOverlay();applyMode();}
+else{setTimeout(()=>document.getElementById('pw-input').focus(),100);}
 
-loadData().then(()=>setInterval(()=>loadData(true),POLL_INTERVAL));
+loadData().then(()=>{
+  setInterval(()=>loadData(true),POLL_INTERVAL);
+  setInterval(saveData,SAVE_INTERVAL);
+});
 </script>
 </body>
 </html>
