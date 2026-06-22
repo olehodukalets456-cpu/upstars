@@ -8,25 +8,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23070b08'/%3E%3Cpath d='M13 42V18h18c11 0 18 5 18 14s-7 14-18 14h-7v-8h7c5 0 8-2 8-6s-3-6-8-6h-8v16H13Z' fill='%23d8f85f'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2307080e'/%3E%3Cpath d='M13 42V18h18c11 0 18 5 18 14s-7 14-18 14h-7v-8h7c5 0 8-2 8-6s-3-6-8-6h-8v16H13Z' fill='%2365e7ff'/%3E%3C/svg%3E">
   <style>
     :root {
-      --bg: #070b08;
-      --bg-2: #0c120e;
-      --panel: #111814;
-      --panel-2: #172018;
+      --bg: #07080e;
+      --bg-2: #0e111a;
+      --panel: #111520;
+      --panel-2: #171d2b;
       --cream: #f8f1df;
       --cream-2: #d9cead;
       --muted: rgba(248, 241, 223, .68);
       --soft: rgba(248, 241, 223, .42);
       --line: rgba(248, 241, 223, .14);
-      --lime: #d8f85f;
-      --gold: #c6a65a;
+      --lime: #65e7ff;
+      --gold: #f2c76b;
       --orange: #ff7051;
-      --green: #72e89a;
-      --ink: #11140f;
-      --paper: #f5ecd8;
-      --paper-line: rgba(17, 20, 15, .13);
+      --coral: #ff8f70;
+      --ink: #07080e;
+      --paper: #f6f3ea;
+      --paper-line: rgba(7, 8, 14, .13);
       --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     }
 
@@ -61,9 +61,10 @@
       position: relative;
       overflow: hidden;
       background:
-        linear-gradient(122deg, rgba(198, 166, 90, .16) 0%, transparent 26%),
-        linear-gradient(215deg, rgba(216, 248, 95, .13) 0%, transparent 32%),
-        linear-gradient(180deg, #111913 0%, #070b08 42%, #0b0e0c 100%);
+        radial-gradient(circle at 12% 8%, rgba(101, 231, 255, .22), transparent 32%),
+        radial-gradient(circle at 88% 18%, rgba(242, 199, 107, .18), transparent 34%),
+        radial-gradient(circle at 50% 90%, rgba(255, 112, 81, .10), transparent 42%),
+        linear-gradient(180deg, #151824 0%, #07080e 44%, #090a11 100%);
     }
     .site::before {
       content: "";
@@ -72,8 +73,8 @@
       pointer-events: none;
       opacity: .34;
       background-image:
-        linear-gradient(rgba(248, 241, 223, .08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(248, 241, 223, .07) 1px, transparent 1px);
+        linear-gradient(rgba(248, 241, 223, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(101, 231, 255, .055) 1px, transparent 1px);
       background-size: 68px 68px;
       mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
     }
@@ -99,7 +100,7 @@
       height: 1px;
       background: currentColor;
     }
-    .eyebrow.dark { color: #5f6845; }
+    .eyebrow.dark { color: #315f75; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -107,19 +108,25 @@
       gap: 12px;
       min-height: 58px;
       padding: 0 28px;
-      border: 1px solid rgba(216, 248, 95, .7);
-      background: linear-gradient(135deg, #f0ff8c 0%, var(--lime) 52%, #8df0a7 100%);
+      border: 1px solid rgba(101, 231, 255, .78);
+      background: linear-gradient(135deg, #f6d879 0%, #65e7ff 56%, #9bf3ff 100%);
       color: var(--ink);
       font-size: 12px;
       font-weight: 900;
+      line-height: 1.25;
+      text-align: center;
       letter-spacing: .12em;
       text-transform: uppercase;
-      box-shadow: 0 24px 80px rgba(216, 248, 95, .18);
+      white-space: normal;
+      overflow-wrap: anywhere;
+      flex-wrap: wrap;
+      box-shadow: 0 24px 80px rgba(101, 231, 255, .18);
       transition: transform .2s ease, box-shadow .2s ease;
+      cursor: pointer;
     }
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 30px 90px rgba(216, 248, 95, .26);
+      box-shadow: 0 30px 90px rgba(101, 231, 255, .28);
     }
     .btn.secondary {
       color: var(--cream);
@@ -132,7 +139,7 @@
       color: var(--cream);
       background: var(--bg);
       border-color: var(--bg);
-      box-shadow: 0 24px 70px rgba(17, 20, 15, .18);
+      box-shadow: 0 24px 70px rgba(7, 8, 14, .22);
     }
 
     .nav {
@@ -151,7 +158,7 @@
       gap: 18px;
       padding: 10px 10px 10px 18px;
       border: 1px solid rgba(248, 241, 223, .13);
-      background: rgba(7, 11, 8, .66);
+      background: rgba(7, 8, 14, .72);
       backdrop-filter: blur(18px);
     }
     .brand {
@@ -223,7 +230,7 @@
     }
     .hero h1 span {
       color: transparent;
-      background: linear-gradient(90deg, var(--lime), #8eeea4 58%, var(--gold));
+      background: linear-gradient(90deg, #f7f0dc 0%, var(--lime) 42%, var(--gold) 84%);
       -webkit-background-clip: text;
       background-clip: text;
     }
@@ -249,7 +256,7 @@
     }
     .hero-stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 8px;
       margin-top: 34px;
       max-width: 720px;
@@ -315,8 +322,8 @@
       bottom: 0;
       width: 250px;
       padding: 18px;
-      border: 1px solid rgba(216, 248, 95, .26);
-      background: rgba(7, 11, 8, .88);
+      border: 1px solid rgba(101, 231, 255, .28);
+      background: rgba(7, 8, 14, .88);
       backdrop-filter: blur(18px);
       box-shadow: 0 26px 80px rgba(0, 0, 0, .35);
     }
@@ -359,9 +366,9 @@
     .lead-magnet {
       padding: 108px 0;
       background:
-        linear-gradient(140deg, rgba(255, 112, 81, .08), transparent 34%),
-        linear-gradient(220deg, rgba(216, 248, 95, .13), transparent 36%),
-        #08100c;
+        radial-gradient(circle at 12% 18%, rgba(101, 231, 255, .16), transparent 34%),
+        radial-gradient(circle at 88% 14%, rgba(242, 199, 107, .16), transparent 35%),
+        #090b12;
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
@@ -479,8 +486,9 @@
     .author {
       padding: 108px 0;
       background:
-        linear-gradient(130deg, rgba(198, 166, 90, .12), transparent 36%),
-        #0b110d;
+        radial-gradient(circle at 18% 20%, rgba(242, 199, 107, .13), transparent 36%),
+        radial-gradient(circle at 90% 0%, rgba(101, 231, 255, .10), transparent 34%),
+        #0b0d14;
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
@@ -562,7 +570,7 @@
       color: var(--ink);
     }
     .proof .section-head p {
-      color: rgba(17, 20, 15, .68);
+      color: rgba(7, 8, 14, .68);
     }
     .proof-grid {
       display: grid;
@@ -573,7 +581,7 @@
     .proof-card {
       padding: 30px;
       border: 1px solid var(--paper-line);
-      background: rgba(17, 20, 15, .035);
+      background: rgba(7, 8, 14, .035);
     }
     .proof-card.dark {
       color: var(--cream);
@@ -587,7 +595,7 @@
     }
     .proof-card p {
       margin-top: 16px;
-      color: rgba(17, 20, 15, .68);
+      color: rgba(7, 8, 14, .68);
     }
     .proof-card.dark p {
       color: var(--muted);
@@ -605,18 +613,313 @@
       border-top: 1px solid var(--paper-line);
     }
     .proof-item strong {
-      color: #5f6845;
+      color: #315f75;
       font-size: 18px;
       line-height: 1.2;
     }
     .proof-item span {
-      color: rgba(17, 20, 15, .68);
+      color: rgba(7, 8, 14, .68);
+    }
+
+    .copy-section {
+      padding: 108px 0;
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+    }
+    .copy-section.alt {
+      background:
+        radial-gradient(circle at 90% 0%, rgba(101, 231, 255, .10), transparent 34%),
+        var(--bg-2);
+    }
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .96fr) minmax(0, 1.04fr);
+      gap: 54px;
+      align-items: start;
+    }
+    .copy-block h2,
+    .calculator h2,
+    .final-cta h2 {
+      margin-top: 18px;
+      font-size: 54px;
+      line-height: 1.05;
+      font-weight: 900;
+    }
+    .copy-block p {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.76;
+    }
+    .copy-block .lead {
+      color: var(--cream);
+      font-size: 25px;
+      line-height: 1.34;
+      font-weight: 800;
+    }
+    .plain-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
+      list-style: none;
+    }
+    .plain-list li {
+      position: relative;
+      padding-left: 24px;
+      color: var(--muted);
+    }
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .72em;
+      width: 9px;
+      height: 9px;
+      border: 1px solid var(--lime);
+      background: rgba(101, 231, 255, .14);
+    }
+    .logic-card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: linear-gradient(150deg, rgba(248, 241, 223, .08), rgba(248, 241, 223, .025));
+    }
+    .logic-card h3 {
+      font-size: 28px;
+      line-height: 1.1;
+    }
+    .logic-card p {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+    .intent-stack {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .intent-stack div {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      color: var(--cream);
+      background: rgba(248, 241, 223, .045);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .market-grid,
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 34px;
+    }
+    .market-card,
+    .audience-card {
+      min-height: 184px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: rgba(248, 241, 223, .052);
+    }
+    .market-card strong {
+      display: block;
+      color: var(--lime);
+      font-size: 34px;
+      line-height: 1;
+    }
+    .market-card h3,
+    .audience-card h3 {
+      margin-top: 18px;
+      font-size: 25px;
+      line-height: 1.08;
+    }
+    .market-card p,
+    .audience-card p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .calculator {
+      padding: 108px 0;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 420px;
+      gap: 32px;
+      align-items: start;
+      margin-top: 34px;
+    }
+    .calc-panel,
+    .calc-output {
+      border: 1px solid var(--paper-line);
+      background: rgba(7, 8, 14, .035);
+      padding: 28px;
+    }
+    .calc-fields {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .calc-field label {
+      display: block;
+      color: rgba(7, 8, 14, .62);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .calc-field input {
+      width: 100%;
+      min-height: 50px;
+      margin-top: 7px;
+      padding: 0 12px;
+      border: 1px solid rgba(7, 8, 14, .18);
+      background: rgba(255, 255, 255, .74);
+      color: var(--ink);
+      outline: none;
+      border-radius: 0;
+    }
+    .calc-note {
+      margin-top: 18px;
+      color: rgba(7, 8, 14, .62);
+      font-size: 13px;
+    }
+    .calc-output {
+      color: var(--cream);
+      background: var(--bg);
+      border-color: var(--bg);
+    }
+    .calc-metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .calc-metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .calc-metric strong {
+      color: var(--lime);
+      font-size: 24px;
+      line-height: 1;
+      text-align: right;
+    }
+    .popup-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+    .popup-layer.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .popup-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 8, 14, .74);
+      backdrop-filter: blur(14px);
+    }
+    .popup-card {
+      position: relative;
+      width: min(620px, 100%);
+      max-height: min(760px, calc(100svh - 36px));
+      overflow: auto;
+      padding: 34px;
+      color: var(--cream);
+      border: 1px solid rgba(101, 231, 255, .28);
+      background:
+        radial-gradient(circle at 92% 6%, rgba(101, 231, 255, .16), transparent 34%),
+        linear-gradient(180deg, #111520, #07080e);
+      box-shadow: 0 36px 110px rgba(0, 0, 0, .46);
+    }
+    .popup-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      background: rgba(248, 241, 223, .04);
+      color: var(--cream);
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .popup-card h2 {
+      padding-right: 48px;
+      font-size: 42px;
+      line-height: 1.04;
+    }
+    .popup-card p {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .popup-card ul {
+      margin-top: 20px;
+      display: grid;
+      gap: 9px;
+      list-style: none;
+    }
+    .popup-card li {
+      color: var(--cream);
+      padding-left: 23px;
+      position: relative;
+    }
+    .popup-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .7em;
+      width: 8px;
+      height: 8px;
+      background: var(--lime);
+    }
+    .popup-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .popup-form input {
+      min-height: 58px;
+      padding: 0 16px;
+      border: 1px solid var(--line);
+      background: rgba(248, 241, 223, .06);
+      color: var(--cream);
+      outline: none;
+    }
+    .popup-form input::placeholder { color: var(--soft); }
+    .popup-small {
+      margin-top: 14px;
+      color: var(--soft);
+      font-size: 13px;
+    }
+    .final-cta {
+      padding: 112px 0;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 30% 0%, rgba(242, 199, 107, .20), transparent 35%),
+        radial-gradient(circle at 86% 30%, rgba(101, 231, 255, .16), transparent 34%),
+        var(--bg);
+      border-top: 1px solid var(--line);
     }
 
     .pricing {
       padding: 112px 0;
       background:
-        linear-gradient(135deg, #f1ff7d 0%, var(--lime) 45%, #9aedac 100%);
+        linear-gradient(135deg, #f6d879 0%, #65e7ff 52%, #f7f0dc 100%);
       color: var(--ink);
     }
     .pricing-grid {
@@ -628,7 +931,7 @@
     .pricing p {
       max-width: 700px;
       margin-top: 22px;
-      color: rgba(17, 20, 15, .74);
+      color: rgba(7, 8, 14, .74);
       font-size: 18px;
     }
     .includes {
@@ -642,8 +945,8 @@
       display: flex;
       align-items: center;
       padding: 14px;
-      border: 1px solid rgba(17, 20, 15, .18);
-      background: rgba(17, 20, 15, .05);
+      border: 1px solid rgba(7, 8, 14, .18);
+      background: rgba(7, 8, 14, .05);
       font-size: 12px;
       font-weight: 900;
       letter-spacing: .06em;
@@ -653,8 +956,8 @@
       padding: 36px;
       background: var(--bg);
       color: var(--cream);
-      border: 1px solid rgba(17, 20, 15, .18);
-      box-shadow: 0 42px 100px rgba(17, 20, 15, .24);
+      border: 1px solid rgba(7, 8, 14, .18);
+      box-shadow: 0 42px 100px rgba(7, 8, 14, .24);
     }
     .price-label {
       color: var(--soft);
@@ -742,7 +1045,7 @@
     .faq-a {
       max-height: 0;
       overflow: hidden;
-      color: rgba(17, 20, 15, .65);
+      color: rgba(7, 8, 14, .65);
       transition: max-height .35s ease, padding .35s ease;
     }
     .faq-item.open .faq-a {
@@ -793,7 +1096,9 @@
       .section-head,
       .author-grid,
       .proof-grid,
-      .pricing-grid {
+      .pricing-grid,
+      .split-grid,
+      .calculator-grid {
         grid-template-columns: 1fr;
       }
       .hero h1 { font-size: 54px; }
@@ -803,6 +1108,10 @@
       .author-photo { max-width: 520px; }
       .lead-proof { max-width: 620px; }
       .book-main { right: 10%; }
+      .market-grid,
+      .audience-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
     @media (max-width: 640px) {
       .wrap,
@@ -816,7 +1125,7 @@
         max-width: 150px;
         font-size: 13px;
       }
-      .nav-actions .nav-link:first-child { display: none; }
+      .nav-actions .nav-link:not(.primary) { display: none; }
       .nav-link.primary {
         width: 42px;
         min-height: 38px;
@@ -845,8 +1154,17 @@
         align-items: stretch;
         flex-direction: column;
       }
-      .btn { width: 100%; min-height: 56px; padding: 0 18px; }
-      .hero-note { max-width: none; }
+      .btn {
+        width: 100%;
+        min-height: 56px;
+        padding: 15px 16px;
+        font-size: 10px;
+        letter-spacing: .055em;
+      }
+      .hero-note {
+        width: 100%;
+        max-width: 320px;
+      }
       .hero-stats,
       .author-stats,
       .lead-proof {
@@ -881,12 +1199,16 @@
       .section-head h2,
       .author h2,
       .pricing h2,
-      .lead-copy h2 {
+      .lead-copy h2,
+      .copy-block h2,
+      .calculator h2,
+      .final-cta h2 {
         font-size: 36px;
         line-height: 1.09;
       }
       .lead-copy p,
-      .pricing p {
+      .pricing p,
+      .copy-block p {
         font-size: 16px;
       }
       .module,
@@ -903,6 +1225,20 @@
       .author-photo { order: 2; aspect-ratio: 4 / 4.75; }
       .author-grid > div:last-child { order: 1; }
       .proof-item { grid-template-columns: 1fr; }
+      .market-grid,
+      .audience-grid,
+      .calc-fields {
+        grid-template-columns: 1fr;
+      }
+      .popup-card {
+        padding: 26px 20px 22px;
+      }
+      .popup-card h2 {
+        font-size: 32px;
+      }
+      .popup-form {
+        grid-template-columns: 1fr;
+      }
       .price strong { font-size: 84px; }
       .faq-q { font-size: 19px; padding: 22px 0; }
       .footer-grid { flex-direction: column; }
@@ -914,7 +1250,10 @@
       .section-head h2,
       .author h2,
       .pricing h2,
-      .lead-copy h2 { font-size: 32px; }
+      .lead-copy h2,
+      .copy-block h2,
+      .calculator h2,
+      .final-cta h2 { font-size: 32px; }
     }
   </style>
 </head>
@@ -925,6 +1264,7 @@
       <a class="brand" href="#">The Real Estate <span>Meta</span><br>Playbook</a>
       <div class="nav-actions">
         <a class="nav-link" href="#lead-magnet">Free teardown</a>
+        <a class="nav-link" href="#calculator">Calculator</a>
         <a class="nav-link primary" href="#pricing">Get playbook</a>
       </div>
     </div>
@@ -933,18 +1273,19 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy reveal">
-        <div class="eyebrow">Updated 2026 edition + free teardown</div>
-        <h1>Generate <span>qualified real estate buyers</span> from Meta ads.</h1>
-        <p class="hero-lede">The complete working system I built across seven markets and 4,500+ campaigns — now updated into an 88-page playbook, with a free Marbella teardown to show how the thinking works in a real account.</p>
+        <div class="eyebrow">The Real Estate Meta Playbook</div>
+        <h1>Everyone wants <span>qualified buyers.</span> Almost nobody has a system.</h1>
+        <p class="hero-lede">I help real estate teams run Meta ads that bring in real buyer conversations, not just cheap form fills. This playbook is the operating system behind my real estate Meta work across Dubai, Spain, France, the UK, Poland, the United States, and Kazakhstan.</p>
         <div class="hero-actions">
-          <a class="btn" href="#lead-magnet">Get free teardown -></a>
-          <a class="btn secondary" href="#pricing">See the playbook</a>
-          <p class="hero-note">Start free with the 28-page Marbella teardown. Upgrade when you want the full operating system.</p>
+          <a class="btn" href="#pricing">Get the playbook — $499</a>
+          <button class="btn secondary" type="button" data-popup-open>Start with the free Marbella teardown</button>
+          <p class="hero-note">Not ready to buy? Good. Read the free teardown first. It shows the logic in a real account before you pay for the full system.</p>
         </div>
         <div class="hero-stats" aria-label="Playbook proof points">
-          <div class="hero-stat"><strong>88</strong><span>updated pages</span></div>
-          <div class="hero-stat"><strong>$500K+</strong><span>tracked spend</span></div>
+          <div class="hero-stat"><strong>$500K+</strong><span>tracked Meta spend</span></div>
           <div class="hero-stat"><strong>4,500+</strong><span>campaigns</span></div>
+          <div class="hero-stat"><strong>7</strong><span>markets</span></div>
+          <div class="hero-stat"><strong>$150K-$5M</strong><span>property campaigns</span></div>
         </div>
       </div>
 
@@ -965,52 +1306,25 @@
     </div>
   </section>
 
-  <section class="lead-magnet" id="lead-magnet">
-    <div class="wrap lead-grid">
-      <div class="lead-copy reveal">
-        <div class="eyebrow">Free lead magnet</div>
-        <h2>Read the 28-page Marbella teardown before you buy anything.</h2>
-        <p>A real Costa del Sol campaign selling €400,000-700,000 homes to buyers across Europe. Same ad budget. Different segmentation, creative logic, and communication system.</p>
-        <div class="lead-actions">
-          <a class="btn" href="Marbella_Teardown_Mobile%20(1).pdf" download>Download free teardown -></a>
-          <a class="btn secondary" href="#inside">What is inside?</a>
-        </div>
+  <section class="copy-section" id="problem">
+    <div class="wrap split-grid">
+      <div class="copy-block reveal">
+        <div class="eyebrow">The real problem</div>
+        <h2>Most real estate Meta campaigns do not die in Ads Manager.</h2>
+        <p class="lead">They die after the form.</p>
+        <p>The ad gets the click. The form gets the lead. Then the lead gets a generic message, a PDF catalog, or a slow follow-up from someone who has no idea why that person clicked in the first place.</p>
+        <p>That is where the money leaks. Not in the button you picked. Not in some hidden targeting setting. Not because “Meta leads are bad.”</p>
       </div>
-
-      <div class="lead-proof reveal">
-        <div class="phone-preview">
-          <img src="lead-magnet-result.png" alt="Marbella teardown result page">
-        </div>
-        <div class="lead-result">
-          <div class="metric-card"><strong>-82%</strong><span>cost per qualified buyer</span></div>
-          <div class="metric-card"><strong>50% -> 73%</strong><span>leads that qualified</span></div>
-          <div class="metric-card"><strong>35 -> 138</strong><span>leads on the same spend</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-pad inside" id="inside">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div>
-          <div class="eyebrow">The full system</div>
-          <h2>The playbook is not a settings tutorial.</h2>
-        </div>
-        <p>Meta changes buttons every week. The playbook focuses on what does not change: buyer psychology, creative logic, lead communication, analytics discipline, and the decisions that make your next $10,000 teach you something useful.</p>
-      </div>
-
-      <div class="modules">
-        <article class="module reveal"><div class="module-num">PART 01</div><h3>The foundation</h3><p>Why Meta is the channel, why real estate leads are cold, and what that actually means for your system.</p></article>
-        <article class="module reveal"><div class="module-num">PART 02</div><h3>Audience and communication</h3><p>How to choose your segment and communicate with a cold lead before the opportunity disappears.</p></article>
-        <article class="module reveal"><div class="module-num">PART 03</div><h3>The creative</h3><p>What to write, how to shoot video that sells, and which creative archetypes work for real estate.</p></article>
-        <article class="module reveal"><div class="module-num">PART 04</div><h3>Analytics and decisions</h3><p>How to read your numbers, when to scale, and when to kill a campaign without guessing.</p></article>
-        <article class="module reveal"><div class="module-num">PART 05</div><h3>The technical minimum</h3><p>Pixel, CAPI, offline events, where leads go, and why accounts get banned.</p></article>
-        <article class="module reveal"><div class="module-num">PART 06</div><h3>Proof and next steps</h3><p>Case library, leads you already have, and what to do after the playbook is in your hands.</p></article>
-      </div>
-
-      <div class="contents-preview reveal">
-        <img src="playbook-contents.png" alt="Playbook contents preview">
+      <div class="logic-card reveal">
+        <h3>You are asking Meta for buyers, but feeding it weak signals.</h3>
+        <ul class="plain-list">
+          <li>Generic creative</li>
+          <li>Mixed audiences</li>
+          <li>Soft forms</li>
+          <li>No lead quality feedback</li>
+          <li>No real follow-up protocol</li>
+          <li>No clean decision rule for when to scale or kill</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -1020,46 +1334,156 @@
       <div class="author-photo reveal">
         <img src="author-capital.jpg" alt="Author working at The Capital Real Estate office">
       </div>
-      <div class="reveal">
-        <div class="eyebrow">Built from my work</div>
-        <h2>I am selling my real campaign experience, not a generic PDF.</h2>
-        <p>I spent two years inside The Capital, personally managing more than <strong>$500,000 in Meta ad spend</strong> across Dubai, Spain, France, the UK, Poland, the United States, and Kazakhstan.</p>
-        <p>This playbook packages how I think when a real estate account needs better buyers: what to show, who to target, what to say after the form, and when the numbers are telling you to scale or kill.</p>
-        <div class="author-stats">
-          <div class="author-stat"><strong>$500K+</strong><span>tracked spend</span></div>
-          <div class="author-stat"><strong>7</strong><span>markets</span></div>
-          <div class="author-stat"><strong>88</strong><span>updated pages</span></div>
+      <div class="copy-block reveal">
+        <div class="eyebrow">What I do</div>
+        <h2>I run Meta ads for real estate across markets, price points, and buyer types.</h2>
+        <p>Investors. Families. Relocation buyers. Capital preservers. Second-home buyers. High-ticket villa buyers. Off-plan buyers. People who are ready now and people who are “just looking” but will move in six months.</p>
+        <p>The trick is not to treat them like one audience. A $200K apartment buyer in Warsaw and a $1M Dubai investor are not the same person. So why would they see the same ad?</p>
+        <div class="intent-stack">
+          <div>One buyer type</div>
+          <div>One message</div>
+          <div>One form</div>
+          <div>One follow-up angle</div>
+          <div>One set of numbers to judge the campaign by</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="proof">
+  <section class="lead-magnet" id="lead-magnet">
+    <div class="wrap lead-grid">
+      <div class="lead-copy reveal">
+        <div class="eyebrow">Start with Marbella</div>
+        <h2>Read the free 28-page teardown before you buy the full playbook.</h2>
+        <p>It shows a real Costa del Sol campaign selling €400K-700K homes to buyers across Europe. Expensive leads, low qualification rate, mixed campaigns, broad messaging, too many low-intent form fills, and Meta restrictions around housing ads.</p>
+        <p>The fix was not magic. We split the account by buyer intent, rewrote the creative around the buyer, made the form qualify people harder, used SMS confirmation to cut junk, and stopped treating every form fill like the same lead.</p>
+        <div class="lead-actions">
+          <button class="btn" type="button" data-popup-open>Download the free Marbella teardown</button>
+          <a class="btn secondary" href="#inside">See the full system</a>
+        </div>
+      </div>
+
+      <div class="lead-proof reveal">
+        <div class="phone-preview">
+          <img src="lead-magnet-result.png" alt="Marbella teardown result page">
+        </div>
+        <div class="lead-result">
+          <div class="metric-card"><strong>$169 -> $31</strong><span>cost per qualified buyer</span></div>
+          <div class="metric-card"><strong>50% -> 73%</strong><span>leads that qualified</span></div>
+          <div class="metric-card"><strong>35 -> 138</strong><span>leads on almost the same spend</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad inside" id="inside">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
-          <div class="eyebrow dark">Why this works</div>
-          <h2>The system fixes the inputs Meta learns from.</h2>
+          <div class="eyebrow">The full playbook</div>
+          <h2>The teardown is one account. The playbook is the system behind it.</h2>
         </div>
-        <p>Most real estate campaigns fail because they feed Meta weak signals: vague creatives, mixed audiences, poor first messages, and no real definition of lead quality.</p>
+        <p>Inside the full guide, I break down how to build real estate Meta campaigns from the buyer backwards. This is not a settings tutorial. Meta changes the interface all the time. What does not change is the logic.</p>
       </div>
-      <div class="proof-grid">
-        <div class="proof-card reveal">
-          <h3>What changes after the playbook.</h3>
-          <div class="proof-list">
-            <div class="proof-item"><strong>Segment</strong><span>You stop speaking to “everyone who wants property” and start speaking to a specific buyer with a specific reason to act.</span></div>
-            <div class="proof-item"><strong>Creative</strong><span>You stop posting generic luxury visuals and start showing proof, friction, comparison, inventory logic, and buyer motivation.</span></div>
-            <div class="proof-item"><strong>Follow-up</strong><span>You stop treating form fills like hot inbound calls and use a communication protocol built for cold Meta leads.</span></div>
-            <div class="proof-item"><strong>Decision</strong><span>You stop asking whether the campaign “feels good” and start reading the numbers as a system.</span></div>
-          </div>
+
+      <div class="modules">
+        <article class="module reveal"><div class="module-num">01</div><h3>Choose the right buyer segment</h3><p>Stop mixing investors, families, relocation buyers, and capital preservers into one campaign.</p></article>
+        <article class="module reveal"><div class="module-num">02</div><h3>Write creative that filters intent</h3><p>Make the buyer qualify themselves before the click, not after your sales team wastes time.</p></article>
+        <article class="module reveal"><div class="module-num">03</div><h3>Build forms that remove junk</h3><p>Use form friction, context, and confirmation so “cheap leads” do not become expensive calls.</p></article>
+        <article class="module reveal"><div class="module-num">04</div><h3>Message cold Meta leads properly</h3><p>Follow-up without sounding like every other broker pushing a PDF catalog.</p></article>
+        <article class="module reveal"><div class="module-num">05</div><h3>Track qualified leads</h3><p>Use Leads Center, CRM stages, CAPI, offline events, and decisions based on lead quality.</p></article>
+        <article class="module reveal"><div class="module-num">06</div><h3>Apply it in 7 days</h3><p>Audit, rebuild one segment-specific campaign, launch, measure, scale, or kill based on qualified buyer cost.</p></article>
+      </div>
+
+      <div class="contents-preview reveal">
+        <img src="playbook-contents.png" alt="Playbook contents preview">
+      </div>
+    </div>
+  </section>
+
+  <section class="copy-section alt" id="proof">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Proof across markets</div>
+          <h2>The market changes. The math still has to make sense.</h2>
         </div>
-        <div class="proof-card dark reveal">
-          <h3>Start with the teardown.</h3>
-          <p>The Marbella lead magnet is a practical sample of the full framework: problem, diagnosis, changes, and results. It gives a buyer proof before asking for the $499 product.</p>
-          <div class="lead-actions">
-            <a class="btn" href="Marbella_Teardown_Mobile%20(1).pdf" download>Download free teardown -></a>
+        <p>I have run and analyzed real estate campaigns across different countries, price bands, and buyer types. A $17 lead in Warsaw and a $69 lead in the US are not the same thing. That is the point.</p>
+      </div>
+      <div class="market-grid">
+        <article class="market-card reveal"><strong>$31</strong><h3>Marbella</h3><p>€400K-700K homes. Cost per qualified buyer moved from $169 to $31.</p></article>
+        <article class="market-card reveal"><strong>$51.70</strong><h3>Dubai</h3><p>$500K-1M property. Lead cost has to match buyer quality and deal size.</p></article>
+        <article class="market-card reveal"><strong>$17.24</strong><h3>Warsaw</h3><p>$150K-300K apartments. Cheap CPL only matters when the lead is usable.</p></article>
+        <article class="market-card reveal"><strong>$68.52</strong><h3>United States</h3><p>$800K-3M property. Judge the campaign by buyer economics, not vanity CPL.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="calculator" id="calculator">
+    <div class="wrap">
+      <div class="eyebrow dark">Calculator</div>
+      <h2>Calculate what a “cheap lead” is really costing you.</h2>
+      <div class="calculator-grid">
+        <div class="calc-panel reveal">
+          <div class="calc-fields">
+            <div class="calc-field"><label>Monthly ad spend</label><input data-calc="spend" type="number" value="2964" min="0"></div>
+            <div class="calc-field"><label>Current leads</label><input data-calc="leads" type="number" value="35" min="1"></div>
+            <div class="calc-field"><label>Current qualified rate %</label><input data-calc="qualRate" type="number" value="50" min="0" max="100"></div>
+            <div class="calc-field"><label>Projected lead volume</label><input data-calc="projectedLeads" type="number" value="138" min="1"></div>
+            <div class="calc-field"><label>Projected qualified rate %</label><input data-calc="projectedRate" type="number" value="73" min="0" max="100"></div>
+            <div class="calc-field"><label>Average commission</label><input data-calc="commission" type="number" value="10000" min="0"></div>
+            <div class="calc-field"><label>Close rate from qualified buyers %</label><input data-calc="closeRate" type="number" value="5" min="0" max="100"></div>
           </div>
+          <p class="calc-note">This is not a guarantee. It is the math behind why lead quality matters more than cheap form fills.</p>
         </div>
+        <div class="calc-output reveal" aria-live="polite">
+          <div class="calc-metric"><span>Current CPL</span><strong data-output="cpl">$0</strong></div>
+          <div class="calc-metric"><span>Current cost per qualified buyer</span><strong data-output="currentCpqb">$0</strong></div>
+          <div class="calc-metric"><span>Projected cost per qualified buyer</span><strong data-output="projectedCpqb">$0</strong></div>
+          <div class="calc-metric"><span>Extra qualified buyers at same spend</span><strong data-output="extraQualified">0</strong></div>
+          <div class="calc-metric"><span>Possible commission impact</span><strong data-output="impact">$0</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="copy-section" id="who">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Who this is for</div>
+          <h2>For teams that care about qualified buyer conversations, not just more leads.</h2>
+        </div>
+      </div>
+      <div class="audience-grid">
+        <article class="audience-card reveal"><h3>Brokers</h3><p>Running Meta ads and tired of calling dead leads.</p></article>
+        <article class="audience-card reveal"><h3>Developers</h3><p>Selling units through paid social across price points.</p></article>
+        <article class="audience-card reveal"><h3>Agencies</h3><p>Working with property clients and needing sharper reporting.</p></article>
+        <article class="audience-card reveal"><h3>Media buyers</h3><p>Responsible for real estate lead quality, not only lower CPL.</p></article>
+        <article class="audience-card reveal"><h3>Operators</h3><p>Trying to understand why the numbers do not make sense.</p></article>
+        <article class="audience-card reveal"><h3>Sales teams</h3><p>Tired of calling dead leads with no buyer context.</p></article>
+        <article class="audience-card reveal"><h3>Marketers</h3><p>Who already know CPL is not enough.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="wrap proof-grid">
+      <div class="proof-card reveal">
+        <h3>Especially useful if...</h3>
+        <div class="proof-list">
+          <div class="proof-item"><strong>Leads</strong><span>Your leads are cheap but useless.</span></div>
+          <div class="proof-item"><strong>Sales</strong><span>Your sales team says the leads are bad.</span></div>
+          <div class="proof-item"><strong>Scale</strong><span>You are not sure what to scale or kill.</span></div>
+          <div class="proof-item"><strong>Creative</strong><span>You are using the same creative for every buyer.</span></div>
+          <div class="proof-item"><strong>Stability</strong><span>Your account works one month and dies the next.</span></div>
+          <div class="proof-item"><strong>CRM</strong><span>You have old leads sitting with no nurture system.</span></div>
+        </div>
+      </div>
+      <div class="proof-card dark reveal">
+        <h3>Who this is not for.</h3>
+        <p>This is not for people looking for a magic targeting trick. It is not for teams that refuse to fix follow-up. It is not for brokers who think Meta should close property deals by itself.</p>
+        <p>The playbook will not make a lazy operation good. It will make a serious operation much sharper.</p>
       </div>
     </div>
   </section>
@@ -1067,20 +1491,26 @@
   <section class="pricing" id="pricing">
     <div class="wrap pricing-grid">
       <div class="reveal">
-        <div class="eyebrow dark">Get the playbook</div>
-        <h2>The complete real estate Meta system for $499.</h2>
-        <p>You get the updated 88-page playbook, the full implementation logic, the Marbella teardown as a sample case, and the decision framework behind my real account work.</p>
+        <div class="eyebrow dark">Offer</div>
+        <h2>Get The Real Estate Meta Playbook.</h2>
+        <p>The complete operating system for generating qualified real estate buyer conversations from Meta ads.</p>
         <div class="includes">
-          <div>88-page updated playbook</div>
-          <div>6-part operating system</div>
-          <div>Buyer segmentation</div>
+          <div>Full updated playbook</div>
+          <div>Marbella teardown</div>
+          <div>Buyer segmentation logic</div>
           <div>Creative frameworks</div>
-          <div>Analytics decisions</div>
-          <div>Lead follow-up protocol</div>
+          <div>Lead form structure</div>
+          <div>Follow-up logic</div>
+          <div>Analytics and scaling rules</div>
+          <div>Technical setup notes</div>
+          <div>Ban prevention logic</div>
+          <div>Old lead reactivation strategy</div>
+          <div>Broker content strategy</div>
+          <div>7-day implementation plan</div>
         </div>
       </div>
       <div class="price-card reveal">
-        <div class="price-label">2026 edition</div>
+        <div class="price-label">Launch price</div>
         <div class="price-old">$799</div>
         <div class="price"><span>$</span><strong>499</strong></div>
         <a href="#" class="btn">Get the playbook -></a>
@@ -1089,19 +1519,53 @@
     </div>
   </section>
 
+  <section class="copy-section alt">
+    <div class="wrap split-grid">
+      <div class="copy-block reveal">
+        <div class="eyebrow">Price logic</div>
+        <h2>One bad campaign can burn $499 before lunch.</h2>
+      </div>
+      <div class="copy-block reveal">
+        <p>One weak creative angle can waste more than that in two days. One month of cheap, low-intent leads can cost a real estate team thousands before anyone admits the system is broken.</p>
+        <p>The playbook is built to stop that kind of waste. Not by promising miracle results. By giving you a way to think, diagnose, and rebuild the account properly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="wrap split-grid">
+      <div class="copy-block reveal">
+        <div class="eyebrow">Final CTA</div>
+        <h2>Stop buying form fills. Build a system that creates qualified buyer conversations.</h2>
+      </div>
+      <div class="logic-card reveal">
+        <div class="lead-actions">
+          <a href="#pricing" class="btn">Get The Real Estate Meta Playbook — $499</a>
+          <button class="btn secondary" type="button" data-popup-open>Or read the free Marbella teardown first</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="faq">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
-          <div class="eyebrow dark">Common questions</div>
+          <div class="eyebrow dark">FAQ</div>
           <h2>Before you decide.</h2>
         </div>
       </div>
       <div class="faq-list">
-        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What is the free lead magnet?</button><div class="faq-a">A 28-page Marbella campaign teardown showing how a real Costa del Sol account went from expensive, low-quality leads to a qualified-buyer machine on the same budget.</div></div>
-        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Is the full playbook just the same thing?</button><div class="faq-a">No. The teardown is one case. The playbook is the complete 88-page system: foundation, audience, creative, analytics, technical minimum, proof, and next steps.</div></div>
-        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Who is this for?</button><div class="faq-a">Brokers, developers, agencies, and operators who sell real estate and need Meta campaigns to produce qualified buyer conversations, not just cheap form fills.</div></div>
-        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Do I need to be a media buyer?</button><div class="faq-a">No. The playbook is written for people responsible for revenue. You need enough Meta context to implement, but the main value is the decision logic.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What is The Real Estate Meta Playbook?</button><div class="faq-a">It is a practical system for running Meta ads in real estate. It covers buyer segmentation, creative, lead forms, follow-up, analytics, technical setup, account risks, and what to do after the lead comes in.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Is this just a Meta ads settings guide?</button><div class="faq-a">No. Settings change. The playbook is about the logic underneath the account: who you target, what you show, how you qualify, how you follow up, and how you read the numbers.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Who is it for?</button><div class="faq-a">Brokers, developers, real estate agencies, media buyers, and operators who use Meta ads to generate buyer leads and want better quality, not just lower CPL.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Do I need to be a media buyer?</button><div class="faq-a">No. You need to understand the basics of Meta ads, but the playbook is written for people responsible for revenue and lead quality.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Is the Marbella teardown the same as the full playbook?</button><div class="faq-a">No. The Marbella teardown is one case study. The full playbook is the complete system behind that kind of rebuild.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Will I get the same results as Marbella?</button><div class="faq-a">No one can promise that. Different markets behave differently. The point of the playbook is to give you the operating logic so you can improve your own campaign economics.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Can this work outside Dubai or Spain?</button><div class="faq-a">Yes. The system was built from work across multiple countries and price points. The numbers change by market. The logic stays the same.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What if my leads are already cheap?</button><div class="faq-a">Then you need to check whether they are actually qualified. Cheap leads are not the goal. Qualified buyer conversations are.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What if I already have a database of old leads?</button><div class="faq-a">There is a section on reactivating old “just looking” leads and using Instagram or Telegram content to keep them warm until they are ready.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">How fast can I apply this?</button><div class="faq-a">You can apply the first version in 7 days by rebuilding one campaign around one buyer segment.</div></div>
       </div>
     </div>
   </section>
@@ -1109,10 +1573,33 @@
   <footer>
     <div class="wrap footer-grid">
       <div class="footer-brand">The Real Estate <span>Meta</span><br>Playbook</div>
-      <div class="footer-copy">The complete system for generating qualified real estate buyers from Meta ads. Updated 2026 edition with a free Marbella teardown lead magnet.</div>
+      <div class="footer-copy">A system for generating qualified real estate buyer conversations from Meta ads. Start with the Marbella teardown. Buy the full playbook only if the logic makes sense.</div>
     </div>
   </footer>
 </main>
+
+<div class="popup-layer" id="teardown-popup" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="popup-backdrop" data-popup-close></div>
+  <div class="popup-card">
+    <button class="popup-close" type="button" data-popup-close aria-label="Close popup">×</button>
+    <h2 id="popup-title">Not ready to buy the playbook?</h2>
+    <p>Start with the free Marbella teardown.</p>
+    <p>It shows how one real estate Meta account went from expensive, low-quality leads to a qualified-buyer system on almost the same spend.</p>
+    <p>You will see:</p>
+    <ul>
+      <li>what was broken</li>
+      <li>what changed</li>
+      <li>why the form mattered</li>
+      <li>how the account was split by buyer intent</li>
+      <li>how cost per qualified buyer moved from $169 to $31</li>
+    </ul>
+    <form class="popup-form" data-popup-form>
+      <input type="email" name="email" placeholder="Your email" required>
+      <button class="btn" type="submit">Send me the teardown</button>
+    </form>
+    <div class="popup-small">Read the case first. Buy the full playbook only if the logic makes sense.</div>
+  </div>
+</div>
 
 <script>
   document.querySelectorAll(".faq-q").forEach((question) => {
@@ -1128,6 +1615,70 @@
         question.setAttribute("aria-expanded", "true");
       }
     });
+  });
+
+  const fields = {
+    spend: document.querySelector('[data-calc="spend"]'),
+    leads: document.querySelector('[data-calc="leads"]'),
+    qualRate: document.querySelector('[data-calc="qualRate"]'),
+    projectedLeads: document.querySelector('[data-calc="projectedLeads"]'),
+    projectedRate: document.querySelector('[data-calc="projectedRate"]'),
+    commission: document.querySelector('[data-calc="commission"]'),
+    closeRate: document.querySelector('[data-calc="closeRate"]')
+  };
+  const outputs = {
+    cpl: document.querySelector('[data-output="cpl"]'),
+    currentCpqb: document.querySelector('[data-output="currentCpqb"]'),
+    projectedCpqb: document.querySelector('[data-output="projectedCpqb"]'),
+    extraQualified: document.querySelector('[data-output="extraQualified"]'),
+    impact: document.querySelector('[data-output="impact"]')
+  };
+  const money = (value) => Number.isFinite(value) ? `$${Math.round(value).toLocaleString("en-US")}` : "$0";
+  const number = (value) => Number.isFinite(value) ? value.toFixed(1).replace(".0", "") : "0";
+  function updateCalculator() {
+    const spend = Number(fields.spend.value) || 0;
+    const leads = Math.max(Number(fields.leads.value) || 0, 1);
+    const qualRate = Math.max(Number(fields.qualRate.value) || 0, 0) / 100;
+    const projectedLeads = Math.max(Number(fields.projectedLeads.value) || 0, 1);
+    const projectedRate = Math.max(Number(fields.projectedRate.value) || 0, 0) / 100;
+    const commission = Number(fields.commission.value) || 0;
+    const closeRate = Math.max(Number(fields.closeRate.value) || 0, 0) / 100;
+    const currentQualified = Math.max(leads * qualRate, .01);
+    const projectedQualified = Math.max(projectedLeads * projectedRate, .01);
+    const extraQualified = projectedQualified - currentQualified;
+    outputs.cpl.textContent = money(spend / leads);
+    outputs.currentCpqb.textContent = money(spend / currentQualified);
+    outputs.projectedCpqb.textContent = money(spend / projectedQualified);
+    outputs.extraQualified.textContent = number(extraQualified);
+    outputs.impact.textContent = money(Math.max(extraQualified, 0) * closeRate * commission);
+  }
+  Object.values(fields).forEach((field) => field?.addEventListener("input", updateCalculator));
+  updateCalculator();
+
+  const popup = document.getElementById("teardown-popup");
+  const openPopup = () => {
+    popup.classList.add("open");
+    popup.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    popup.querySelector("input")?.focus();
+  };
+  const closePopup = () => {
+    popup.classList.remove("open");
+    popup.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+  document.querySelectorAll("[data-popup-open]").forEach((button) => button.addEventListener("click", openPopup));
+  document.querySelectorAll("[data-popup-close]").forEach((button) => button.addEventListener("click", closePopup));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && popup.classList.contains("open")) closePopup();
+  });
+  document.querySelector("[data-popup-form]")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = event.currentTarget.email.value.trim();
+    if (!email) return;
+    localStorage.setItem("marbella_teardown_email", email);
+    window.open("Marbella_Teardown_Mobile%20(1).pdf", "_blank");
+    closePopup();
   });
 
   const observer = new IntersectionObserver((entries) => {
