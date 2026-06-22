@@ -1,300 +1,1145 @@
-<!DOCTYPE html>
-<html lang="uk">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TEAM T4 (M2) — Link Builder</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#0a0a0f;min-height:100vh;display:flex;justify-content:center;padding:2.5rem 1rem;position:relative;overflow-x:hidden}
-canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.wrap{width:100%;max-width:640px;position:relative;z-index:1}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes borderGlow{0%,100%{border-color:#7F77DD}50%{border-color:#534AB7}}
-.anim{animation:fadeUp .5s ease}
-.header{text-align:center;margin-bottom:2.5rem}
-.logo{display:inline-flex;align-items:center;gap:8px;margin-bottom:.5rem;flex-wrap:wrap;justify-content:center}
-.logo-team{font-size:32px;font-weight:900;color:#fff;letter-spacing:-.03em}
-.logo-t4{font-size:20px;font-weight:900;color:#7F77DD;letter-spacing:-.02em}
-.logo-m2{font-size:14px;font-weight:700;color:#534AB7;background:#1a1229;border:1px solid #2d1f5e;border-radius:6px;padding:3px 10px;letter-spacing:.06em}
-.tagline{font-size:11px;color:#333;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
-.card{background:#111118;border:1px solid #1e1e30;border-radius:16px;padding:1.5rem;margin-bottom:1rem;transition:border-color .3s}
-.card:hover{border-color:#2a2a45}
-.section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#534AB7;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
-.section-label::after{content:'';flex:1;height:1px;background:#1e1e30}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field.full{grid-column:1/-1}
-label{font-size:12px;color:#666;font-weight:500;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.tag{font-size:10px;font-weight:600;border-radius:4px;padding:2px 7px;letter-spacing:.04em;white-space:nowrap}
-.tag.req{background:#1a1229;color:#7F77DD;border:1px solid #2d1f5e}
-.tag.fix{background:#0d1f1a;color:#1D9E75;border:1px solid #0f3d2e}
-.tag.opt{background:#1a1a1a;color:#555;border:1px solid #2a2a2a}
-.tag.test{background:#1f1500;color:#BA7517;border:1px solid #3d2a00}
-input[type=text]{width:100%;background:#0d0d16;border:1px solid #1e1e30;border-radius:8px;padding:9px 12px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
-input[type=text]:focus{border-color:#534AB7;box-shadow:0 0 0 3px rgba(83,74,183,.15)}
-input[type=text]::placeholder{color:#555}
-.fixed{background:#0a0a12;border:1px solid #151520;border-radius:8px;padding:9px 12px;font-size:13px;color:#1D9E75;font-family:'Inter',monospace}
-.sub2-box{background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.sub2-option{display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px 10px;border-radius:8px;border:1px solid transparent;transition:border-color .2s,background .2s}
-.sub2-option:hover{background:#141420}
-.sub2-option.selected{border-color:#2d1f5e;background:#12101e}
-.sub2-radio{width:16px;height:16px;border-radius:50%;border:2px solid #2d2d45;background:#0a0a12;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
-.sub2-option.selected .sub2-radio{border-color:#7F77DD}
-.sub2-radio-dot{width:8px;height:8px;border-radius:50%;background:#7F77DD;display:none}
-.sub2-option.selected .sub2-radio-dot{display:block}
-.sub2-text{display:flex;flex-direction:column;gap:2px;flex:1}
-.sub2-title{font-size:13px;color:#888;font-weight:500}
-.sub2-option.selected .sub2-title{color:#AFA9EC}
-.sub2-val{font-size:11px;color:#333;font-family:'Inter',monospace}
-.sub2-option.selected .sub2-val{color:#534AB7}
-.sub2-custom-wrap{margin-top:2px}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#0d0d16;border:1px solid #1e1e30;border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .2s;user-select:none;gap:12px}
-.toggle-row:hover{border-color:#2d1f5e}
-.toggle-row.active{border-color:#BA7517;background:#100e00}
-.toggle-left{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
-.toggle-title{font-size:13px;color:#888;font-weight:500;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.toggle-title.active{color:#EF9F27}
-.toggle-sub{font-size:11px;color:#333;font-family:'Inter',monospace}
-.toggle-sub.active{color:#BA7517}
-.switch{width:34px;height:20px;background:#1e1e30;border-radius:10px;position:relative;transition:background .2s;flex-shrink:0}
-.switch.on{background:#854F0B}
-.switch::after{content:'';position:absolute;width:14px;height:14px;background:#555;border-radius:50%;top:3px;left:3px;transition:transform .2s,background .2s}
-.switch.on::after{transform:translateX(14px);background:#EF9F27}
-.result-card{background:#0d0d16;border:1px solid #1e1e30;border-radius:16px;padding:1.5rem;margin-top:1rem;transition:border-color .3s}
-.result-card.has-url{border-color:#2d1f5e;animation:borderGlow 3s infinite}
-.result-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
-.result-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#534AB7}
-.status{font-size:10px;color:#555;display:flex;align-items:center;gap:4px}
-.status.ready{color:#1D9E75}
-.status-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
-.url-text{font-size:12px;font-family:'Inter',monospace;color:#AFA9EC;word-break:break-all;line-height:1.8;min-height:40px}
-.url-text.empty{color:#444;font-family:'Inter',sans-serif;font-size:13px}
-.divider{height:1px;background:#1e1e30;margin:1rem 0}
-.copy-btn{width:100%;padding:11px;background:#7F77DD;border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:background .2s,transform .1s;letter-spacing:.02em}
-.copy-btn:hover{background:#534AB7}
-.copy-btn:active{transform:scale(.98)}
-.copy-btn.copied{background:#0F6E56}
-@media(max-width:540px){
-  .grid{grid-template-columns:1fr}
-  .field.full{grid-column:1}
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Real Estate Meta Playbook</title>
+  <meta name="description" content="The complete system for generating qualified real estate buyers from Meta ads. Built on $500,000+ tracked ad spend, 4,500+ campaigns, and 7 markets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23070b08'/%3E%3Cpath d='M13 42V18h18c11 0 18 5 18 14s-7 14-18 14h-7v-8h7c5 0 8-2 8-6s-3-6-8-6h-8v16H13Z' fill='%23d8f85f'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #070b08;
+      --bg-2: #0c120e;
+      --panel: #111814;
+      --panel-2: #172018;
+      --cream: #f8f1df;
+      --cream-2: #d9cead;
+      --muted: rgba(248, 241, 223, .68);
+      --soft: rgba(248, 241, 223, .42);
+      --line: rgba(248, 241, 223, .14);
+      --lime: #d8f85f;
+      --gold: #c6a65a;
+      --orange: #ff7051;
+      --green: #72e89a;
+      --ink: #11140f;
+      --paper: #f5ecd8;
+      --paper-line: rgba(17, 20, 15, .13);
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.62;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button, input { font: inherit; }
+    ::selection { background: var(--lime); color: var(--ink); }
+
+    .site {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(122deg, rgba(198, 166, 90, .16) 0%, transparent 26%),
+        linear-gradient(215deg, rgba(216, 248, 95, .13) 0%, transparent 32%),
+        linear-gradient(180deg, #111913 0%, #070b08 42%, #0b0e0c 100%);
+    }
+    .site::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .34;
+      background-image:
+        linear-gradient(rgba(248, 241, 223, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(248, 241, 223, .07) 1px, transparent 1px);
+      background-size: 68px 68px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+    }
+    .wrap {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: currentColor;
+    }
+    .eyebrow.dark { color: #5f6845; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 58px;
+      padding: 0 28px;
+      border: 1px solid rgba(216, 248, 95, .7);
+      background: linear-gradient(135deg, #f0ff8c 0%, var(--lime) 52%, #8df0a7 100%);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      box-shadow: 0 24px 80px rgba(216, 248, 95, .18);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 30px 90px rgba(216, 248, 95, .26);
+    }
+    .btn.secondary {
+      color: var(--cream);
+      background: rgba(248, 241, 223, .055);
+      border-color: rgba(248, 241, 223, .2);
+      box-shadow: none;
+      backdrop-filter: blur(18px);
+    }
+    .btn.dark {
+      color: var(--cream);
+      background: var(--bg);
+      border-color: var(--bg);
+      box-shadow: 0 24px 70px rgba(17, 20, 15, .18);
+    }
+
+    .nav {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 20;
+      padding: 20px 0;
+    }
+    .nav-inner {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 10px 10px 10px 18px;
+      border: 1px solid rgba(248, 241, 223, .13);
+      background: rgba(7, 11, 8, .66);
+      backdrop-filter: blur(18px);
+    }
+    .brand {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.16;
+    }
+    .brand span { color: var(--lime); }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-link {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border: 1px solid rgba(248, 241, 223, .16);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .nav-link.primary {
+      color: var(--ink);
+      background: var(--lime);
+      border-color: var(--lime);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding: 128px 0 78px;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 220px;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent, var(--bg));
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 450px;
+      gap: 56px;
+      align-items: center;
+    }
+    .hero-copy,
+    .hero-visual,
+    .section-head > *,
+    .lead-grid > *,
+    .author-grid > *,
+    .proof-grid > *,
+    .pricing-grid > * {
+      min-width: 0;
+    }
+    .hero h1 {
+      max-width: 850px;
+      margin-top: 28px;
+      font-size: 78px;
+      line-height: 1.01;
+      font-weight: 900;
+    }
+    .hero h1 span {
+      color: transparent;
+      background: linear-gradient(90deg, var(--lime), #8eeea4 58%, var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .hero-lede {
+      max-width: 690px;
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.68;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .hero-note {
+      max-width: 300px;
+      color: var(--soft);
+      font-size: 12px;
+      line-height: 1.52;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 34px;
+      max-width: 720px;
+    }
+    .hero-stat {
+      min-height: 94px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(248, 241, 223, .055);
+    }
+    .hero-stat strong {
+      display: block;
+      color: var(--lime);
+      font-size: 27px;
+      line-height: 1;
+      font-weight: 900;
+    }
+    .hero-stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--soft);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .hero-visual {
+      position: relative;
+      min-height: 620px;
+    }
+    .book-stack {
+      position: absolute;
+      inset: 0;
+    }
+    .book-card {
+      position: absolute;
+      overflow: hidden;
+      border: 1px solid rgba(248, 241, 223, .18);
+      background: #050705;
+      box-shadow: 0 42px 120px rgba(0, 0, 0, .4);
+    }
+    .book-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .book-main {
+      width: 82%;
+      height: 74%;
+      right: 0;
+      top: 0;
+    }
+    .book-lead {
+      width: 54%;
+      height: 58%;
+      left: 0;
+      bottom: 38px;
+      transform: rotate(-4deg);
+    }
+    .result-float {
+      position: absolute;
+      right: 20px;
+      bottom: 0;
+      width: 250px;
+      padding: 18px;
+      border: 1px solid rgba(216, 248, 95, .26);
+      background: rgba(7, 11, 8, .88);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 26px 80px rgba(0, 0, 0, .35);
+    }
+    .result-float strong {
+      display: block;
+      color: var(--lime);
+      font-size: 33px;
+      line-height: 1;
+    }
+    .result-float span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    section { position: relative; }
+    .section-pad { padding: 108px 0; }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: 52px;
+      align-items: end;
+      margin-bottom: 44px;
+    }
+    .section-head h2,
+    .author h2,
+    .pricing h2 {
+      margin-top: 18px;
+      font-size: 56px;
+      line-height: 1.04;
+      font-weight: 900;
+    }
+    .section-head p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .lead-magnet {
+      padding: 108px 0;
+      background:
+        linear-gradient(140deg, rgba(255, 112, 81, .08), transparent 34%),
+        linear-gradient(220deg, rgba(216, 248, 95, .13), transparent 36%),
+        #08100c;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .lead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+      gap: 50px;
+      align-items: center;
+    }
+    .lead-copy h2 {
+      margin-top: 18px;
+      font-size: 54px;
+      line-height: 1.05;
+      font-weight: 900;
+    }
+    .lead-copy p {
+      margin-top: 22px;
+      max-width: 670px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    .lead-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 30px;
+    }
+    .lead-proof {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .phone-preview {
+      overflow: hidden;
+      border: 1px solid rgba(248, 241, 223, .16);
+      background: #020403;
+      box-shadow: 0 32px 90px rgba(0, 0, 0, .3);
+    }
+    .phone-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .lead-result {
+      display: grid;
+      gap: 12px;
+    }
+    .metric-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: rgba(248, 241, 223, .055);
+    }
+    .metric-card strong {
+      display: block;
+      color: var(--lime);
+      font-size: 38px;
+      line-height: 1;
+      font-weight: 900;
+    }
+    .metric-card span {
+      display: block;
+      margin-top: 10px;
+      color: var(--soft);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .inside {
+      background: var(--bg);
+    }
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .module {
+      min-height: 260px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(155deg, rgba(248, 241, 223, .095), rgba(248, 241, 223, .03)),
+        linear-gradient(90deg, rgba(198, 166, 90, .08), transparent);
+    }
+    .module-num {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .14em;
+    }
+    .module h3 {
+      margin-top: 42px;
+      font-size: 27px;
+      line-height: 1.08;
+      font-weight: 900;
+    }
+    .module p {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+    .contents-preview {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      background: rgba(248, 241, 223, .04);
+      overflow: hidden;
+    }
+    .contents-preview img {
+      width: 100%;
+      height: auto;
+    }
+
+    .author {
+      padding: 108px 0;
+      background:
+        linear-gradient(130deg, rgba(198, 166, 90, .12), transparent 36%),
+        #0b110d;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .author-grid {
+      display: grid;
+      grid-template-columns: 390px minmax(0, 1fr);
+      gap: 68px;
+      align-items: center;
+    }
+    .author-photo {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border: 1px solid rgba(248, 241, 223, .18);
+      background: #020403;
+      box-shadow: 0 36px 100px rgba(0, 0, 0, .34);
+    }
+    .author-photo::after {
+      content: "THE CAPITAL / DUBAI / KYIV / WARSAW";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(248, 241, 223, .24);
+      color: rgba(248, 241, 223, .8);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+    .author-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center bottom;
+    }
+    .author p {
+      max-width: 750px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.78;
+    }
+    .author strong {
+      color: var(--cream);
+      font-weight: 900;
+    }
+    .author-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 34px;
+    }
+    .author-stat {
+      min-height: 112px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(248, 241, 223, .055);
+    }
+    .author-stat strong {
+      display: block;
+      color: var(--lime);
+      font-size: 34px;
+      line-height: 1;
+    }
+    .author-stat span {
+      display: block;
+      margin-top: 9px;
+      color: var(--soft);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .proof {
+      padding: 108px 0;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .proof .section-head p {
+      color: rgba(17, 20, 15, .68);
+    }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      gap: 22px;
+      align-items: stretch;
+    }
+    .proof-card {
+      padding: 30px;
+      border: 1px solid var(--paper-line);
+      background: rgba(17, 20, 15, .035);
+    }
+    .proof-card.dark {
+      color: var(--cream);
+      background: var(--bg);
+      border-color: var(--bg);
+    }
+    .proof-card h3 {
+      font-size: 32px;
+      line-height: 1.08;
+      font-weight: 900;
+    }
+    .proof-card p {
+      margin-top: 16px;
+      color: rgba(17, 20, 15, .68);
+    }
+    .proof-card.dark p {
+      color: var(--muted);
+    }
+    .proof-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .proof-item {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      gap: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--paper-line);
+    }
+    .proof-item strong {
+      color: #5f6845;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+    .proof-item span {
+      color: rgba(17, 20, 15, .68);
+    }
+
+    .pricing {
+      padding: 112px 0;
+      background:
+        linear-gradient(135deg, #f1ff7d 0%, var(--lime) 45%, #9aedac 100%);
+      color: var(--ink);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 430px;
+      gap: 56px;
+      align-items: center;
+    }
+    .pricing p {
+      max-width: 700px;
+      margin-top: 22px;
+      color: rgba(17, 20, 15, .74);
+      font-size: 18px;
+    }
+    .includes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 32px;
+    }
+    .includes div {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(17, 20, 15, .18);
+      background: rgba(17, 20, 15, .05);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .price-card {
+      padding: 36px;
+      background: var(--bg);
+      color: var(--cream);
+      border: 1px solid rgba(17, 20, 15, .18);
+      box-shadow: 0 42px 100px rgba(17, 20, 15, .24);
+    }
+    .price-label {
+      color: var(--soft);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .price-old {
+      margin-top: 26px;
+      color: var(--soft);
+      font-size: 26px;
+      font-weight: 800;
+      text-decoration: line-through;
+    }
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .price span {
+      color: var(--soft);
+      font-size: 28px;
+      font-weight: 800;
+    }
+    .price strong {
+      font-size: 106px;
+      line-height: .92;
+      font-weight: 900;
+    }
+    .price-card .btn {
+      width: 100%;
+      margin-top: 28px;
+    }
+    .guarantee {
+      margin-top: 18px;
+      color: var(--soft);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .faq {
+      padding: 96px 0;
+      background: #fff8e9;
+      color: var(--ink);
+    }
+    .faq-list {
+      max-width: 940px;
+      border-top: 1px solid var(--paper-line);
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--paper-line);
+    }
+    .faq-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 25px 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+      font-size: 22px;
+      line-height: 1.24;
+      font-weight: 900;
+    }
+    .faq-q::after {
+      content: "+";
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      color: var(--cream);
+    }
+    .faq-item.open .faq-q::after {
+      content: "-";
+    }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      color: rgba(17, 20, 15, .65);
+      transition: max-height .35s ease, padding .35s ease;
+    }
+    .faq-item.open .faq-a {
+      max-height: 260px;
+      padding-bottom: 24px;
+    }
+    footer {
+      padding: 56px 0 36px;
+      background: var(--bg);
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+      padding-bottom: 34px;
+      border-bottom: 1px solid var(--line);
+    }
+    .footer-brand {
+      font-size: 22px;
+      line-height: 1.18;
+      font-weight: 900;
+    }
+    .footer-brand span { color: var(--lime); }
+    .footer-copy {
+      max-width: 540px;
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: translateY(10px);
+      transition: transform .55s ease;
+    }
+    .reveal.visible { transform: translateY(0); }
+
+    @media (max-width: 1080px) {
+      .hero h1 { font-size: 64px; }
+      .hero-grid { grid-template-columns: minmax(0, 1fr) 390px; gap: 34px; }
+      .hero-visual { min-height: 560px; }
+      .section-head h2,
+      .author h2,
+      .pricing h2,
+      .lead-copy h2 { font-size: 46px; }
+    }
+    @media (max-width: 920px) {
+      .hero-grid,
+      .lead-grid,
+      .section-head,
+      .author-grid,
+      .proof-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 { font-size: 54px; }
+      .hero-visual { max-width: 580px; }
+      .modules,
+      .includes { grid-template-columns: 1fr; }
+      .author-photo { max-width: 520px; }
+      .lead-proof { max-width: 620px; }
+      .book-main { right: 10%; }
+    }
+    @media (max-width: 640px) {
+      .wrap,
+      .nav-inner { width: min(100% - 32px, 1180px); }
+      .nav { padding: 14px 0; }
+      .nav-inner {
+        min-height: 54px;
+        padding: 8px 8px 8px 14px;
+      }
+      .brand {
+        max-width: 150px;
+        font-size: 13px;
+      }
+      .nav-actions .nav-link:first-child { display: none; }
+      .nav-link.primary {
+        width: 42px;
+        min-height: 38px;
+        padding: 0;
+        font-size: 0;
+      }
+      .nav-link.primary::after {
+        content: "->";
+        font-size: 12px;
+      }
+      .hero {
+        min-height: auto;
+        padding: 106px 0 70px;
+      }
+      .hero h1 {
+        font-size: 38px;
+        line-height: 1.09;
+      }
+      .hero-lede {
+        max-width: 340px;
+        margin-top: 22px;
+        font-size: 15px;
+      }
+      .hero-actions,
+      .lead-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .btn { width: 100%; min-height: 56px; padding: 0 18px; }
+      .hero-note { max-width: none; }
+      .hero-stats,
+      .author-stats,
+      .lead-proof {
+        grid-template-columns: 1fr;
+      }
+      .hero-visual {
+        min-height: 530px;
+      }
+      .book-main {
+        width: 84%;
+        height: 70%;
+        right: 0;
+      }
+      .book-lead {
+        width: 58%;
+        height: 54%;
+        bottom: 74px;
+      }
+      .result-float {
+        left: 0;
+        right: auto;
+        bottom: 0;
+        width: min(270px, 88%);
+      }
+      .section-pad,
+      .lead-magnet,
+      .author,
+      .proof,
+      .pricing,
+      .faq { padding: 78px 0; }
+      .section-head { gap: 20px; margin-bottom: 32px; }
+      .section-head h2,
+      .author h2,
+      .pricing h2,
+      .lead-copy h2 {
+        font-size: 36px;
+        line-height: 1.09;
+      }
+      .lead-copy p,
+      .pricing p {
+        font-size: 16px;
+      }
+      .module,
+      .proof-card,
+      .price-card {
+        padding: 24px;
+      }
+      .module { min-height: 240px; }
+      .module h3 {
+        margin-top: 38px;
+        font-size: 25px;
+      }
+      .author-grid { gap: 34px; }
+      .author-photo { order: 2; aspect-ratio: 4 / 4.75; }
+      .author-grid > div:last-child { order: 1; }
+      .proof-item { grid-template-columns: 1fr; }
+      .price strong { font-size: 84px; }
+      .faq-q { font-size: 19px; padding: 22px 0; }
+      .footer-grid { flex-direction: column; }
+    }
+    @media (max-width: 380px) {
+      .wrap,
+      .nav-inner { width: min(100% - 26px, 1180px); }
+      .hero h1 { font-size: 34px; }
+      .section-head h2,
+      .author h2,
+      .pricing h2,
+      .lead-copy h2 { font-size: 32px; }
+    }
+  </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
-
-<div class="wrap anim">
-  <div class="header">
-    <div class="logo">
-      <span class="logo-team">TEAM</span>
-      <span class="logo-t4">T4</span>
-      <span class="logo-m2">M2</span>
+<main class="site">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">The Real Estate <span>Meta</span><br>Playbook</a>
+      <div class="nav-actions">
+        <a class="nav-link" href="#lead-magnet">Free teardown</a>
+        <a class="nav-link primary" href="#pricing">Get playbook</a>
+      </div>
     </div>
-    <div class="tagline">Link Builder</div>
-  </div>
+  </nav>
 
-  <div class="card">
-    <div class="section-label">Обовʼязкові</div>
-    <div class="grid">
-      <div class="field full">
-        <label>Домен <span class="tag req">обовʼязково</span></label>
-        <input type="text" id="domain" placeholder="bdncas.online" oninput="build()">
-      </div>
-      <div class="field">
-        <label>sub1 <span class="tag fix">фіксовано</span></label>
-        <div class="fixed">fb</div>
-      </div>
-      <div class="field full">
-        <label>sub2 — назва оголошення <span class="tag req">обовʼязково</span></label>
-        <div class="sub2-box">
-          <div class="sub2-option selected" id="sub2-auto" onclick="selectSub2('auto')">
-            <div class="sub2-radio"><div class="sub2-radio-dot"></div></div>
-            <div class="sub2-text">
-              <div class="sub2-title">Автоматично — назва оголошення з FB</div>
-              <div class="sub2-val">{{ad.name}}</div>
-            </div>
-          </div>
-          <div class="sub2-option" id="sub2-custom" onclick="selectSub2('custom')">
-            <div class="sub2-radio"><div class="sub2-radio-dot"></div></div>
-            <div class="sub2-text">
-              <div class="sub2-title">Вручну — ввести своє значення</div>
-              <div class="sub2-val">ID креатива з F3</div>
-            </div>
-          </div>
-          <div class="sub2-custom-wrap" id="sub2-input-wrap" style="display:none">
-            <input type="text" id="sub2-manual" placeholder="Введіть ID креатива" oninput="build()">
-          </div>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">Updated 2026 edition + free teardown</div>
+        <h1>Generate <span>qualified real estate buyers</span> from Meta ads.</h1>
+        <p class="hero-lede">The complete working system I built across seven markets and 4,500+ campaigns — now updated into an 88-page playbook, with a free Marbella teardown to show how the thinking works in a real account.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#lead-magnet">Get free teardown -></a>
+          <a class="btn secondary" href="#pricing">See the playbook</a>
+          <p class="hero-note">Start free with the 28-page Marbella teardown. Upgrade when you want the full operating system.</p>
+        </div>
+        <div class="hero-stats" aria-label="Playbook proof points">
+          <div class="hero-stat"><strong>88</strong><span>updated pages</span></div>
+          <div class="hero-stat"><strong>$500K+</strong><span>tracked spend</span></div>
+          <div class="hero-stat"><strong>4,500+</strong><span>campaigns</span></div>
         </div>
       </div>
-      <div class="field">
-        <label>sub3 — саб Кейтаро <span class="tag req">обовʼязково</span></label>
-        <input type="text" id="sub3" placeholder="264" oninput="build()">
-      </div>
-      <div class="field">
-        <label>sub5 — ID кампанії <span class="tag req">обовʼязково</span></label>
-        <input type="text" id="sub5" placeholder="1877575242852085_1" oninput="build()">
-      </div>
-      <div class="field">
-        <label>fbp — ID пікселя <span class="tag req">обовʼязково</span></label>
-        <input type="text" id="fbp" placeholder="1591931045350979" oninput="build()">
-      </div>
-      <div class="field">
-        <label>ad_campaign_id <span class="tag req">обовʼязково</span></label>
-        <input type="text" id="cid" placeholder="1877575242852085_at" oninput="build()">
-      </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="section-label">Необовʼязкові</div>
-    <div class="grid">
-      <div class="field">
-        <label>sub6 <span class="tag opt">необовʼязково</span></label>
-        <input type="text" id="sub6" oninput="build()">
-      </div>
-      <div class="field">
-        <label>sub7 <span class="tag opt">необовʼязково</span></label>
-        <input type="text" id="sub7" oninput="build()">
-      </div>
-      <div class="field full">
-        <label>offer_id <span class="tag opt">необовʼязково</span></label>
-        <input type="text" id="offer" placeholder="ID з AirTable або Кейтаро" oninput="build()">
-      </div>
-      <div class="field full" style="margin-top:4px">
-        <div class="toggle-row" id="fbclid-row" onclick="toggleFbclid()">
-          <div class="toggle-left">
-            <div class="toggle-title" id="toggle-title">Додати fbclid для тесту <span class="tag test">тест</span></div>
-            <div class="toggle-sub" id="toggle-sub">&fbclid=21412412</div>
+      <div class="hero-visual reveal" aria-label="Playbook and lead magnet previews">
+        <div class="book-stack">
+          <div class="book-card book-main">
+            <img src="real-estate-playbook-assets/playbook-cover.png" alt="The Real Estate Meta Playbook cover">
           </div>
-          <div class="switch" id="switch"></div>
+          <div class="book-card book-lead">
+            <img src="real-estate-playbook-assets/lead-magnet-cover.png" alt="Marbella campaign teardown cover">
+          </div>
+        </div>
+        <div class="result-float">
+          <strong>$169 -> $31</strong>
+          <span>Cost per qualified buyer in the free Marbella teardown.</span>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="result-card" id="result-card">
-    <div class="result-top">
-      <div class="result-label">Готова лінка</div>
-      <div class="status" id="status"><span class="status-dot"></span>очікування</div>
+  <section class="lead-magnet" id="lead-magnet">
+    <div class="wrap lead-grid">
+      <div class="lead-copy reveal">
+        <div class="eyebrow">Free lead magnet</div>
+        <h2>Read the 28-page Marbella teardown before you buy anything.</h2>
+        <p>A real Costa del Sol campaign selling €400,000-700,000 homes to buyers across Europe. Same ad budget. Different segmentation, creative logic, and communication system.</p>
+        <div class="lead-actions">
+          <a class="btn" href="Marbella_Teardown_Mobile%20(1).pdf" download>Download free teardown -></a>
+          <a class="btn secondary" href="#inside">What is inside?</a>
+        </div>
+      </div>
+
+      <div class="lead-proof reveal">
+        <div class="phone-preview">
+          <img src="real-estate-playbook-assets/lead-magnet-result.png" alt="Marbella teardown result page">
+        </div>
+        <div class="lead-result">
+          <div class="metric-card"><strong>-82%</strong><span>cost per qualified buyer</span></div>
+          <div class="metric-card"><strong>50% -> 73%</strong><span>leads that qualified</span></div>
+          <div class="metric-card"><strong>35 -> 138</strong><span>leads on the same spend</span></div>
+        </div>
+      </div>
     </div>
-    <div class="url-text empty" id="output">Заповніть обовʼязкові поля...</div>
-    <div class="divider"></div>
-    <button class="copy-btn" id="copy-btn" onclick="copy()">Копіювати лінку</button>
-  </div>
-</div>
+  </section>
+
+  <section class="section-pad inside" id="inside">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">The full system</div>
+          <h2>The playbook is not a settings tutorial.</h2>
+        </div>
+        <p>Meta changes buttons every week. The playbook focuses on what does not change: buyer psychology, creative logic, lead communication, analytics discipline, and the decisions that make your next $10,000 teach you something useful.</p>
+      </div>
+
+      <div class="modules">
+        <article class="module reveal"><div class="module-num">PART 01</div><h3>The foundation</h3><p>Why Meta is the channel, why real estate leads are cold, and what that actually means for your system.</p></article>
+        <article class="module reveal"><div class="module-num">PART 02</div><h3>Audience and communication</h3><p>How to choose your segment and communicate with a cold lead before the opportunity disappears.</p></article>
+        <article class="module reveal"><div class="module-num">PART 03</div><h3>The creative</h3><p>What to write, how to shoot video that sells, and which creative archetypes work for real estate.</p></article>
+        <article class="module reveal"><div class="module-num">PART 04</div><h3>Analytics and decisions</h3><p>How to read your numbers, when to scale, and when to kill a campaign without guessing.</p></article>
+        <article class="module reveal"><div class="module-num">PART 05</div><h3>The technical minimum</h3><p>Pixel, CAPI, offline events, where leads go, and why accounts get banned.</p></article>
+        <article class="module reveal"><div class="module-num">PART 06</div><h3>Proof and next steps</h3><p>Case library, leads you already have, and what to do after the playbook is in your hands.</p></article>
+      </div>
+
+      <div class="contents-preview reveal">
+        <img src="real-estate-playbook-assets/playbook-contents.png" alt="Playbook contents preview">
+      </div>
+    </div>
+  </section>
+
+  <section class="author">
+    <div class="wrap author-grid">
+      <div class="author-photo reveal">
+        <img src="real-estate-playbook-assets/author-capital.jpg" alt="Author working at The Capital Real Estate office">
+      </div>
+      <div class="reveal">
+        <div class="eyebrow">Built from my work</div>
+        <h2>I am selling my real campaign experience, not a generic PDF.</h2>
+        <p>I spent two years inside The Capital, personally managing more than <strong>$500,000 in Meta ad spend</strong> across Dubai, Spain, France, the UK, Poland, the United States, and Kazakhstan.</p>
+        <p>This playbook packages how I think when a real estate account needs better buyers: what to show, who to target, what to say after the form, and when the numbers are telling you to scale or kill.</p>
+        <div class="author-stats">
+          <div class="author-stat"><strong>$500K+</strong><span>tracked spend</span></div>
+          <div class="author-stat"><strong>7</strong><span>markets</span></div>
+          <div class="author-stat"><strong>88</strong><span>updated pages</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow dark">Why this works</div>
+          <h2>The system fixes the inputs Meta learns from.</h2>
+        </div>
+        <p>Most real estate campaigns fail because they feed Meta weak signals: vague creatives, mixed audiences, poor first messages, and no real definition of lead quality.</p>
+      </div>
+      <div class="proof-grid">
+        <div class="proof-card reveal">
+          <h3>What changes after the playbook.</h3>
+          <div class="proof-list">
+            <div class="proof-item"><strong>Segment</strong><span>You stop speaking to “everyone who wants property” and start speaking to a specific buyer with a specific reason to act.</span></div>
+            <div class="proof-item"><strong>Creative</strong><span>You stop posting generic luxury visuals and start showing proof, friction, comparison, inventory logic, and buyer motivation.</span></div>
+            <div class="proof-item"><strong>Follow-up</strong><span>You stop treating form fills like hot inbound calls and use a communication protocol built for cold Meta leads.</span></div>
+            <div class="proof-item"><strong>Decision</strong><span>You stop asking whether the campaign “feels good” and start reading the numbers as a system.</span></div>
+          </div>
+        </div>
+        <div class="proof-card dark reveal">
+          <h3>Start with the teardown.</h3>
+          <p>The Marbella lead magnet is a practical sample of the full framework: problem, diagnosis, changes, and results. It gives a buyer proof before asking for the $499 product.</p>
+          <div class="lead-actions">
+            <a class="btn" href="Marbella_Teardown_Mobile%20(1).pdf" download>Download free teardown -></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="wrap pricing-grid">
+      <div class="reveal">
+        <div class="eyebrow dark">Get the playbook</div>
+        <h2>The complete real estate Meta system for $499.</h2>
+        <p>You get the updated 88-page playbook, the full implementation logic, the Marbella teardown as a sample case, and the decision framework behind my real account work.</p>
+        <div class="includes">
+          <div>88-page updated playbook</div>
+          <div>6-part operating system</div>
+          <div>Buyer segmentation</div>
+          <div>Creative frameworks</div>
+          <div>Analytics decisions</div>
+          <div>Lead follow-up protocol</div>
+        </div>
+      </div>
+      <div class="price-card reveal">
+        <div class="price-label">2026 edition</div>
+        <div class="price-old">$799</div>
+        <div class="price"><span>$</span><strong>499</strong></div>
+        <a href="#" class="btn">Get the playbook -></a>
+        <div class="guarantee">Checkout link connects when payment is ready.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow dark">Common questions</div>
+          <h2>Before you decide.</h2>
+        </div>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">What is the free lead magnet?</button><div class="faq-a">A 28-page Marbella campaign teardown showing how a real Costa del Sol account went from expensive, low-quality leads to a qualified-buyer machine on the same budget.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Is the full playbook just the same thing?</button><div class="faq-a">No. The teardown is one case. The playbook is the complete 88-page system: foundation, audience, creative, analytics, technical minimum, proof, and next steps.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Who is this for?</button><div class="faq-a">Brokers, developers, agencies, and operators who sell real estate and need Meta campaigns to produce qualified buyer conversations, not just cheap form fills.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">Do I need to be a media buyer?</button><div class="faq-a">No. The playbook is written for people responsible for revenue. You need enough Meta context to implement, but the main value is the decision logic.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div class="footer-brand">The Real Estate <span>Meta</span><br>Playbook</div>
+      <div class="footer-copy">The complete system for generating qualified real estate buyers from Meta ads. Updated 2026 edition with a free Marbella teardown lead magnet.</div>
+    </div>
+  </footer>
+</main>
 
 <script>
-const canvas=document.getElementById('bg');
-const ctx=canvas.getContext('2d');
-let W,H;
-const DOTS=80,DIST=140;
-let dots=[];
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
-resize();
-window.addEventListener('resize',resize);
-for(let i=0;i<DOTS;i++){dots.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5})}
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  for(let i=0;i<dots.length;i++){
-    const d=dots[i];
-    d.x+=d.vx;d.y+=d.vy;
-    if(d.x<0)d.x=W;if(d.x>W)d.x=0;
-    if(d.y<0)d.y=H;if(d.y>H)d.y=0;
-    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(127,119,221,0.5)';ctx.fill();
-    for(let j=i+1;j<dots.length;j++){
-      const d2=dots[j];
-      const dx=d.x-d2.x,dy=d.y-d2.y;
-      const dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<DIST){
-        const alpha=(1-dist/DIST)*0.12;
-        ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);
-        ctx.strokeStyle=`rgba(127,119,221,${alpha})`;ctx.lineWidth=.6;ctx.stroke();
+  document.querySelectorAll(".faq-q").forEach((question) => {
+    question.addEventListener("click", () => {
+      const item = question.parentElement;
+      const isOpen = item.classList.contains("open");
+      document.querySelectorAll(".faq-item").forEach((faq) => {
+        faq.classList.remove("open");
+        faq.querySelector(".faq-q").setAttribute("aria-expanded", "false");
+      });
+      if (!isOpen) {
+        item.classList.add("open");
+        question.setAttribute("aria-expanded", "true");
       }
-    }
-  }
-  requestAnimationFrame(draw);
-}
-draw();
+    });
+  });
 
-let sub2Mode='auto';
-let fbclidOn=false;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
 
-function selectSub2(mode){
-  sub2Mode=mode;
-  document.getElementById('sub2-auto').className='sub2-option'+(mode==='auto'?' selected':'');
-  document.getElementById('sub2-custom').className='sub2-option'+(mode==='custom'?' selected':'');
-  document.getElementById('sub2-input-wrap').style.display=mode==='custom'?'block':'none';
-  build();
-}
-
-function toggleFbclid(){
-  fbclidOn=!fbclidOn;
-  document.getElementById('switch').className='switch'+(fbclidOn?' on':'');
-  document.getElementById('fbclid-row').className='toggle-row'+(fbclidOn?' active':'');
-  document.getElementById('toggle-title').className='toggle-title'+(fbclidOn?' active':'');
-  document.getElementById('toggle-sub').className='toggle-sub'+(fbclidOn?' active':'');
-  build();
-}
-
-function build(){
-  const domain=document.getElementById('domain').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');
-  const sub3=document.getElementById('sub3').value.trim();
-  const sub5=document.getElementById('sub5').value.trim();
-  const fbp=document.getElementById('fbp').value.trim();
-  const cid=document.getElementById('cid').value.trim();
-  const sub6=document.getElementById('sub6').value.trim();
-  const sub7=document.getElementById('sub7').value.trim();
-  const offer=document.getElementById('offer').value.trim();
-  const sub2val=sub2Mode==='auto'?'{{ad.name}}':document.getElementById('sub2-manual').value.trim();
-  const out=document.getElementById('output');
-  const card=document.getElementById('result-card');
-  const status=document.getElementById('status');
-  const manualEmpty=sub2Mode==='custom'&&!sub2val;
-  if(!domain||!sub3||!sub5||!fbp||!cid||manualEmpty){
-    out.textContent='Заповніть обовʼязкові поля...';
-    out.className='url-text empty';
-    card.className='result-card';
-    status.innerHTML='<span class="status-dot"></span>очікування';
-    status.className='status';
-    return;
-  }
-  let params=`sub1=fb&sub2=${sub2val}&sub3=${sub3}&sub5=${sub5}`;
-  if(sub6)params+=`&sub6=${sub6}`;
-  if(sub7)params+=`&sub7=${sub7}`;
-  params+=`&fbp=${fbp}&ad_campaign_id=${cid}`;
-  if(offer)params+=`&offer_id=${offer}`;
-  if(fbclidOn)params+=`&fbclid=21412412`;
-  out.textContent=`https://${domain}/?${params}`;
-  out.className='url-text';
-  card.className='result-card has-url';
-  status.innerHTML='<span class="status-dot"></span>готово';
-  status.className='status ready';
-}
-
-function copy(){
-  const text=document.getElementById('output').textContent;
-  if(text.includes('Заповніть'))return;
-  try{
-    navigator.clipboard.writeText(text).then(()=>showCopied()).catch(()=>fallbackCopy(text));
-  }catch(e){fallbackCopy(text)}
-}
-function fallbackCopy(text){
-  const ta=document.createElement('textarea');
-  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
-  document.body.appendChild(ta);ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
-  showCopied();
-}
-function showCopied(){
-  const btn=document.getElementById('copy-btn');
-  btn.textContent='Скопійовано!';
-  btn.className='copy-btn copied';
-  setTimeout(()=>{btn.textContent='Копіювати лінку';btn.className='copy-btn';},2000);
-}
+  document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
 </script>
 </body>
 </html>
