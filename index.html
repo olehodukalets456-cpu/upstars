@@ -692,6 +692,13 @@
       gap: 52px;
       align-items: center;
     }
+    .final-card p,
+    .final-card .lede {
+      color: var(--muted-light);
+    }
+    .final-inline-payments {
+      display: none;
+    }
     .included {
       display: grid;
       gap: 12px;
@@ -867,6 +874,28 @@
       .final-card,
       .offer-popout {
         padding: 24px 20px;
+      }
+      .final-grid {
+        gap: 28px;
+        align-items: start;
+      }
+      .final-card h2 {
+        margin-bottom: 18px;
+      }
+      .final-card p {
+        margin-bottom: 14px;
+      }
+      .final-inline-payments {
+        display: flex;
+        justify-content: flex-start;
+        margin: 18px 0 8px;
+      }
+      .included {
+        margin-top: 22px;
+        gap: 0;
+      }
+      .included li {
+        padding: 16px 0;
       }
       .price-now {
         font-size: 58px;
@@ -1146,6 +1175,12 @@
             <h2>Start increasing your income from real estate with Meta ads.</h2>
             <p class="lede">No matter whether you sell $200K apartments, $500K homes, $1M+ villas, rentals, off-plan units, or investment property - the buyer still has to be reached, qualified, and followed up with correctly.</p>
             <p>The <strong>$500 launch price</strong> includes the complete 88-page playbook, one payment, lifetime access, and the free Daniel / Marbella case.</p>
+            <div class="payment-row final-inline-payments" aria-label="Payment methods">
+              <span class="payment-logo visa" aria-label="Visa"><svg aria-hidden="true"><use href="#pay-logo-visa"></use></svg></span>
+              <span class="payment-logo mastercard" aria-label="Mastercard"><svg aria-hidden="true"><use href="#pay-logo-mastercard"></use></svg></span>
+              <span class="payment-logo apple" aria-label="Apple Pay"><svg aria-hidden="true"><use href="#pay-logo-apple"></use></svg></span>
+              <span class="payment-logo google" aria-label="Google Pay"><svg aria-hidden="true"><use href="#pay-logo-google"></use></svg></span>
+            </div>
             <ul class="included">
               <li>88 pages filled with practical, field-tested content: buyer segmentation, creative, forms, follow-up, analytics, CAPI, offline events, and scale/kill rules</li>
               <li>Built from $1M+ in client ad spend and live real estate campaigns</li>
