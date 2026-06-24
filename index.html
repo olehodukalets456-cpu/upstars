@@ -148,6 +148,37 @@
       gap: 14px;
       flex-wrap: wrap;
     }
+    .payment-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .payment-row span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.28);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .dark .payment-row span,
+    .final-card .payment-row span,
+    .offer-popout .payment-row span {
+      border-color: var(--line-light);
+      color: rgba(243,239,231,.72);
+      background: rgba(243,239,231,.055);
+    }
+    .buy-box .payment-row span {
+      border-color: var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.38);
+    }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -316,7 +347,8 @@
     .book-frame img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
     }
     .book-main {
       width: 82%;
@@ -505,6 +537,36 @@
       font-weight: 700;
       text-transform: uppercase;
     }
+    .client-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 520px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.34);
+    }
+    .client-card img {
+      width: 78px;
+      height: 92px;
+      flex: 0 0 auto;
+      object-fit: cover;
+      border: 1px solid var(--line);
+    }
+    .client-card strong {
+      display: block;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+    .client-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
     .case-stage {
       position: relative;
       min-height: 620px;
@@ -519,7 +581,8 @@
     .tear-img img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
     }
     .tear-cover {
       width: 58%;
@@ -574,7 +637,9 @@
     .proof-stack img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
+      background: #fff;
     }
     .proof-large {
       min-height: 470px;
@@ -791,6 +856,9 @@
         left: 0;
         right: auto;
       }
+      .payment-row {
+        justify-content: center;
+      }
       .section {
         padding: 78px 0;
       }
@@ -869,6 +937,12 @@
               <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
             </a>
           </div>
+          <div class="payment-row" aria-label="Payment methods">
+            <span>Visa</span>
+            <span>Mastercard</span>
+            <span>Apple Pay</span>
+            <span>Google Pay</span>
+          </div>
           <div class="hero-note">The guide is built for people who sell or rent real estate and need a repeatable lead system. Not theory. My operating logic, campaigns, creative rules, lead-form structure, follow-up, and measurement discipline.</div>
           <div class="hero-meta">
             <div class="meta-cell"><strong>$1M+</strong><span>client ad spend managed by June 2026</span></div>
@@ -896,11 +970,11 @@
       <div class="wrap">
         <div class="copy-stack copy-wide reveal">
           <span class="label">The Meta problem</span>
-          <h2>Meta works for real estate when the account is built to qualify demand, not just collect leads.</h2>
-          <p class="lede">From what I see inside broker, agency, and developer accounts, more than 80% of teams use Meta as a basic form-filling tool instead of a buyer acquisition system: they show the same generic property message to everyone, ask too little in the form, follow up too slowly, and then decide the platform is the problem when the sales team hears, "I was just looking."</p>
-            <p>The real issue is usually much deeper than the campaign setup; you need to understand how Meta learns, which signals it can and cannot read in real estate, how housing restrictions change targeting, why the form has to qualify intent before the call, and how the creative has to speak to the buyer's situation before the click even happens.</p>
-          <p>With the right approach, you can generate qualified leads cheaper than many portal-driven acquisition channels and close more real estate deals. My results and my clients' results prove it across markets where buyers also use portals like <strong>Property Finder, Bayut, Idealista, Zillow, Rightmove, and Otodom.</strong></p>
-          <p>That is why I created this guide: to help you start generating qualified leads within a week and increase your income from real estate transactions with a system you actually understand.</p>
+          <h2>Meta is not a weak channel for real estate. Most teams just do not understand how to use it properly.</h2>
+          <p class="lede">Meta does not fail in real estate because it is a bad platform. It fails because most brokers, agencies, and developers use it like a basic listing booster instead of a serious buyer acquisition channel. They put a few property photos in front of a broad audience, write a generic message, wait for leads to come in, and then decide Meta is too expensive or low-quality when the buyers are not ready to move.</p>
+          <p>From what I see inside real estate ad accounts, more than 80% of teams are not losing because their buyers are not on Instagram or Facebook. They are losing because they do not understand how the platform thinks, how real estate buyers behave, and how to build campaigns that attract people with actual budget, intent, and timing.</p>
+          <p>When Meta is used correctly, it can generate qualified buyer leads at a lower and more controllable cost than many portal-based sources like <strong>Property Finder</strong> and <strong>Bayut</strong> in Dubai, <strong>Idealista</strong> in Spain, <strong>Zillow</strong> in the United States, <strong>Rightmove</strong> and <strong>Zoopla</strong> in the UK, or <strong>Otodom</strong> in Poland.</p>
+          <p>My results and my clients' results prove that this is not theory. After working with real estate campaigns across different countries, price points, and buyer segments, I built this guide to show brokers, developers, and agencies how to start building a qualified lead system from Meta within a week - and turn paid social into another real source of income from property sales and rentals.</p>
         </div>
       </div>
     </section>
@@ -937,18 +1011,27 @@
       <div class="wrap">
         <div class="copy-stack copy-wide reveal">
           <span class="label">The myth</span>
-          <h2>Your buyers are already on Meta, but your offer has to be strong enough to stop the scroll.</h2>
-          <p class="lede">Many brokers, real estate agencies, and developers are convinced that Meta cannot sell $200,000, $500,000, or $1,000,000+ property. Or they assume it is simply too expensive and too unstable to be a serious acquisition channel.</p>
-          <p>That is a myth. Your clients - families buying homes, investors protecting capital, founders relocating, people looking for second homes - have phones. They use Instagram and Facebook. In 2026, it is almost impossible to imagine a serious buyer with no social media footprint.</p>
-          <p>The job of your advertising is not to close a property deal inside the feed. The job is to interrupt the right person at the right moment: while they are scrolling before work, reading news, watching Reels, or liking a photo from someone they know. Your ad has to create interest and move them into a qualified conversation.</p>
+          <h2>High-ticket real estate buyers are on Meta too. You just need to know how to get their attention.</h2>
+          <p class="lede">I know many brokers, real estate agencies, and developers believe that Meta cannot really work for selling $200K apartments, $500K homes, $1M+ villas, off-plan projects, investment property, or premium rentals. Some think the buyers are not there. Others think the channel is too expensive, unstable, or only useful for low-quality leads.</p>
+          <p>That is a myth.</p>
+          <p>Your clients have phones. They use Instagram. They use Facebook. In 2026, it is almost impossible to imagine a serious buyer, investor, founder, family, or relocation client who is completely outside social media.</p>
+          <p>Real estate, in a nutshell: your ad does not need to close a $500K sale inside the feed. It needs to stop the right person at the right moment - when they are scrolling before work, reading the news, watching Reels, or liking a photo from someone they know - and give them a strong enough reason to start a conversation with you.</p>
+          <p>The problem is not that Meta cannot reach your buyer. The problem is that most real estate ads do not give that buyer a clear enough reason to care.</p>
           <p><em>Inside the guide, I show you how to find those buyers, make them care, qualify them before your sales team wastes time, and make them choose you when they are ready to buy or rent. This is how Meta becomes another stable source of income for your real estate business.</em></p>
           <div class="price-line">
             <span class="price-now">$500</span>
             <span class="price-old">$799</span>
           </div>
           <div class="btn-row">
-            <a class="btn" href="#pricing">Buy the guide</a>
+            <a class="btn" href="#pricing">Get the Playbook - $500</a>
             <a class="btn ghost" href="#daniel">Read Daniel's case first</a>
+          </div>
+          <p class="eyebrow">Regular price: $799</p>
+          <div class="payment-row" aria-label="Payment methods">
+            <span>Visa</span>
+            <span>Mastercard</span>
+            <span>Apple Pay</span>
+            <span>Google Pay</span>
           </div>
         </div>
       </div>
@@ -960,6 +1043,13 @@
           <div class="copy-stack reveal">
             <span class="label">Free case</span>
             <h2>Meet Daniel, a broker in Spain who thought Meta was not worth it.</h2>
+            <div class="client-card">
+              <img src="daniel-photo.png" alt="Fictional portrait of Daniel, a real estate broker in Spain">
+              <div>
+                <strong>Daniel</strong>
+                <span>Real estate broker in Spain. The free case shows how his Meta account moved from expensive leads to a qualified-buyer system.</span>
+              </div>
+            </div>
             <p class="lede">Daniel was getting leads for about <strong>$84 each</strong>, and every qualified buyer effectively cost him <strong>$169</strong>, which made Meta unacceptable for him because the account was losing money instead of creating a profitable pipeline.</p>
             <p>Daniel got access to this logic before I packaged it into the playbook. <strong>You can read that case for free.</strong></p>
             <p>After applying the system, he brought CPL down from <strong>$84 to $22</strong>, raised the qualified lead rate from <strong>50% to 73%</strong>, and created roughly five times more applications through better strategy. He has already closed five real estate deals from the improved flow.</p>
@@ -970,6 +1060,12 @@
             <div class="btn-row">
               <a class="btn" href="#pricing">Buy the guide</a>
               <a class="btn ghost" href="daniel-case.pdf" target="_blank" rel="noopener">Download the free Daniel case</a>
+            </div>
+            <div class="payment-row" aria-label="Payment methods">
+              <span>Visa</span>
+              <span>Mastercard</span>
+              <span>Apple Pay</span>
+              <span>Google Pay</span>
             </div>
           </div>
           <div class="case-stage reveal" aria-label="Daniel case preview">
@@ -988,6 +1084,12 @@
               <span class="price-old">$799</span>
             </div>
             <a class="btn light" href="#pricing">Buy the guide</a>
+            <div class="payment-row" aria-label="Payment methods">
+              <span>Visa</span>
+              <span>Mastercard</span>
+              <span>Apple Pay</span>
+              <span>Google Pay</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1036,6 +1138,12 @@
             </div>
             <div style="height: 22px"></div>
             <a class="btn" href="#" aria-label="Buy The Real Estate Meta Playbook">Buy the guide</a>
+            <div class="payment-row" aria-label="Payment methods">
+              <span>Visa</span>
+              <span>Mastercard</span>
+              <span>Apple Pay</span>
+              <span>Google Pay</span>
+            </div>
           </div>
         </div>
       </div>
