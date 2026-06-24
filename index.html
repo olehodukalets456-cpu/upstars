@@ -158,27 +158,21 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 88px;
-      height: 34px;
-      padding: 6px 10px;
-      border-color: var(--line);
+      width: 96px;
+      height: 38px;
+      padding: 8px 12px;
       border: 1px solid rgba(17, 16, 14, .18);
       background: #fff;
       box-shadow: 0 10px 24px rgba(0,0,0,.08);
     }
-    .payment-logo.mastercard { width: 112px; }
-    .payment-logo.apple { width: 96px; }
-    .payment-logo.google { width: 104px; }
-    .payment-logo svg {
+    .payment-logo.mastercard { width: 122px; }
+    .payment-logo.apple { width: 108px; }
+    .payment-logo.google { width: 126px; }
+    .payment-logo img {
       display: block;
       width: 100%;
       height: 100%;
-    }
-    .payment-symbols {
-      position: absolute;
-      width: 0;
-      height: 0;
-      overflow: hidden;
+      object-fit: contain;
     }
     .btn {
       display: inline-flex;
@@ -722,6 +716,15 @@
       color: var(--ink);
       border: 1px solid var(--paper);
     }
+    .buy-box .payment-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .buy-box .payment-logo {
+      width: 100%;
+      height: 40px;
+    }
     .buy-box p {
       color: var(--muted);
       font-size: 15px;
@@ -918,24 +921,6 @@
   </style>
 </head>
 <body>
-  <svg class="payment-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <symbol id="pay-logo-visa" viewBox="0 0 86 28">
-      <text x="2" y="22" font-family="Arial Black, Arial, sans-serif" font-size="22" font-style="italic" font-weight="900" fill="#1A1F71">VISA</text>
-    </symbol>
-    <symbol id="pay-logo-mastercard" viewBox="0 0 122 32">
-      <circle cx="23" cy="16" r="12" fill="#EB001B"/>
-      <circle cx="37" cy="16" r="12" fill="#F79E1B"/>
-      <path d="M30 6.6a12 12 0 0 1 0 18.8 12 12 0 0 1 0-18.8z" fill="#FF5F00"/>
-      <text x="55" y="20" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#222">mastercard</text>
-    </symbol>
-    <symbol id="pay-logo-apple" viewBox="0 0 106 32">
-      <path fill="#111" d="M20.6 17.1c-.4 1.1-.6 1.6-1.1 2.6-.7 1.5-1.8 3.4-3.1 3.4-1.2 0-1.5-.8-3.1-.8s-2 .8-3.1.8c-1.3 0-2.3-1.7-3.1-3.2-2.1-4.2-2.3-9.1-1-11.7.9-1.9 2.5-3.1 4.2-3.1 1.3 0 2.1.8 3.1.8 1 0 1.6-.8 3.1-.8 1.1 0 2.3.6 3.1 1.6-2.7 1.5-2.3 5.4.4 6.4zM15.7 3.9c.6-.8 1.1-1.9.9-3-1 .1-2.1.7-2.8 1.5-.6.7-1.1 1.8-.9 2.8 1.1.1 2.1-.5 2.8-1.3z"/>
-      <text x="31" y="21" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111">Pay</text>
-    </symbol>
-    <symbol id="pay-logo-google" viewBox="0 0 112 32">
-      <text x="2" y="22" font-family="Arial, sans-serif" font-size="21" font-weight="800"><tspan fill="#4285F4">G</tspan><tspan fill="#EA4335">o</tspan><tspan fill="#FBBC05">o</tspan><tspan fill="#4285F4">g</tspan><tspan fill="#34A853">l</tspan><tspan fill="#EA4335">e</tspan><tspan fill="#111"> Pay</tspan></text>
-    </symbol>
-  </svg>
   <nav class="nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="#top">The Real Estate <span>Meta</span><br>Playbook</a>
@@ -991,7 +976,7 @@
       <div class="wrap">
         <div class="copy-stack copy-wide reveal">
           <span class="label">The Meta problem</span>
-          <h2>Meta is not a weak channel for real estate. Most teams just do not understand how to use it properly.</h2>
+          <h2>Meta works for real estate, but only when you understand how to build campaigns around buyer intent instead of just collecting leads.</h2>
           <p class="lede">Meta does not fail in real estate because it is a bad platform. It fails because most brokers, agencies, and developers use it like a basic listing booster instead of a serious buyer acquisition channel. They put a few property photos in front of a broad audience, write a generic message, wait for leads to come in, and then decide Meta is too expensive or low-quality when the buyers are not ready to move.</p>
           <p>From what I see inside real estate ad accounts, more than 80% of teams are not losing because their buyers are not on Instagram or Facebook. They are losing because they do not understand how the platform thinks, how real estate buyers behave, and how to build campaigns that attract people with actual budget, intent, and timing.</p>
           <p>When Meta is used correctly, it can generate qualified buyer leads at a lower and more controllable cost than many portal-based sources like <strong>Property Finder</strong> and <strong>Bayut</strong> in Dubai, <strong>Idealista</strong> in Spain, <strong>Zillow</strong> in the United States, <strong>Rightmove</strong> and <strong>Zoopla</strong> in the UK, or <strong>Otodom</strong> in Poland.</p>
@@ -1032,7 +1017,7 @@
       <div class="wrap">
         <div class="copy-stack copy-wide reveal">
           <span class="label">The myth</span>
-          <h2>High-ticket real estate buyers are on Meta too. You just need to know how to get their attention.</h2>
+          <h2>High-ticket real estate buyers are already on Meta and the challenge is knowing how to stop their scroll and give them a reason to speak with you.</h2>
           <p class="lede">I know many brokers, real estate agencies, and developers believe that Meta cannot really work for selling $200K apartments, $500K homes, $1M+ villas, off-plan projects, investment property, or premium rentals. Some think the buyers are not there. Others think the channel is too expensive, unstable, or only useful for low-quality leads.</p>
           <p>That is a myth.</p>
           <p>Your clients have phones. They use Instagram. They use Facebook. In 2026, it is almost impossible to imagine a serious buyer, investor, founder, family, or relocation client who is completely outside social media.</p>
@@ -1141,10 +1126,10 @@
             <div style="height: 22px"></div>
             <a class="btn" href="#" aria-label="Buy The Real Estate Meta Playbook">Buy the guide</a>
             <div class="payment-row" aria-label="Payment methods">
-              <span class="payment-logo visa" aria-label="Visa"><svg aria-hidden="true"><use href="#pay-logo-visa"></use></svg></span>
-              <span class="payment-logo mastercard" aria-label="Mastercard"><svg aria-hidden="true"><use href="#pay-logo-mastercard"></use></svg></span>
-              <span class="payment-logo apple" aria-label="Apple Pay"><svg aria-hidden="true"><use href="#pay-logo-apple"></use></svg></span>
-              <span class="payment-logo google" aria-label="Google Pay"><svg aria-hidden="true"><use href="#pay-logo-google"></use></svg></span>
+              <span class="payment-logo visa" aria-label="Visa"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDMyNC42OCI+PHBhdGggZmlsbD0iIzE0MzRjYiIgZD0ibTY1MS4xOS41Yy03MC45MywwLTEzNC4zMiwzNi43Ny0xMzQuMzIsMTA0LjY5LDAsNzcuOSwxMTIuNDIsODMuMjgsMTEyLjQyLDEyMi40MiwwLDE2LjQ4LTE4Ljg4LDMxLjIzLTUxLjE0LDMxLjIzLTQ1Ljc3LDAtNzkuOTgtMjAuNjEtNzkuOTgtMjAuNjFsLTE0LjY0LDY4LjU1czM5LjQxLDE3LjQxLDkxLjczLDE3LjQxYzc3LjU1LDAsMTM4LjU4LTM4LjU3LDEzOC41OC0xMDcuNjYsMC04Mi4zMi0xMTIuODktODcuNTQtMTEyLjg5LTEyMy44NiwwLTEyLjkxLDE1LjUtMjcuMDUsNDcuNjYtMjcuMDUsMzYuMjksMCw2NS44OSwxNC45OSw2NS44OSwxNC45OWwxNC4zMy02Ni4yUzY5Ni42MS41LDY1MS4xOC41aDBaTTIuMjIsNS41TC41LDE1LjQ5czI5Ljg0LDUuNDYsNTYuNzIsMTYuMzZjMzQuNjEsMTIuNDksMzcuMDcsMTkuNzcsNDIuOSw0Mi4zNWw2My41MSwyNDQuODNoODUuMTRMMzc5LjkzLDUuNWgtODQuOTRsLTg0LjI4LDIxMy4xNy0zNC4zOS0xODAuN2MtMy4xNS0yMC42OC0xOS4xMy0zMi40OC0zOC42OC0zMi40OCwwLDAtMTM1LjQxLDAtMTM1LjQxLDBabTQxMS44NywwbC02Ni42MywzMTMuNTNoODFMNDk0Ljg1LDUuNWgtODAuNzZabTQ1MS43NiwwYy0xOS41MywwLTI5Ljg4LDEwLjQ2LTM3LjQ3LDI4LjczbC0xMTguNjcsMjg0LjhoODQuOTRsMTYuNDMtNDcuNDdoMTAzLjQ4bDkuOTksNDcuNDdoNzQuOTVMOTM0LjEyLDUuNWgtNjguMjdabTExLjA1LDg0LjcxbDI1LjE4LDExNy42NWgtNjcuNDVsNDIuMjgtMTE3LjY1aDBaIi8+PC9zdmc+" alt=""></span>
+              <span class="payment-logo mastercard" aria-label="Mastercard"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNjE4IiB3aWR0aD0iMTAwMCI+CjxwYXRoIGZpbGw9IiNFQjAwMUIiIGQ9Im0zMDgsMGEzMDksMzA5IDAgMSwwIDIsMHoiLz4KPHBhdGggZmlsbD0iI0Y3OUUxQiIgZD0ibTY5MCwwYTMwOSwzMDkgMCAxLDAgMiwweiIvPgo8cGF0aCBmaWxsPSIjRkY1RjAwIiBkPSJtNTAwLDY2YTMwOSwzMDkgMCAwLDAgMCw0ODYgMzA5LDMwOSAwIDAsMCAwLTQ4NiIvPgo8L3N2Zz4=" alt=""></span>
+              <span class="payment-logo apple" aria-label="Apple Pay"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIxLjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9InRpbnkiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgoJIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNTEyIDIxMC4yIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggaWQ9IlhNTElEXzM0XyIgZD0iTTkzLjYsMjcuMUM4Ny42LDM0LjIsNzgsMzkuOCw2OC40LDM5Yy0xLjItOS42LDMuNS0xOS44LDktMjYuMWM2LTcuMywxNi41LTEyLjUsMjUtMTIuOQoJQzEwMy40LDEwLDk5LjUsMTkuOCw5My42LDI3LjEgTTEwMi4zLDQwLjljLTEzLjktMC44LTI1LjgsNy45LTMyLjQsNy45Yy02LjcsMC0xNi44LTcuNS0yNy44LTcuM2MtMTQuMywwLjItMjcuNiw4LjMtMzQuOSwyMS4yCgljLTE1LDI1LjgtMy45LDY0LDEwLjYsODVjNy4xLDEwLjQsMTUuNiwyMS44LDI2LjgsMjEuNGMxMC42LTAuNCwxNC44LTYuOSwyNy42LTYuOWMxMi45LDAsMTYuNiw2LjksMjcuOCw2LjcKCWMxMS42LTAuMiwxOC45LTEwLjQsMjYtMjAuOGM4LjEtMTEuOCwxMS40LTIzLjMsMTEuNi0yMy45Yy0wLjItMC4yLTIyLjQtOC43LTIyLjYtMzQuM2MtMC4yLTIxLjQsMTcuNS0zMS42LDE4LjMtMzIuMgoJQzEyMy4zLDQyLjksMTA3LjcsNDEuMywxMDIuMyw0MC45IE0xODIuNiwxMS45djE1NS45aDI0LjJ2LTUzLjNoMzMuNWMzMC42LDAsNTIuMS0yMSw1Mi4xLTUxLjRjMC0zMC40LTIxLjEtNTEuMi01MS4zLTUxLjJIMTgyLjZ6CgkgTTIwNi44LDMyLjNoMjcuOWMyMSwwLDMzLDExLjIsMzMsMzAuOWMwLDE5LjctMTIsMzEtMzMuMSwzMWgtMjcuOFYzMi4zeiBNMzM2LjYsMTY5YzE1LjIsMCwyOS4zLTcuNywzNS43LTE5LjloMC41djE4LjdoMjIuNFY5MC4yCgljMC0yMi41LTE4LTM3LTQ1LjctMzdjLTI1LjcsMC00NC43LDE0LjctNDUuNCwzNC45aDIxLjhjMS44LTkuNiwxMC43LTE1LjksMjIuOS0xNS45YzE0LjgsMCwyMy4xLDYuOSwyMy4xLDE5LjZ2OC42bC0zMC4yLDEuOAoJYy0yOC4xLDEuNy00My4zLDEzLjItNDMuMywzMy4yQzI5OC40LDE1NS42LDMxNC4xLDE2OSwzMzYuNiwxNjl6IE0zNDMuMSwxNTAuNWMtMTIuOSwwLTIxLjEtNi4yLTIxLjEtMTUuN2MwLTkuOCw3LjktMTUuNSwyMy0xNi40CglsMjYuOS0xLjd2OC44QzM3MS45LDE0MC4xLDM1OS41LDE1MC41LDM0My4xLDE1MC41eiBNNDI1LjEsMjEwLjJjMjMuNiwwLDM0LjctOSw0NC40LTM2LjNMNTEyLDU0LjdoLTI0LjZsLTI4LjUsOTIuMWgtMC41CglsLTI4LjUtOTIuMWgtMjUuM2w0MSwxMTMuNWwtMi4yLDYuOWMtMy43LDExLjctOS43LDE2LjItMjAuNCwxNi4yYy0xLjksMC01LjYtMC4yLTcuMS0wLjR2MTguN0M0MTcuMywyMTAsNDIzLjMsMjEwLjIsNDI1LjEsMjEwLjJ6CgkiLz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" alt=""></span>
+              <span class="payment-logo google" aria-label="Google Pay"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA4MCAzOC4xIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA4MCAzOC4xOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6IzVGNjM2ODt9Cgkuc3Qxe2ZpbGw6IzQyODVGNDt9Cgkuc3Qye2ZpbGw6IzM0QTg1Mzt9Cgkuc3Qze2ZpbGw6I0ZCQkMwNDt9Cgkuc3Q0e2ZpbGw6I0VBNDMzNTt9Cjwvc3R5bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zNy44LDE5LjdWMjloLTNWNmg3LjhjMS45LDAsMy43LDAuNyw1LjEsMmMxLjQsMS4yLDIuMSwzLDIuMSw0LjljMCwxLjktMC43LDMuNi0yLjEsNC45Yy0xLjQsMS4zLTMuMSwyLTUuMSwyCglMMzcuOCwxOS43TDM3LjgsMTkuN3ogTTM3LjgsOC44djhoNWMxLjEsMCwyLjItMC40LDIuOS0xLjJjMS42LTEuNSwxLjYtNCwwLjEtNS41YzAsMC0wLjEtMC4xLTAuMS0wLjFjLTAuOC0wLjgtMS44LTEuMy0yLjktMS4yCglMMzcuOCw4LjhMMzcuOCw4Ljh6Ii8+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01Ni43LDEyLjhjMi4yLDAsMy45LDAuNiw1LjIsMS44czEuOSwyLjgsMS45LDQuOFYyOUg2MXYtMi4yaC0wLjFjLTEuMiwxLjgtMi45LDIuNy00LjksMi43CgljLTEuNywwLTMuMi0wLjUtNC40LTEuNWMtMS4xLTEtMS44LTIuNC0xLjgtMy45YzAtMS42LDAuNi0yLjksMS44LTMuOWMxLjItMSwyLjktMS40LDQuOS0xLjRjMS44LDAsMy4yLDAuMyw0LjMsMXYtMC43CgljMC0xLTAuNC0yLTEuMi0yLjZjLTAuOC0wLjctMS44LTEuMS0yLjktMS4xYy0xLjcsMC0zLDAuNy0zLjksMi4xbC0yLjYtMS42QzUxLjgsMTMuOCw1My45LDEyLjgsNTYuNywxMi44eiBNNTIuOSwyNC4yCgljMCwwLjgsMC40LDEuNSwxLDEuOWMwLjcsMC41LDEuNSwwLjgsMi4zLDAuOGMxLjIsMCwyLjQtMC41LDMuMy0xLjRjMS0wLjksMS41LTIsMS41LTMuMmMtMC45LTAuNy0yLjItMS4xLTMuOS0xLjEKCWMtMS4yLDAtMi4yLDAuMy0zLDAuOUM1My4zLDIyLjYsNTIuOSwyMy4zLDUyLjksMjQuMnoiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTgwLDEzLjNsLTkuOSwyMi43aC0zbDMuNy03LjlsLTYuNS0xNC43aDMuMmw0LjcsMTEuM2gwLjFsNC42LTExLjNIODB6Ii8+CjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0yNS45LDE3LjdjMC0wLjktMC4xLTEuOC0wLjItMi43SDEzLjJ2NS4xaDcuMWMtMC4zLDEuNi0xLjIsMy4xLTIuNiw0djMuM0gyMkMyNC41LDI1LjEsMjUuOSwyMS43LDI1LjksMTcuN3oiCgkvPgo8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTMuMiwzMC42YzMuNiwwLDYuNi0xLjIsOC44LTMuMmwtNC4zLTMuM2MtMS4yLDAuOC0yLjcsMS4zLTQuNSwxLjNjLTMuNCwwLTYuNC0yLjMtNy40LTUuNUgxLjR2My40CglDMy43LDI3LjgsOC4yLDMwLjYsMTMuMiwzMC42eiIvPgo8cGF0aCBjbGFzcz0ic3QzIiBkPSJNNS44LDE5LjljLTAuNi0xLjYtMC42LTMuNCwwLTUuMXYtMy40SDEuNGMtMS45LDMuNy0xLjksOC4xLDAsMTEuOUw1LjgsMTkuOXoiLz4KPHBhdGggY2xhc3M9InN0NCIgZD0iTTEzLjIsOS40YzEuOSwwLDMuNywwLjcsNS4xLDJsMCwwbDMuOC0zLjhjLTIuNC0yLjItNS42LTMuNS04LjgtMy40Yy01LDAtOS42LDIuOC0xMS44LDcuM2w0LjQsMy40CglDNi44LDExLjcsOS44LDkuNCwxMy4yLDkuNHoiLz4KPC9zdmc+Cg==" alt=""></span>
             </div>
           </div>
         </div>
