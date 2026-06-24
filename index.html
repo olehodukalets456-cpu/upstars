@@ -135,6 +135,10 @@
       font-size: 18px;
       line-height: 1.72;
     }
+    p em {
+      color: inherit;
+      font-style: italic;
+    }
     .dark p { color: var(--muted-light); }
     strong { color: inherit; font-weight: 800; }
 
@@ -476,7 +480,7 @@
     }
     .metric-rail {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin: 34px 0;
     }
@@ -501,7 +505,7 @@
       font-weight: 700;
       text-transform: uppercase;
     }
-    .teardown-stage {
+    .case-stage {
       position: relative;
       min-height: 620px;
     }
@@ -797,7 +801,7 @@
       .price-now {
         font-size: 58px;
       }
-      .teardown-stage {
+      .case-stage {
         min-height: 560px;
       }
       .tear-cover {
@@ -832,7 +836,7 @@
       .nav-inner { padding-left: 14px; }
       .brand { max-width: 132px; }
       .book-stage { min-height: 470px; }
-      .teardown-stage { min-height: 500px; }
+      .case-stage { min-height: 500px; }
     }
   </style>
 </head>
@@ -861,7 +865,7 @@
               <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
             </a>
             <a class="btn ghost" href="#daniel">
-              Read the free Daniel teardown
+              Read the free Daniel case
               <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
             </a>
           </div>
@@ -873,16 +877,16 @@
             <div class="meta-cell"><strong>1 week</strong><span>to build your first qualified-lead system</span></div>
           </div>
         </div>
-        <div class="book-stage reveal" aria-label="Playbook and free teardown previews">
+        <div class="book-stage reveal" aria-label="Playbook and free case previews">
           <figure class="book-frame book-main">
             <img src="playbook-cover.png" alt="The Real Estate Meta Playbook cover">
           </figure>
           <figure class="book-frame book-small">
-            <img src="daniel-teardown-cover.png" alt="Daniel Marbella teardown cover">
+            <img src="daniel-case-cover.png" alt="Daniel Marbella case cover">
           </figure>
           <div class="book-badge">
             <strong>$169 to $31</strong>
-            <span>Cost per qualified buyer in the free Daniel teardown.</span>
+            <span>Cost per qualified buyer in the free Daniel case.</span>
           </div>
         </div>
       </div>
@@ -892,10 +896,9 @@
       <div class="wrap">
         <div class="copy-stack copy-wide reveal">
           <span class="label">The Meta problem</span>
-          <h2>Meta is not broken. Most real estate campaigns are.</h2>
-          <p class="lede">Meta does not fail because it is a bad tool. It fails because more than 80% of brokers, agencies, and real estate teams use it incorrectly when they try to generate leads for property sales or rentals.</p>
-          <p>They run broad messaging, generic property photos, soft lead forms, slow follow-up, and then blame the platform when the sales team hears, "I was just looking."</p>
-          <p>Real estate teams lack a deeper operating understanding of Meta: how the algorithm learns, what signals it needs, how housing restrictions change the game, and how buyer psychology has to be built into the creative before the click.</p>
+          <h2>Meta works for real estate when the account is built to qualify demand, not just collect leads.</h2>
+          <p class="lede">From what I see inside broker, agency, and developer accounts, more than 80% of teams use Meta as a basic form-filling tool instead of a buyer acquisition system: they show the same generic property message to everyone, ask too little in the form, follow up too slowly, and then decide the platform is the problem when the sales team hears, "I was just looking."</p>
+            <p>The real issue is usually much deeper than the campaign setup; you need to understand how Meta learns, which signals it can and cannot read in real estate, how housing restrictions change targeting, why the form has to qualify intent before the call, and how the creative has to speak to the buyer's situation before the click even happens.</p>
           <p>With the right approach, you can generate qualified leads cheaper than many portal-driven acquisition channels and close more real estate deals. My results and my clients' results prove it across markets where buyers also use portals like <strong>Property Finder, Bayut, Idealista, Zillow, Rightmove, and Otodom.</strong></p>
           <p>That is why I created this guide: to help you start generating qualified leads within a week and increase your income from real estate transactions with a system you actually understand.</p>
         </div>
@@ -911,7 +914,7 @@
           <span class="label light">About the author</span>
           <h2>I have been running real estate ads worldwide since 2023.</h2>
           <p class="lede">As of June 2026, I have managed more than <strong>$1M in client ad spend</strong> and spent two years working with <strong>The Capital</strong>, one of the strongest real estate agencies in Europe.</p>
-          <p>I have worked across the UAE, Ukraine, Poland, Spain, the United Kingdom, Croatia, and the United States. Different markets. Different price points. Different buyer motivations. Same truth: Meta works when the account is built around the buyer, not around the button inside Ads Manager.</p>
+          <p>I have worked across the UAE, Ukraine, Poland, Spain, the United Kingdom, Croatia, and the United States, and the main difference between those markets is not whether Meta can work, but how precisely you segment intent: a Dubai investor, a Marbella second-home buyer, a Warsaw family, and a Seattle relocation lead react to different inventory, proof, price logic, questions, and follow-up, so the account has to be built around the buyer's decision process before Ads Manager can give you clean signals.</p>
           <div class="market-tags" aria-label="Markets">
             <span class="tag">UAE</span>
             <span class="tag">Ukraine</span>
@@ -934,11 +937,11 @@
       <div class="wrap">
         <div class="copy-stack copy-wide reveal">
           <span class="label">The myth</span>
-          <h2>Your buyer is not missing from Meta. Your offer is missing from their scroll.</h2>
+          <h2>Your buyers are already on Meta, but your offer has to be strong enough to stop the scroll.</h2>
           <p class="lede">Many brokers, real estate agencies, and developers are convinced that Meta cannot sell $200,000, $500,000, or $1,000,000+ property. Or they assume it is simply too expensive and too unstable to be a serious acquisition channel.</p>
           <p>That is a myth. Your clients - families buying homes, investors protecting capital, founders relocating, people looking for second homes - have phones. They use Instagram and Facebook. In 2026, it is almost impossible to imagine a serious buyer with no social media footprint.</p>
           <p>The job of your advertising is not to close a property deal inside the feed. The job is to interrupt the right person at the right moment: while they are scrolling before work, reading news, watching Reels, or liking a photo from someone they know. Your ad has to create interest and move them into a qualified conversation.</p>
-          <p>Inside the guide, I show you how to find those buyers, make them care, qualify them before your sales team wastes time, and make them choose you when they are ready to buy or rent. This is how Meta becomes another stable source of income for your real estate business.</p>
+          <p><em>Inside the guide, I show you how to find those buyers, make them care, qualify them before your sales team wastes time, and make them choose you when they are ready to buy or rent. This is how Meta becomes another stable source of income for your real estate business.</em></p>
           <div class="price-line">
             <span class="price-now">$500</span>
             <span class="price-old">$799</span>
@@ -955,25 +958,23 @@
       <div class="wrap">
         <div class="daniel-grid">
           <div class="copy-stack reveal">
-            <span class="label">Free client teardown</span>
+            <span class="label">Free case</span>
             <h2>Meet Daniel, a broker in Spain who thought Meta was not worth it.</h2>
-            <p class="lede">Daniel was generating leads at roughly <strong>$84 per lead</strong>. His cost per qualified buyer was <strong>$169</strong>. With those numbers, Meta was not a growth channel. It was a loss.</p>
-            <p>Daniel was lucky enough to apply the logic from my playbook before I started selling it. You can read that case for free.</p>
-            <p>After applying the system, he moved from $84 CPL to $22 CPL, raised qualified lead rate from 50% to 73%, and generated 138 leads on almost the same spend.</p>
+            <p class="lede">Daniel was getting leads for about <strong>$84 each</strong>, and every qualified buyer effectively cost him <strong>$169</strong>, which made Meta unacceptable for him because the account was losing money instead of creating a profitable pipeline.</p>
+            <p>Daniel got access to this logic before I packaged it into the playbook. <strong>You can read that case for free.</strong></p>
+            <p>After applying the system, he brought CPL down from <strong>$84 to $22</strong>, raised the qualified lead rate from <strong>50% to 73%</strong>, and created roughly five times more applications through better strategy. He has already closed five real estate deals from the improved flow.</p>
             <div class="metric-rail">
-              <div class="metric"><strong>$84 to $22</strong><span>Cost per lead</span></div>
-              <div class="metric"><strong>50% to 73%</strong><span>Qualified lead rate</span></div>
-              <div class="metric"><strong>35 to 138</strong><span>Leads on almost the same spend</span></div>
+              <div class="metric"><strong>$2,900</strong><span>Before: 35 leads</span></div>
+              <div class="metric"><strong>$3,097</strong><span>After: 138 leads</span></div>
             </div>
-            <p>Before: $2,900 spent and 35 leads. After: $3,097 spent and 138 leads. Daniel created roughly five times more applications through better strategy - and has already closed five real estate deals from the improved flow.</p>
             <div class="btn-row">
               <a class="btn" href="#pricing">Buy the guide</a>
-              <a class="btn ghost" href="daniel-teardown.pdf" target="_blank" rel="noopener">Download Daniel's teardown</a>
+              <a class="btn ghost" href="daniel-case.pdf" target="_blank" rel="noopener">Download the free Daniel case</a>
             </div>
           </div>
-          <div class="teardown-stage reveal" aria-label="Daniel teardown preview">
-            <figure class="tear-img tear-cover"><img src="daniel-teardown-cover.png" alt="Daniel Marbella teardown cover"></figure>
-            <figure class="tear-img tear-result"><img src="daniel-teardown-result.png" alt="Daniel teardown result page"></figure>
+          <div class="case-stage reveal" aria-label="Daniel case preview">
+            <figure class="tear-img tear-cover"><img src="daniel-case-cover.png" alt="Daniel Marbella case cover"></figure>
+            <figure class="tear-img tear-result"><img src="daniel-case-result.png" alt="Daniel case result page"></figure>
           </div>
         </div>
         <div class="offer-popout reveal">
@@ -998,7 +999,7 @@
           <span class="label light">Global proof</span>
           <h2>The system was built across countries, budgets, and price segments.</h2>
           <p class="lede">Before creating this guide, I spent hundreds of thousands of dollars testing real estate advertising across global markets - from Dubai to Seattle on the west coast of the United States.</p>
-          <p>My strategy is not tied to one city or one property type. It adapts to different buyer segments, local economics, and campaign objectives.</p>
+          <p><em>My strategy is not tied to one city or one property type. It adapts to different buyer segments, local economics, and campaign objectives.</em></p>
         </div>
         <div class="proof-grid reveal">
           <figure class="proof-large"><img src="campaign-proof-1.png" alt="Meta Ads Manager campaign proof screenshot"></figure>
@@ -1022,10 +1023,9 @@
             <span class="label light">Start now</span>
             <h2>Start increasing your income from real estate with Meta ads.</h2>
             <p class="lede">No matter whether you sell $200K apartments, $500K homes, $1M+ villas, rentals, off-plan units, or investment property - the buyer still has to be reached, qualified, and followed up with correctly.</p>
+            <p>The <strong>$500 launch price</strong> includes the complete 88-page playbook, one payment, lifetime access, and the free Daniel / Marbella case.</p>
             <ul class="included">
               <li>88 pages filled with practical, field-tested content: buyer segmentation, creative, forms, follow-up, analytics, CAPI, offline events, and scale/kill rules</li>
-              <li>One payment, lifetime access</li>
-              <li>Free Daniel / Marbella teardown included</li>
               <li>Built from $1M+ in client ad spend and live real estate campaigns</li>
             </ul>
           </div>
@@ -1034,7 +1034,6 @@
               <span class="price-now">$500</span>
               <span class="price-old">$799</span>
             </div>
-            <p>Launch price for the complete 88-page playbook. One payment, lifetime access, and the free Daniel / Marbella teardown included.</p>
             <div style="height: 22px"></div>
             <a class="btn" href="#" aria-label="Buy The Real Estate Meta Playbook">Buy the guide</a>
           </div>
