@@ -294,6 +294,57 @@
       color: var(--ink);
       background: var(--paper);
     }
+    .checkout-status {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 90;
+      width: min(520px, calc(100% - 32px));
+      transform: translate(-50%, 18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+    .checkout-status.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      pointer-events: auto;
+    }
+    .checkout-status-card {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 18px;
+      border: 1px solid rgba(243, 239, 231, .14);
+      background: rgba(17, 16, 14, .94);
+      color: var(--paper);
+      box-shadow: 0 24px 70px rgba(0,0,0,.28);
+      backdrop-filter: blur(18px);
+    }
+    .checkout-status-card span {
+      color: rgba(243, 239, 231, .86);
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+    .checkout-status-card button {
+      appearance: none;
+      border: 1px solid rgba(243, 239, 231, .16);
+      background: transparent;
+      color: rgba(243, 239, 231, .78);
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+      line-height: 1;
+    }
+    body[data-checkout-state="loading"] [data-checkout-trigger] {
+      cursor: wait;
+      opacity: .72;
+      pointer-events: none;
+    }
 
     .hero {
       min-height: 100vh;
@@ -967,7 +1018,7 @@
       <div class="nav-links">
         <a class="nav-link" href="#playbook" data-i18n="nav_playbook">Playbook</a>
         <a class="nav-link" href="#daniel" data-i18n="nav_case">Free case</a>
-        <a class="nav-link primary" href="#pricing" data-i18n="nav_buy">Buy - $500</a>
+        <a class="nav-link primary" href="#pricing" data-i18n="nav_buy" data-checkout-trigger>Buy - $500</a>
       </div>
       <div class="lang-switcher" aria-label="Language">
         <button type="button" class="active" data-lang="en" aria-pressed="true">EN</button>
@@ -976,6 +1027,13 @@
       </div>
     </div>
   </nav>
+
+  <div class="checkout-status" id="checkoutStatus" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <div class="checkout-status-card">
+      <span id="checkoutStatusText">Creating secure checkout...</span>
+      <button type="button" id="checkoutStatusClose" aria-label="Close checkout message">x</button>
+    </div>
+  </div>
 
   <main id="top">
     <section class="hero dark">
@@ -1074,7 +1132,7 @@
             <span class="price-old">$799</span>
           </div>
           <div class="btn-row">
-            <a class="btn" href="#pricing" data-i18n="cta_playbook">Get the Playbook - $500</a>
+            <a class="btn" href="#pricing" data-i18n="cta_playbook" data-checkout-trigger>Get the Playbook - $500</a>
             <a class="btn ghost" href="#daniel" data-i18n="cta_case_first">Read Daniel's case first</a>
           </div>
         </div>
@@ -1102,7 +1160,7 @@
               <div class="metric"><strong>$3,097</strong><span data-i18n="daniel_after">After: 138 leads</span></div>
             </div>
             <div class="btn-row">
-              <a class="btn" href="#pricing" data-i18n="buy_guide">Buy the guide</a>
+              <a class="btn" href="#pricing" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
               <a class="btn ghost" href="Marbella_Teardown_Mobile%20(1).pdf" target="_blank" rel="noopener" data-i18n="download_case">Download the free Daniel case</a>
             </div>
           </div>
@@ -1121,7 +1179,7 @@
               <span class="price-now">$500</span>
               <span class="price-old">$799</span>
             </div>
-            <a class="btn light" href="#pricing" data-i18n="buy_guide">Buy the guide</a>
+            <a class="btn light" href="#pricing" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
           </div>
         </div>
       </div>
@@ -1169,7 +1227,7 @@
               <span class="price-old">$799</span>
             </div>
             <div style="height: 22px"></div>
-            <a class="btn" href="#" aria-label="Buy The Real Estate Meta Playbook" data-i18n="buy_guide">Buy the guide</a>
+            <a class="btn" href="#pricing" aria-label="Buy The Real Estate Meta Playbook" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
             <div class="payment-row" aria-label="Payment methods">
               <span class="payment-logo visa" aria-label="Visa"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDMyNC42OCI+PHBhdGggZmlsbD0iIzE0MzRjYiIgZD0ibTY1MS4xOS41Yy03MC45MywwLTEzNC4zMiwzNi43Ny0xMzQuMzIsMTA0LjY5LDAsNzcuOSwxMTIuNDIsODMuMjgsMTEyLjQyLDEyMi40MiwwLDE2LjQ4LTE4Ljg4LDMxLjIzLTUxLjE0LDMxLjIzLTQ1Ljc3LDAtNzkuOTgtMjAuNjEtNzkuOTgtMjAuNjFsLTE0LjY0LDY4LjU1czM5LjQxLDE3LjQxLDkxLjczLDE3LjQxYzc3LjU1LDAsMTM4LjU4LTM4LjU3LDEzOC41OC0xMDcuNjYsMC04Mi4zMi0xMTIuODktODcuNTQtMTEyLjg5LTEyMy44NiwwLTEyLjkxLDE1LjUtMjcuMDUsNDcuNjYtMjcuMDUsMzYuMjksMCw2NS44OSwxNC45OSw2NS44OSwxNC45OWwxNC4zMy02Ni4yUzY5Ni42MS41LDY1MS4xOC41aDBaTTIuMjIsNS41TC41LDE1LjQ5czI5Ljg0LDUuNDYsNTYuNzIsMTYuMzZjMzQuNjEsMTIuNDksMzcuMDcsMTkuNzcsNDIuOSw0Mi4zNWw2My41MSwyNDQuODNoODUuMTRMMzc5LjkzLDUuNWgtODQuOTRsLTg0LjI4LDIxMy4xNy0zNC4zOS0xODAuN2MtMy4xNS0yMC42OC0xOS4xMy0zMi40OC0zOC42OC0zMi40OCwwLDAtMTM1LjQxLDAtMTM1LjQxLDBabTQxMS44NywwbC02Ni42MywzMTMuNTNoODFMNDk0Ljg1LDUuNWgtODAuNzZabTQ1MS43NiwwYy0xOS41MywwLTI5Ljg4LDEwLjQ2LTM3LjQ3LDI4LjczbC0xMTguNjcsMjg0LjhoODQuOTRsMTYuNDMtNDcuNDdoMTAzLjQ4bDkuOTksNDcuNDdoNzQuOTVMOTM0LjEyLDUuNWgtNjguMjdabTExLjA1LDg0LjcxbDI1LjE4LDExNy42NWgtNjcuNDVsNDIuMjgtMTE3LjY1aDBaIi8+PC9zdmc+" alt=""></span>
               <span class="payment-logo mastercard" aria-label="Mastercard"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNjE4IiB3aWR0aD0iMTAwMCI+CjxwYXRoIGZpbGw9IiNFQjAwMUIiIGQ9Im0zMDgsMGEzMDksMzA5IDAgMSwwIDIsMHoiLz4KPHBhdGggZmlsbD0iI0Y3OUUxQiIgZD0ibTY5MCwwYTMwOSwzMDkgMCAxLDAgMiwweiIvPgo8cGF0aCBmaWxsPSIjRkY1RjAwIiBkPSJtNTAwLDY2YTMwOSwzMDkgMCAwLDAgMCw0ODYgMzA5LDMwOSAwIDAsMCAwLTQ4NiIvPgo8L3N2Zz4=" alt=""></span>
@@ -1395,6 +1453,27 @@
       es: { label: "Español", locale: "es-ES" }
     };
 
+    const checkoutCopy = {
+      en: {
+        loading: "Creating secure checkout. One moment...",
+        unavailable: "Payment API is not available yet. Deploy this site on Vercel with the /api folder and add the required environment variables.",
+        failed: "Could not start checkout. Please try again in a few seconds.",
+        missingUrl: "Checkout was created, but Monobank did not return a payment page URL."
+      },
+      uk: {
+        loading: "Створюю безпечну сторінку оплати. Зачекайте секунду...",
+        unavailable: "Платіжний API ще недоступний. Залийте сайт на Vercel разом з папкою /api і додайте потрібні Environment Variables.",
+        failed: "Не вдалося запустити оплату. Спробуйте ще раз через кілька секунд.",
+        missingUrl: "Checkout створився, але Monobank не повернув посилання на сторінку оплати."
+      },
+      es: {
+        loading: "Creando checkout seguro. Un momento...",
+        unavailable: "La API de pago todavía no está disponible. Despliega el sitio en Vercel con la carpeta /api y añade las variables de entorno necesarias.",
+        failed: "No se pudo iniciar el checkout. Inténtalo de nuevo en unos segundos.",
+        missingUrl: "El checkout se creó, pero Monobank no devolvió la URL de pago."
+      }
+    };
+
     function applyLanguage(language) {
       const lang = pageCopy[language] ? language : "en";
       const copy = pageCopy[lang];
@@ -1431,6 +1510,97 @@
     });
 
     applyLanguage(localStorage.getItem("realEstatePlaybookLanguage") || "en");
+
+    const checkoutStatus = document.getElementById("checkoutStatus");
+    const checkoutStatusText = document.getElementById("checkoutStatusText");
+    const checkoutStatusClose = document.getElementById("checkoutStatusClose");
+    let checkoutInProgress = false;
+
+    function getCheckoutCopy() {
+      const lang = document.body.dataset.language || "en";
+      return checkoutCopy[lang] || checkoutCopy.en;
+    }
+
+    function showCheckoutStatus(message) {
+      checkoutStatus.hidden = false;
+      checkoutStatusText.textContent = message;
+      requestAnimationFrame(() => checkoutStatus.classList.add("visible"));
+    }
+
+    function hideCheckoutStatus() {
+      checkoutStatus.classList.remove("visible");
+      window.setTimeout(() => {
+        if (!checkoutStatus.classList.contains("visible")) {
+          checkoutStatus.hidden = true;
+        }
+      }, 240);
+    }
+
+    function setCheckoutLoading(isLoading) {
+      checkoutInProgress = isLoading;
+      document.body.dataset.checkoutState = isLoading ? "loading" : "idle";
+      document.querySelectorAll("[data-checkout-trigger]").forEach((button) => {
+        button.setAttribute("aria-busy", String(isLoading));
+      });
+    }
+
+    async function startCheckout(event) {
+      event.preventDefault();
+
+      if (checkoutInProgress) return;
+
+      const copy = getCheckoutCopy();
+      setCheckoutLoading(true);
+      showCheckoutStatus(copy.loading);
+
+      try {
+        const response = await fetch("/api/create-invoice", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            language: document.body.dataset.language || "en",
+            checkoutLocale: document.documentElement.dataset.checkoutLocale || "en-US"
+          })
+        });
+
+        let data = {};
+        try {
+          data = await response.json();
+        } catch {
+          data = {};
+        }
+
+        if (!response.ok || !data.ok) {
+          const apiMessage = data.error || data.mono?.errText || data.mono?.message || "";
+          const apiUnavailable =
+            response.status === 404 ||
+            response.status === 405 ||
+            response.status === 501;
+          const message = apiUnavailable ? copy.unavailable : copy.failed;
+          throw new Error(apiMessage ? `${message} ${apiMessage}` : message);
+        }
+
+        if (!data.pageUrl) {
+          throw new Error(copy.missingUrl);
+        }
+
+        if (data.invoiceId) {
+          localStorage.setItem("monoLastInvoiceId", data.invoiceId);
+        }
+
+        window.location.href = data.pageUrl;
+      } catch (error) {
+        setCheckoutLoading(false);
+        showCheckoutStatus(error.message || copy.failed);
+      }
+    }
+
+    checkoutStatusClose.addEventListener("click", hideCheckoutStatus);
+    document.querySelectorAll("[data-checkout-trigger]").forEach((button) => {
+      button.addEventListener("click", startCheckout);
+    });
   </script>
 
   <script>
