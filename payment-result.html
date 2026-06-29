@@ -165,12 +165,14 @@
     }
 
     function renderSuccess(data) {
+      const invoiceId = encodeURIComponent(data.invoiceId || getInvoiceId());
+
       titleEl.textContent = "Payment successful";
       messageEl.textContent =
-        "Thank you. Your payment was confirmed. You can now download the playbook.";
+        "Thank you. Your payment was confirmed. Your protected download is ready.";
 
       actionsEl.innerHTML = `
-        <a class="btn" href="/real-estate-meta-playbook.pdf" download>Download playbook</a>
+        <a class="btn" href="/api/download-playbook?invoiceId=${invoiceId}" download>Download playbook</a>
         <a class="btn secondary" href="/">Back to website</a>
       `;
 
