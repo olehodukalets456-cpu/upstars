@@ -26,6 +26,25 @@ function isSafeInvoiceId(invoiceId) {
   return /^[A-Za-z0-9_-]{6,128}$/.test(invoiceId);
 }
 
+function safeReferencePrefix(value) {
+  return String(value || "")
+    .replace(/[^a-zA-Z0-9_-]/g, "_")
+    .slice(0, 60);
+}
+
+function isPlaybookReference(reference) {
+  const productCode = safeReferencePrefix(
+    process.env.PRODUCT_CODE || "real-estate-meta-playbook"
+  );
+
+  const allowedPrefixes = [
+    productCode ? `${productCode}_` : "",
+    "meta_"
+  ].filter(Boolean);
+
+  return allowedPrefixes.some((prefix) => reference.startsWith(prefix));
+}
+
 async function getMonoInvoiceStatus(invoiceId, monoToken) {
   const url = new URL(MONO_STATUS_URL);
   url.searchParams.set("invoiceId", invoiceId);
@@ -90,10 +109,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const monoData = await getMonoInvoiceStatus(invoiceId, monoToken);
-    const expectedAmount = Number(process.env.PLAYBOOK_AMOUNT_MINOR || 50000);
-    const expectedCcy = Number(process.env.PLAYBOOK_CCY || 840);
-    const paidAmount = Number(monoData.amount);
-    const paidCcy = Number(monoData.ccy);
+    const reference = String(monoData.reference || "");
 
     if (monoData.status !== "success") {
       sendJson(res, 403, {
@@ -104,7 +120,7 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    if (paidAmount !== expectedAmount || paidCcy !== expectedCcy) {
+    if (!isPlaybookReference(reference)) {
       sendJson(res, 403, {
         ok: false,
         error: "Payment does not match this product.",
