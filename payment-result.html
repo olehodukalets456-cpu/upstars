@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment result | The Real Estate Meta Playbook</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --ink: #11100e;
+      --paper: #f3efe7;
+      --cream: #fffaf0;
+      --rust: #b5482e;
+      --green: #2d6a4f;
+      --muted: rgba(17, 16, 14, .66);
+      --line: rgba(17, 16, 14, .14);
+      --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Arial, sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        linear-gradient(90deg, rgba(181, 72, 46, .04) 1px, transparent 1px),
+        linear-gradient(180deg, var(--paper), #e9dfcf);
+      background-size: 76px 76px, auto;
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+
+    .card {
+      width: min(720px, 100%);
+      padding: 42px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 80px rgba(0,0,0,.12);
+    }
+
+    .label {
+      margin: 0 0 18px;
+      color: var(--rust);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(34px, 7vw, 58px);
+      line-height: .98;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      padding: 16px 22px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .status {
+      margin-top: 24px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.46);
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--muted);
+      word-break: break-word;
+    }
+
+    .success {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .error {
+      color: var(--rust);
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="label">Payment result</div>
+    <h1 id="title">Checking your payment...</h1>
+    <p id="message">Please wait while we verify your transaction.</p>
+
+    <div class="actions" id="actions">
+      <button class="btn secondary" type="button" id="checkAgainBtn">Check again</button>
+      <a class="btn secondary" href="/">Back to website</a>
+    </div>
+
+    <div class="status" id="debugBox">Loading...</div>
+  </main>
+
+  <script>
+    const titleEl = document.getElementById("title");
+    const messageEl = document.getElementById("message");
+    const actionsEl = document.getElementById("actions");
+    const debugBox = document.getElementById("debugBox");
+    const checkAgainBtn = document.getElementById("checkAgainBtn");
+
+    function getInvoiceId() {
+      const params = new URLSearchParams(window.location.search);
+
+      return (
+        params.get("invoiceId") ||
+        localStorage.getItem("monoLastInvoiceId") ||
+        ""
+      );
+    }
+
+    function renderLoading() {
+      titleEl.textContent = "Checking your payment...";
+      messageEl.textContent = "Please wait while we verify your transaction.";
+      debugBox.textContent = "Loading...";
+    }
+
+    function renderNoInvoice() {
+      titleEl.textContent = "We could not find your invoice";
+      messageEl.textContent =
+        "Please return to the website and start checkout again. If you already paid, contact support with your payment details.";
+      debugBox.innerHTML = '<span class="error">No invoiceId found in browser.</span>';
+    }
+
+    function renderSuccess(data) {
+      titleEl.textContent = "Payment successful";
+      messageEl.textContent =
+        "Thank you. Your payment was confirmed. You can now download the playbook.";
+
+      actionsEl.innerHTML = `
+        <a class="btn" href="/real-estate-meta-playbook.pdf" download>Download playbook</a>
+        <a class="btn secondary" href="/">Back to website</a>
+      `;
+
+      debugBox.innerHTML = `
+        <span class="success">Status: ${data.status}</span><br>
+        Invoice ID: ${data.invoiceId || "-"}<br>
+        Payment method: ${data.paymentMethod || "-"}<br>
+        Payment system: ${data.paymentSystem || "-"}
+      `;
+    }
+
+    function renderProcessing(data) {
+      titleEl.textContent = "Payment is still processing";
+      messageEl.textContent =
+        "The payment has not been confirmed yet. Wait a few seconds and press “Check again”.";
+
+      debugBox.innerHTML = `
+        Status: ${data.status || "processing"}<br>
+        Invoice ID: ${data.invoiceId || "-"}
+      `;
+    }
+
+    function renderFailed(data) {
+      titleEl.textContent = "Payment was not completed";
+      messageEl.textContent =
+        "The payment failed, expired, or was not completed. You can return to the website and try again.";
+
+      actionsEl.innerHTML = `
+        <a class="btn" href="/">Try again</a>
+      `;
+
+      debugBox.innerHTML = `
+        <span class="error">Status: ${data.status || "failure"}</span><br>
+        Reason: ${data.failureReason || "-"}<br>
+        Invoice ID: ${data.invoiceId || "-"}
+      `;
+    }
+
+    async function checkStatus() {
+      const invoiceId = getInvoiceId();
+
+      if (!invoiceId) {
+        renderNoInvoice();
+        return;
+      }
+
+      renderLoading();
+
+      try {
+        const response = await fetch(
+          `/api/invoice-status?invoiceId=${encodeURIComponent(invoiceId)}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || "Could not check payment status.");
+        }
+
+        if (data.status === "success") {
+          renderSuccess(data);
+          return;
+        }
+
+        if (
+          data.status === "created" ||
+          data.status === "processing" ||
+          data.status === "hold"
+        ) {
+          renderProcessing(data);
+          return;
+        }
+
+        renderFailed(data);
+      } catch (error) {
+        titleEl.textContent = "Could not verify payment";
+        messageEl.textContent =
+          "Something went wrong while checking the payment. Try again in a few seconds.";
+        debugBox.innerHTML = `<span class="error">${error.message}</span>`;
+      }
+    }
+
+    checkAgainBtn.addEventListener("click", checkStatus);
+
+    checkStatus();
+  </script>
+</body>
+</html>
