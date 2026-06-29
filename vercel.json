@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/download-playbook.js": {
+      "includeFiles": "api/_private/real-estate-meta-playbook.pdf"
+    }
+  }
+}
