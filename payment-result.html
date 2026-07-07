@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Payment result | The Real Estate Meta Playbook</title>
   <meta name="robots" content="noindex, nofollow">
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '4423542734591767');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
   <style>
     :root {
       --ink: #11100e;
@@ -164,6 +181,51 @@
       debugBox.innerHTML = '<span class="error">No invoiceId found in browser.</span>';
     }
 
+    function hasMetaPurchaseBeenTracked(invoiceId) {
+      try {
+        return localStorage.getItem(`metaPurchaseTracked:${invoiceId}`) === "1";
+      } catch {
+        return false;
+      }
+    }
+
+    function markMetaPurchaseTracked(invoiceId) {
+      try {
+        localStorage.setItem(`metaPurchaseTracked:${invoiceId}`, "1");
+      } catch {
+        // If storage is blocked, the payment flow should still keep working.
+      }
+    }
+
+    function trackMetaPurchase(data) {
+      const rawInvoiceId = data.invoiceId || getInvoiceId();
+
+      if (!rawInvoiceId || typeof window.fbq !== "function") {
+        return;
+      }
+
+      if (hasMetaPurchaseBeenTracked(rawInvoiceId)) {
+        return;
+      }
+
+      window.fbq(
+        "track",
+        "Purchase",
+        {
+          value: 500,
+          currency: "USD",
+          content_name: "The Real Estate Meta Playbook",
+          content_ids: ["real-estate-meta-playbook"],
+          content_type: "product"
+        },
+        {
+          eventID: `purchase_${rawInvoiceId}`
+        }
+      );
+
+      markMetaPurchaseTracked(rawInvoiceId);
+    }
+
     function renderSuccess(data) {
       const invoiceId = encodeURIComponent(data.invoiceId || getInvoiceId());
 
@@ -171,8 +233,10 @@
       messageEl.textContent =
         "Thank you. Your payment was confirmed. Your protected download is ready.";
 
+      trackMetaPurchase(data);
+
       actionsEl.innerHTML = `
-        <a class="btn" href="/api/download-playbook?invoiceId=${invoiceId}" download>Download playbook</a>
+        <a class="btn" href="/api/download-playbook?invoiceId=${invoiceId}">Download playbook</a>
         <a class="btn secondary" href="/">Back to website</a>
       `;
 
