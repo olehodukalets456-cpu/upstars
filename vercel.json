@@ -18,6 +18,9 @@
     }
   ],
   "functions": {
+    "api/download-case.js": {
+      "includeFiles": "api/_private/marbella-teardown.pdf"
+    },
     "api/download-playbook.js": {
       "includeFiles": "api/_private/real-estate-meta-playbook.pdf"
     }

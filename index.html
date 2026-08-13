@@ -706,6 +706,110 @@
       font-weight: 700;
       text-transform: uppercase;
     }
+    .case-lead-form {
+      margin-top: 30px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--rust);
+      background: rgba(255,255,255,.56);
+    }
+    .case-lead-form h3 {
+      font-size: 28px;
+    }
+    .case-lead-form > p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .case-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .case-field label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .case-field input {
+      width: 100%;
+      min-height: 52px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+    .case-field input:focus {
+      border-color: var(--rust);
+      box-shadow: 0 0 0 2px rgba(183, 75, 44, .12);
+    }
+    .case-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .case-consent input {
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      flex: 0 0 auto;
+      accent-color: var(--rust);
+    }
+    .case-form-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .case-form-actions .btn {
+      border-radius: 0;
+      cursor: pointer;
+    }
+    .case-form-actions .btn:disabled {
+      cursor: wait;
+      opacity: .66;
+      transform: none;
+    }
+    .case-form-status {
+      min-height: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .case-form-status.success { color: #28633f; }
+    .case-form-status.error { color: var(--rust); }
+    .case-privacy {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .case-privacy a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .case-honeypot {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+      clip: rect(0 0 0 0) !important;
+      clip-path: inset(50%) !important;
+      white-space: nowrap !important;
+    }
     .client-card {
       display: flex;
       align-items: center;
@@ -1035,8 +1139,14 @@
       }
       .hero-meta,
       .metric-rail,
+      .case-form-grid,
       .cred-grid {
         grid-template-columns: 1fr;
+      }
+      .case-lead-form { padding: 24px 20px; }
+      .case-form-actions {
+        align-items: stretch;
+        flex-direction: column;
       }
       .value-card,
       .fit-card { padding: 26px 22px; }
@@ -1327,7 +1437,7 @@ fbq('track', 'PageView');
       </div>
     </section>
 
-    <section class="section paper" id="daniel">
+    <section class="section paper" id="daniel" data-case-gate>
       <div class="wrap">
         <div class="daniel-grid">
           <div class="copy-stack reveal">
@@ -1349,9 +1459,37 @@ fbq('track', 'PageView');
               <div class="metric"><strong>$84.71 → $22.44</strong><span data-i18n="daniel_metric_3">Cost per lead</span></div>
               <div class="metric"><strong>$169 → $31</strong><span data-i18n="daniel_metric_4">Cost per qualified buyer</span></div>
             </div>
+            <div class="case-lead-form">
+              <h3 data-i18n="case_form_title">Get the 28-page Marbella teardown</h3>
+              <p data-i18n="case_form_intro">Enter your name and email. I will send the PDF to your inbox.</p>
+              <form id="caseLeadForm">
+                <div class="case-form-grid">
+                  <div class="case-field">
+                    <label for="caseName" data-i18n="case_name_label">First name</label>
+                    <input id="caseName" name="name" type="text" minlength="2" maxlength="80" autocomplete="given-name" required data-i18n-placeholder="case_name_placeholder" placeholder="Your name">
+                  </div>
+                  <div class="case-field">
+                    <label for="caseEmail" data-i18n="case_email_label">Work email</label>
+                    <input id="caseEmail" name="email" type="email" maxlength="254" inputmode="email" autocomplete="email" required data-i18n-placeholder="case_email_placeholder" placeholder="you@company.com">
+                  </div>
+                </div>
+                <div class="case-honeypot" aria-hidden="true">
+                  <label for="caseCompany">Company</label>
+                  <input id="caseCompany" name="company" type="text" tabindex="-1" autocomplete="off">
+                </div>
+                <label class="case-consent">
+                  <input id="caseMarketingConsent" name="marketingConsent" type="checkbox">
+                  <span data-i18n="case_consent">I want occasional practical emails about real estate Meta campaigns and the Playbook. I can unsubscribe at any time.</span>
+                </label>
+                <div class="case-form-actions">
+                  <button class="btn" type="submit" data-i18n="case_submit">Send me the free case</button>
+                  <div class="case-form-status" id="caseFormStatus" role="status" aria-live="polite"></div>
+                </div>
+                <p class="case-privacy" data-i18n-html="case_privacy">The case email is transactional. Marketing emails are optional and only sent with consent. See the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+              </form>
+            </div>
             <div class="btn-row">
-              <a class="btn" href="#pricing" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
-              <a class="btn ghost" href="Marbella_Teardown_Mobile%20(1).pdf" target="_blank" rel="noopener" data-i18n="download_case">Download the free Daniel case</a>
+              <a class="btn ghost" href="#pricing" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
             </div>
           </div>
           <div class="case-stage reveal" role="img" aria-label="Daniel case preview">
@@ -1550,6 +1688,15 @@ fbq('track', 'PageView');
         daniel_metric_4: `Cost per qualified buyer`,
         buy_guide: `Buy the guide`,
         download_case: `Download the free Daniel case`,
+        case_form_title: `Get the 28-page Marbella teardown`,
+        case_form_intro: `Enter your name and email. I will send the PDF to your inbox.`,
+        case_name_label: `First name`,
+        case_name_placeholder: `Your name`,
+        case_email_label: `Work email`,
+        case_email_placeholder: `you@company.com`,
+        case_consent: `I want occasional practical emails about real estate Meta campaigns and the Playbook. I can unsubscribe at any time.`,
+        case_submit: `Send me the free case`,
+        case_privacy: `The case email is transactional. Marketing emails are optional and only sent with consent. See the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.`,
         offer_label: `The complete system`,
         offer_text: `Get the 88-page playbook, the Marbella teardown, and a written implementation review of one current campaign funnel. One payment. No calls required.`,
         proof_label: `Global proof`,
@@ -1656,6 +1803,15 @@ fbq('track', 'PageView');
         daniel_metric_4: `Вартість кваліфікованого покупця`,
         buy_guide: `Купити посібник`,
         download_case: `Скачати безкоштовний кейс Daniel`,
+        case_form_title: `Отримати 28-сторінковий розбір Marbella`,
+        case_form_intro: `Вкажіть ім'я та email, і я надішлю PDF вам на пошту.`,
+        case_name_label: `Ім'я`,
+        case_name_placeholder: `Ваше ім'я`,
+        case_email_label: `Робочий email`,
+        case_email_placeholder: `you@company.com`,
+        case_consent: `Я хочу іноді отримувати практичні листи про Meta-кампанії в нерухомості та Playbook. Відписатися можна будь-коли.`,
+        case_submit: `Надіслати безкоштовний кейс`,
+        case_privacy: `Лист із кейсом є транзакційним. Маркетингові листи необов'язкові й надсилаються лише за згодою. Дивіться <a href="privacy.html" target="_blank" rel="noopener">Політику конфіденційності</a>.`,
         offer_label: `Повна система`,
         offer_text: `Отримайте 88-сторінковий посібник, розбір Marbella і письмовий review однієї поточної воронки. Один платіж. Без дзвінків.`,
         proof_label: `Глобальні докази`,
@@ -1762,6 +1918,15 @@ fbq('track', 'PageView');
         daniel_metric_4: `Coste por comprador cualificado`,
         buy_guide: `Comprar la guía`,
         download_case: `Descargar el caso gratis de Daniel`,
+        case_form_title: `Recibe el teardown de Marbella de 28 páginas`,
+        case_form_intro: `Introduce tu nombre y email. Te enviaré el PDF a tu correo.`,
+        case_name_label: `Nombre`,
+        case_name_placeholder: `Tu nombre`,
+        case_email_label: `Email de trabajo`,
+        case_email_placeholder: `tu@empresa.com`,
+        case_consent: `Quiero recibir ocasionalmente emails prácticos sobre campañas inmobiliarias en Meta y el Playbook. Puedo darme de baja en cualquier momento.`,
+        case_submit: `Enviarme el caso gratis`,
+        case_privacy: `El email con el caso es transaccional. Los emails de marketing son opcionales y solo se envían con consentimiento. Consulta la <a href="privacy.html" target="_blank" rel="noopener">Política de Privacidad</a>.`,
         offer_label: `El sistema completo`,
         offer_text: `Recibe la guía de 88 páginas, el teardown de Marbella y una revisión escrita de un funnel actual. Un solo pago. Sin llamadas.`,
         proof_label: `Prueba global`,
@@ -1841,6 +2006,13 @@ fbq('track', 'PageView');
         const key = element.dataset.i18nHtml;
         if (Object.prototype.hasOwnProperty.call(copy, key)) {
           element.innerHTML = copy[key];
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+        const key = element.dataset.i18nPlaceholder;
+        if (Object.prototype.hasOwnProperty.call(copy, key)) {
+          element.setAttribute("placeholder", copy[key]);
         }
       });
 
@@ -1949,6 +2121,71 @@ fbq('track', 'PageView');
     checkoutStatusClose.addEventListener("click", hideCheckoutStatus);
     document.querySelectorAll("[data-checkout-trigger]").forEach((button) => {
       button.addEventListener("click", startCheckout);
+    });
+
+    const caseLeadForm = document.getElementById("caseLeadForm");
+    const caseFormStatus = document.getElementById("caseFormStatus");
+    const caseSubmitButton = caseLeadForm.querySelector('button[type="submit"]');
+    const caseFormMessages = {
+      en: {
+        loading: "Sending the case...",
+        success: "Done. Check your inbox and spam folder.",
+        failed: "Could not send the case. Please try again in a moment."
+      },
+      uk: {
+        loading: "Надсилаю кейс...",
+        success: "Готово. Перевірте вхідні та папку Spam.",
+        failed: "Не вдалося надіслати кейс. Спробуйте ще раз за хвилину."
+      },
+      es: {
+        loading: "Enviando el caso...",
+        success: "Listo. Revisa tu bandeja de entrada y spam.",
+        failed: "No se pudo enviar el caso. Inténtalo de nuevo en un momento."
+      }
+    };
+
+    caseLeadForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!caseLeadForm.reportValidity()) return;
+
+      const language = document.body.dataset.language || "en";
+      const messages = caseFormMessages[language] || caseFormMessages.en;
+      const formData = new FormData(caseLeadForm);
+
+      caseSubmitButton.disabled = true;
+      caseSubmitButton.setAttribute("aria-busy", "true");
+      caseFormStatus.className = "case-form-status";
+      caseFormStatus.textContent = messages.loading;
+
+      try {
+        const response = await fetch("/api/request-case", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.get("name"),
+            email: formData.get("email"),
+            marketingConsent: formData.get("marketingConsent") === "on",
+            company: formData.get("company"),
+            language,
+            source: "website-marbella-case"
+          })
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) {
+          throw new Error(messages.failed);
+        }
+
+        caseLeadForm.reset();
+        caseFormStatus.className = "case-form-status success";
+        caseFormStatus.textContent = messages.success;
+      } catch (error) {
+        caseFormStatus.className = "case-form-status error";
+        caseFormStatus.textContent = error.message || messages.failed;
+      } finally {
+        caseSubmitButton.disabled = false;
+        caseSubmitButton.setAttribute("aria-busy", "false");
+      }
     });
   </script>
 
