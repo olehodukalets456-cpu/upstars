@@ -22,6 +22,8 @@ const copy = {
     body: "It shows how a live Marbella account moved from $169 to $31 per qualified buyer with almost the same spend, while keeping the implementation details inside the full Playbook.",
     button: "Download the free case",
     note: "This private download link is valid for 7 days.",
+    signoff: "If you have a question after reading it, just reply to this email.",
+    role: "Real Estate Performance Marketing Specialist",
     footer: "You received this email because you requested the Marbella case on realadbook.com."
   },
   uk: {
@@ -31,6 +33,8 @@ const copy = {
     body: "У ньому показано, як жива кампанія в Marbella знизила вартість кваліфікованого покупця зі $169 до $31 за майже незмінного бюджету, а деталі реалізації залишилися всередині повного Playbook.",
     button: "Завантажити безкоштовний кейс",
     note: "Приватне посилання діє 7 днів.",
+    signoff: "Якщо після прочитання виникне питання — просто дайте відповідь на цей лист.",
+    role: "Спеціаліст із performance-маркетингу в нерухомості",
     footer: "Ви отримали цей лист, тому що запросили кейс Marbella на realadbook.com."
   },
   es: {
@@ -40,6 +44,8 @@ const copy = {
     body: "Muestra cómo una cuenta real de Marbella pasó de $169 a $31 por comprador cualificado con casi la misma inversión, mientras los detalles de implementación permanecen dentro del Playbook completo.",
     button: "Descargar el caso gratis",
     note: "Este enlace privado de descarga es válido durante 7 días.",
+    signoff: "Si tienes alguna pregunta después de leerlo, responde directamente a este email.",
+    role: "Especialista en performance marketing inmobiliario",
     footer: "Has recibido este email porque solicitaste el caso de Marbella en realadbook.com."
   }
 };
@@ -218,6 +224,7 @@ function renderEmail({ name, language, downloadUrl }) {
   const strings = copy[language] || copy.en;
   const safeName = escapeHtml(name);
   const safeUrl = escapeHtml(downloadUrl);
+  const portraitUrl = `${SITE_URL}/author-capital.jpg`;
 
   return {
     subject: strings.subject,
@@ -229,17 +236,29 @@ function renderEmail({ name, language, downloadUrl }) {
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3efe7;padding:30px 12px;">
       <tr><td align="center">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#fff;border:1px solid #d8d1c5;">
-          <tr><td style="background:#11100e;padding:26px 30px;color:#f3efe7;font-family:Georgia,serif;font-size:23px;font-weight:700;line-height:1.05;">
-            The Real Estate <span style="color:#c9844e;font-style:italic;">Meta</span><br>Playbook
+          <tr><td style="background:#11100e;padding:24px 30px;color:#f3efe7;font-family:Georgia,serif;font-size:22px;font-weight:700;line-height:1.05;">
+            The Real Estate <span style="color:#c9844e;font-style:italic;">Meta</span> Playbook
           </td></tr>
-          <tr><td style="padding:34px 30px;">
-            <p style="margin:0 0 18px;font-size:18px;line-height:1.55;">Hi ${safeName},</p>
+          <tr><td style="padding:36px 30px 30px;">
+            <p style="margin:0 0 20px;font-size:18px;line-height:1.55;">Hi ${safeName},</p>
             <p style="margin:0 0 16px;font-size:17px;line-height:1.6;">${escapeHtml(strings.intro)}</p>
-            <p style="margin:0 0 26px;color:#5b5750;font-size:15px;line-height:1.65;">${escapeHtml(strings.body)}</p>
+            <p style="margin:0 0 28px;color:#5b5750;font-size:15px;line-height:1.65;">${escapeHtml(strings.body)}</p>
             <p style="margin:0 0 22px;">
-              <a href="${safeUrl}" style="display:inline-block;background:#11100e;color:#f3efe7;padding:16px 22px;text-decoration:none;font-size:13px;font-weight:800;text-transform:uppercase;">${escapeHtml(strings.button)}</a>
+              <a href="${safeUrl}" style="display:inline-block;background:#b74b2c;color:#fff;padding:16px 22px;text-decoration:none;font-size:13px;font-weight:800;text-transform:uppercase;">${escapeHtml(strings.button)}</a>
             </p>
-            <p style="margin:0;color:#777168;font-size:12px;line-height:1.5;">${escapeHtml(strings.note)}</p>
+            <p style="margin:0 0 30px;color:#777168;font-size:12px;line-height:1.5;">${escapeHtml(strings.note)}</p>
+            <p style="margin:0 0 24px;font-size:15px;line-height:1.65;">${escapeHtml(strings.signoff)}</p>
+            <table role="presentation" cellspacing="0" cellpadding="0">
+              <tr>
+                <td style="padding-right:14px;vertical-align:middle;">
+                  <img src="${portraitUrl}" width="64" height="64" alt="Oleh Odukalets" style="display:block;width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:50% 78%;border:1px solid #d8d1c5;">
+                </td>
+                <td style="vertical-align:middle;">
+                  <p style="margin:0 0 4px;font-size:15px;font-weight:800;line-height:1.3;">Oleh Odukalets</p>
+                  <p style="margin:0;color:#777168;font-size:12px;line-height:1.45;">${escapeHtml(strings.role)}</p>
+                </td>
+              </tr>
+            </table>
           </td></tr>
           <tr><td style="padding:20px 30px;border-top:1px solid #d8d1c5;color:#777168;font-size:11px;line-height:1.5;">
             ${escapeHtml(strings.footer)}
@@ -262,7 +281,7 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.RESEND_API_KEY;
   const downloadSecret = process.env.CASE_DOWNLOAD_SECRET || apiKey;
   const emailDomain = process.env.RESEND_EMAIL_DOMAIN || "realadbook.com";
-  const from = process.env.CASE_FROM_EMAIL || `Oleh from Real Ad Book <case@${emailDomain}>`;
+  const from = process.env.CASE_FROM_EMAIL || `Oleh Odukalets <oleh@${emailDomain}>`;
 
   if (!apiKey || !downloadSecret) {
     sendJson(res, 503, { ok: false, error: "Email delivery is not configured yet." });
@@ -315,7 +334,7 @@ module.exports = async function handler(req, res) {
         to: [email],
         subject: emailCopy.subject,
         html: emailCopy.html,
-        reply_to: process.env.CASE_REPLY_TO || "oleh.odukalets456@gmail.com"
+        reply_to: process.env.CASE_REPLY_TO || "oleh.odukalets@gmail.com"
       })
     });
 
