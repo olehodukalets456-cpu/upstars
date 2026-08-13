@@ -4,6 +4,19 @@
     "realadbook.com",
     "www.realadbook.com"
   ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.realadbook.com"
+        }
+      ],
+      "destination": "https://realadbook.com/:path*",
+      "permanent": true
+    }
+  ],
   "functions": {
     "api/download-playbook.js": {
       "includeFiles": "api/_private/real-estate-meta-playbook.pdf"
