@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Real Estate Meta Playbook</title>
-  <meta name="description" content="A practical 88-page playbook for generating qualified real estate buyer leads from Meta ads. Built from $1M+ in client ad spend across global markets.">
+  <meta name="description" content="A practical 88-page operating system for generating qualified real estate buyers from Meta ads. Built from $1M+ in real estate ad spend across global markets.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -560,6 +560,31 @@
       text-transform: uppercase;
       font-weight: 700;
     }
+    .author-socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 1px solid var(--line-light);
+      color: var(--paper);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      transition: border-color .2s ease, background .2s ease, color .2s ease;
+    }
+    .social-link:hover,
+    .social-link:focus-visible {
+      border-color: var(--copper);
+      background: var(--copper);
+      color: var(--ink);
+      outline: none;
+    }
 
     .price-line {
       display: flex;
@@ -575,13 +600,78 @@
       font-weight: 700;
     }
     .dark .price-now { color: var(--copper); }
-    .price-old {
+    .price-note {
       color: var(--muted);
-      font-family: var(--serif);
-      font-size: 32px;
-      text-decoration: line-through;
+      font-size: 14px;
+      font-weight: 700;
     }
-    .dark .price-old { color: rgba(243,239,231,.42); }
+    .dark .price-note { color: var(--muted-light); }
+    .buy-spacer { height: 22px; }
+
+    .section-intro {
+      max-width: 850px;
+      margin-bottom: 52px;
+    }
+    .section-intro h2 { margin-top: 20px; }
+    .section-intro p { margin-top: 24px; }
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .value-card {
+      min-height: 265px;
+      padding: 32px;
+      border: 1px solid var(--line-light);
+      background: rgba(243, 239, 231, .045);
+    }
+    .value-index {
+      display: block;
+      margin-bottom: 32px;
+      color: var(--copper);
+      font-family: var(--serif);
+      font-size: 36px;
+      line-height: 1;
+    }
+    .value-card h3 { color: var(--paper); }
+    .value-card p {
+      margin-top: 16px;
+      color: var(--muted-light);
+    }
+    .fit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .fit-card {
+      padding: 36px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.34);
+    }
+    .fit-card.is-for { border-top: 4px solid var(--rust); }
+    .fit-card.is-not { border-top: 4px solid var(--cool); }
+    .fit-card ul {
+      list-style: none;
+      margin-top: 22px;
+    }
+    .fit-card li {
+      position: relative;
+      padding: 14px 0 14px 28px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .fit-card li::before {
+      position: absolute;
+      left: 0;
+      top: 14px;
+      color: var(--rust);
+      font-weight: 900;
+    }
+    .fit-card.is-for li::before { content: "✓"; }
+    .fit-card.is-not li::before {
+      content: "—";
+      color: var(--cool);
+    }
 
     .daniel-grid {
       display: grid;
@@ -756,6 +846,40 @@
       line-height: 1.4;
     }
 
+    .faq-list {
+      max-width: 940px;
+      border-top: 1px solid var(--line);
+    }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-item summary {
+      position: relative;
+      padding: 24px 56px 24px 0;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.25;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "+";
+      position: absolute;
+      right: 2px;
+      top: 17px;
+      color: var(--rust);
+      font-family: var(--sans);
+      font-size: 34px;
+      font-weight: 400;
+    }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-answer {
+      max-width: 810px;
+      padding: 0 56px 26px 0;
+      color: var(--muted);
+    }
+
     .final-card {
       padding: 52px;
       background: var(--ink);
@@ -869,6 +993,8 @@
       .portrait-wrap { max-width: 440px; }
       .proof-grid { grid-template-columns: 1fr; }
       .proof-large { min-height: 360px; }
+      .value-grid,
+      .fit-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 760px) {
@@ -939,6 +1065,15 @@
       .proof-caption {
         grid-template-columns: 1fr;
       }
+      .value-card,
+      .fit-card { padding: 26px 22px; }
+      .value-card { min-height: auto; }
+      .value-index { margin-bottom: 22px; }
+      .faq-item summary {
+        padding-right: 44px;
+        font-size: 21px;
+      }
+      .faq-answer { padding-right: 0; }
       .book-stage {
         display: none;
       }
@@ -1023,12 +1158,10 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '4423542734591767');
 fbq('track', 'PageView');
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
-/></noscript>
 <!-- End Meta Pixel Code -->
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1" alt=""></noscript>
   <nav class="nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="#top">The Real Estate <span>Meta</span><br>Playbook</a>
@@ -1037,7 +1170,7 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         <a class="nav-link" href="#daniel" data-i18n="nav_case">Free case</a>
         <a class="nav-link primary" href="#pricing" data-i18n="nav_buy" data-checkout-trigger>Buy - $500</a>
       </div>
-      <div class="lang-switcher" aria-label="Language">
+      <div class="lang-switcher" role="group" aria-label="Language">
         <button type="button" class="active" data-lang="en" aria-pressed="true">EN</button>
         <button type="button" data-lang="uk" aria-pressed="false">UA</button>
         <button type="button" data-lang="es" aria-pressed="false">ES</button>
@@ -1056,12 +1189,12 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
     <section class="hero dark">
       <div class="wrap hero-grid">
         <div class="hero-copy reveal">
-          <div class="kicker" data-i18n="hero_kicker">2026 edition - live Meta accounts</div>
-          <h1 data-i18n-html="hero_title">Generate <em>qualified real estate buyers</em> from Meta ads.</h1>
-          <p data-i18n="hero_text">I teach real estate brokers, agencies, developers, and operators how to turn Meta into a qualified-buyer acquisition channel - not another source of cold form fills.</p>
+          <div class="kicker" data-i18n="hero_kicker">Built from $1M+ in real estate Meta spend across 7 markets</div>
+          <h1 data-i18n-html="hero_title">Stop paying for <em>real estate leads your sales team cannot close.</em></h1>
+          <p data-i18n="hero_text">The 88-page operating system for turning Meta into a qualified-buyer acquisition channel - covering buyer segmentation, creative, lead forms, follow-up, analytics, and scale-or-kill decisions.</p>
           <div class="btn-row hero-actions">
-            <a class="btn light" href="#playbook">
-              <span data-i18n="hero_btn_playbook">About the playbook</span>
+            <a class="btn light" href="#included">
+              <span data-i18n="hero_btn_playbook">See what is included - $500</span>
               <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
             </a>
             <a class="btn ghost" href="#daniel">
@@ -1069,15 +1202,15 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
               <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
             </a>
           </div>
-          <div class="hero-note" data-i18n="hero_note">The guide is built for people who sell or rent real estate and need a repeatable lead system. Not theory. My operating logic, campaigns, creative rules, lead-form structure, follow-up, and measurement discipline.</div>
+          <div class="hero-note" data-i18n="hero_note">Self-serve materials, adapted for different markets, plus a personal written implementation review. Everything is handled asynchronously in text - no calls required.</div>
           <div class="hero-meta">
-            <div class="meta-cell"><strong>$1M+</strong><span data-i18n="hero_meta_spend">client ad spend managed by June 2026</span></div>
+            <div class="meta-cell"><strong>$1M+</strong><span data-i18n="hero_meta_spend">in real estate Meta ad spend managed</span></div>
             <div class="meta-cell"><strong>88</strong><span data-i18n="hero_meta_pages">pages of practical playbook content</span></div>
             <div class="meta-cell"><strong>7</strong><span data-i18n="hero_meta_markets">markets across Europe, UAE, UK, and US</span></div>
-            <div class="meta-cell"><strong>1 week</strong><span data-i18n="hero_meta_week">to build your first qualified-lead system</span></div>
+            <div class="meta-cell"><strong>Written</strong><span data-i18n="hero_meta_week">async implementation review, no calls</span></div>
           </div>
         </div>
-        <div class="book-stage reveal" aria-label="Playbook and free case previews">
+        <div class="book-stage reveal" role="img" aria-label="Playbook and free case previews">
           <figure class="book-frame book-main">
             <img src="playbook-cover.png" alt="The Real Estate Meta Playbook cover">
           </figure>
@@ -1112,10 +1245,10 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         </div>
         <div class="copy-stack reveal">
           <span class="label light" data-i18n="author_label">About the author</span>
-          <h2 data-i18n="author_title">I have been running real estate ads worldwide since 2023.</h2>
-          <p class="lede" data-i18n-html="author_p1">As of June 2026, I have managed more than <strong>$1M in client ad spend</strong> and spent two years working with <strong>The Capital</strong>, one of the strongest real estate agencies in Europe.</p>
+          <h2 data-i18n="author_title">Oleh Odukalets - the operator behind the playbook.</h2>
+          <p class="lede" data-i18n-html="author_p1">I have managed more than <strong>$1M specifically in real estate Meta ad spend</strong> and spent two years working with <strong>The Capital</strong>, one of the strongest real estate agencies in Europe.</p>
           <p data-i18n="author_p2">I have worked across the UAE, Ukraine, Poland, Spain, the United Kingdom, Croatia, and the United States, and the main difference between those markets is not whether Meta can work, but how precisely you segment intent: a Dubai investor, a Marbella second-home buyer, a Warsaw family, and a Seattle relocation lead react to different inventory, proof, price logic, questions, and follow-up, so the account has to be built around the buyer's decision process before Ads Manager can give you clean signals.</p>
-          <div class="market-tags" aria-label="Markets">
+          <div class="market-tags" role="group" aria-label="Markets">
             <span class="tag">UAE</span>
             <span class="tag">Ukraine</span>
             <span class="tag">Poland</span>
@@ -1124,9 +1257,13 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
             <span class="tag">Croatia</span>
             <span class="tag">USA</span>
           </div>
+          <div class="author-socials">
+            <a class="social-link" href="https://www.linkedin.com/in/oleh-odukalets/?locale=en-US" target="_blank" rel="noopener noreferrer" aria-label="Oleh Odukalets on LinkedIn">LinkedIn ↗</a>
+            <a class="social-link" href="https://www.instagram.com/oleh.odukalets.en" target="_blank" rel="noopener noreferrer" aria-label="Oleh Odukalets on Instagram">Instagram ↗</a>
+          </div>
           <div class="cred-grid">
             <div class="cred"><strong>2023</strong><span data-i18n="author_cred_started">Started running real estate Meta ads</span></div>
-            <div class="cred"><strong>$1M+</strong><span data-i18n="author_cred_spend">Client money managed by June 2026</span></div>
+            <div class="cred"><strong>$1M+</strong><span data-i18n="author_cred_spend">Real estate Meta spend managed</span></div>
             <div class="cred"><strong>2 yrs</strong><span data-i18n="author_cred_capital">With The Capital real estate team</span></div>
           </div>
         </div>
@@ -1146,12 +1283,73 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
           <p data-i18n-html="myth_p6"><em>Inside the guide, I show you how to find those buyers, make them care, qualify them before your sales team wastes time, and make them choose you when they are ready to buy or rent. This is how Meta becomes another stable source of income for your real estate business.</em></p>
           <div class="price-line">
             <span class="price-now">$500</span>
-            <span class="price-old">$799</span>
           </div>
+          <p class="price-note" data-i18n="price_note">One-time payment. Lifetime access.</p>
           <div class="btn-row">
             <a class="btn" href="#pricing" data-i18n="cta_playbook" data-checkout-trigger>Get the Playbook - $500</a>
             <a class="btn ghost" href="#daniel" data-i18n="cta_case_first">Read Daniel's case first</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="included">
+      <div class="wrap">
+        <div class="section-intro reveal">
+          <span class="label light" data-i18n="what_label">What you get</span>
+          <h2 data-i18n="what_title">A complete system to study, adapt, and apply - with written feedback on your implementation.</h2>
+          <p class="lede" data-i18n="what_intro">This is not a video course or a collection of targeting hacks. It is a practical operating system, a documented case, and a focused written review of your current funnel.</p>
+        </div>
+        <div class="value-grid">
+          <article class="value-card reveal">
+            <span class="value-index">01</span>
+            <h3 data-i18n="what_1_title">The 88-page Meta Playbook</h3>
+            <p data-i18n="what_1_text">Buyer segmentation, offer and creative logic, lead forms, follow-up, analytics, CAPI, offline events, and clear scale-or-kill rules.</p>
+          </article>
+          <article class="value-card reveal">
+            <span class="value-index">02</span>
+            <h3 data-i18n="what_2_title">The Marbella campaign teardown</h3>
+            <p data-i18n="what_2_text">A 28-page breakdown of the changes that took a live account from $169 to $31 per qualified buyer with almost the same spend.</p>
+          </article>
+          <article class="value-card reveal">
+            <span class="value-index">03</span>
+            <h3 data-i18n="what_3_title">A personal written implementation review</h3>
+            <p data-i18n="what_3_text">Submit one GEO, one campaign funnel, up to five creatives, one lead form or landing page, and your current follow-up. No calls required.</p>
+          </article>
+          <article class="value-card reveal">
+            <span class="value-index">04</span>
+            <h3 data-i18n="what_4_title">A prioritized action plan</h3>
+            <p data-i18n="what_4_text">Receive written recommendations within 72 hours, ordered by impact, plus one round of clarification in text.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section paper" id="fit">
+      <div class="wrap">
+        <div class="section-intro reveal">
+          <span class="label" data-i18n="fit_label">Who it is for</span>
+          <h2 data-i18n="fit_title">Useful for operators who need a better system - not another shortcut.</h2>
+        </div>
+        <div class="fit-grid">
+          <article class="fit-card is-for reveal">
+            <h3 data-i18n="fit_yes_title">This is for you if</h3>
+            <ul>
+              <li data-i18n="fit_yes_1">You run or are preparing Meta ads for real estate.</li>
+              <li data-i18n="fit_yes_2">Lead quality is weak, CPL is unpredictable, or your team wastes time on poor enquiries.</li>
+              <li data-i18n="fit_yes_3">You manage a brokerage, development, in-house marketing team, or real estate clients.</li>
+              <li data-i18n="fit_yes_4">You want a repeatable decision system you can adapt to your market.</li>
+            </ul>
+          </article>
+          <article class="fit-card is-not reveal">
+            <h3 data-i18n="fit_no_title">Skip it if</h3>
+            <ul>
+              <li data-i18n="fit_no_1">You need a beginner walkthrough of every Ads Manager button.</li>
+              <li data-i18n="fit_no_2">You expect one secret audience or a guaranteed CPL.</li>
+              <li data-i18n="fit_no_3">You have no inventory, ad budget, or process for handling leads.</li>
+              <li data-i18n="fit_no_4">You want done-for-you campaign management instead of a system to apply.</li>
+            </ul>
+          </article>
         </div>
       </div>
     </section>
@@ -1171,31 +1369,33 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
             </div>
             <p class="lede" data-i18n-html="daniel_p1">Daniel was getting leads for about <strong>$84 each</strong>, and every qualified buyer effectively cost him <strong>$169</strong>, which made Meta unacceptable for him because the account was losing money instead of creating a profitable pipeline.</p>
             <p data-i18n-html="daniel_p2">Daniel got access to this logic before I packaged it into the playbook. <strong>You can read that case for free.</strong></p>
-            <p data-i18n-html="daniel_p3">After applying the system, he brought CPL down from <strong>$84 to $22</strong>, raised the qualified lead rate from <strong>50% to 73%</strong>, and created roughly five times more applications through better strategy. He has already closed five real estate deals from the improved flow.</p>
+            <p data-i18n-html="daniel_p3">With spend almost unchanged - <strong>$2,964 before and $3,097 after</strong> - leads rose from <strong>35 to 138</strong>, or 3.9x. The qualified rate increased from about <strong>50% to 73%</strong>, taking qualified buyers from roughly <strong>18 to 101</strong>, or 5.6x, while cost per qualified buyer fell from <strong>$169 to $31</strong>. Daniel has since closed five real estate deals from the improved flow.</p>
             <div class="metric-rail">
-              <div class="metric"><strong>$2,900</strong><span data-i18n="daniel_before">Before: 35 leads</span></div>
-              <div class="metric"><strong>$3,097</strong><span data-i18n="daniel_after">After: 138 leads</span></div>
+              <div class="metric"><strong>3.9x</strong><span data-i18n="daniel_metric_1">More leads: 35 → 138</span></div>
+              <div class="metric"><strong>5.6x</strong><span data-i18n="daniel_metric_2">More qualified buyers: ~18 → ~101</span></div>
+              <div class="metric"><strong>$84.71 → $22.44</strong><span data-i18n="daniel_metric_3">Cost per lead</span></div>
+              <div class="metric"><strong>$169 → $31</strong><span data-i18n="daniel_metric_4">Cost per qualified buyer</span></div>
             </div>
             <div class="btn-row">
               <a class="btn" href="#pricing" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
               <a class="btn ghost" href="Marbella_Teardown_Mobile%20(1).pdf" target="_blank" rel="noopener" data-i18n="download_case">Download the free Daniel case</a>
             </div>
           </div>
-          <div class="case-stage reveal" aria-label="Daniel case preview">
+          <div class="case-stage reveal" role="img" aria-label="Daniel case preview">
             <figure class="tear-img tear-cover"><img src="lead-magnet-cover.png" alt="Daniel Marbella case cover"></figure>
             <figure class="tear-img tear-result"><img src="lead-magnet-result.png" alt="Daniel case result page"></figure>
           </div>
         </div>
         <div class="offer-popout reveal">
           <div>
-            <span class="label light" data-i18n="offer_label">Playbook offer</span>
-            <p data-i18n="offer_text">Increase your profit with Meta advertising. A step-by-step guide for starting to generate quality leads for selling your real estate.</p>
+            <span class="label light" data-i18n="offer_label">The complete system</span>
+            <p data-i18n="offer_text">Get the 88-page playbook, the Marbella teardown, and a written implementation review of one current campaign funnel. One payment. No calls required.</p>
           </div>
           <div>
             <div class="price-line">
               <span class="price-now">$500</span>
-              <span class="price-old">$799</span>
             </div>
+            <p class="price-note" data-i18n="price_note">One-time payment. Lifetime access.</p>
             <a class="btn light" href="#pricing" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
           </div>
         </div>
@@ -1207,7 +1407,7 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         <div class="proof-head reveal">
           <span class="label light" data-i18n="proof_label">Global proof</span>
           <h2 data-i18n="proof_title">The system was built across countries, budgets, and price segments.</h2>
-          <p class="lede" data-i18n="proof_p1">Before creating this guide, I spent hundreds of thousands of dollars testing real estate advertising across global markets - from Dubai to Seattle on the west coast of the United States.</p>
+          <p class="lede" data-i18n="proof_p1">This playbook is built from more than $1M in real estate ad spend across global markets - from Dubai to Seattle on the west coast of the United States.</p>
           <p data-i18n-html="proof_p2"><em>My strategy is not tied to one city or one property type. It adapts to different buyer segments, local economics, and campaign objectives.</em></p>
         </div>
         <div class="proof-grid reveal">
@@ -1225,6 +1425,45 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
       </div>
     </section>
 
+    <section class="section paper" id="faq">
+      <div class="wrap">
+        <div class="section-intro reveal">
+          <span class="label" data-i18n="faq_label">Frequently asked questions</span>
+          <h2 data-i18n="faq_title">Everything you need to know before buying.</h2>
+        </div>
+        <div class="faq-list reveal">
+          <details class="faq-item">
+            <summary data-i18n="faq_q1">Is the system only relevant for Marbella or Dubai?</summary>
+            <p class="faq-answer" data-i18n="faq_a1">No. The framework was developed across seven markets and different buyer segments. You adapt the inventory, proof, price logic, qualification questions, and follow-up to your local buyer.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq_q2">Who is the playbook for?</summary>
+            <p class="faq-answer" data-i18n="faq_a2">Real estate brokers, developers, in-house marketing teams, and agencies that already run Meta ads or are preparing to launch them with a real budget and lead-handling process.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq_q3">What exactly is included?</summary>
+            <p class="faq-answer" data-i18n="faq_a3">The 88-page PDF playbook, the 28-page Marbella case teardown, and one personal written implementation review with a prioritized action plan.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq_q4">How does the written review work?</summary>
+            <p class="faq-answer" data-i18n="faq_a4">After purchase, submit one GEO, one campaign funnel, up to five creatives, one lead form or landing page, and your current follow-up. You receive written recommendations within 72 hours plus one round of clarification in text.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq_q5">Do I need to join a call?</summary>
+            <p class="faq-answer" data-i18n="faq_a5">No. The guide is self-serve and the implementation review is handled asynchronously in writing. No live English conversation is required.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq_q6">Is the $500 payment one-time?</summary>
+            <p class="faq-answer" data-i18n="faq_a6">Yes. It is a one-time $500 payment with lifetime access to the purchased materials. There is no subscription.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq_q7">How do I receive the materials?</summary>
+            <p class="faq-answer" data-i18n="faq_a7">After payment, you are redirected to the protected download page and receive instructions for submitting your campaign for the written review.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <section class="section paper" id="playbook">
       <div class="wrap final-card reveal">
         <div class="final-grid">
@@ -1232,20 +1471,22 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
             <span class="label light" data-i18n="final_label">Start now</span>
             <h2 data-i18n="final_title">Start increasing your income from real estate with Meta ads.</h2>
             <p class="lede" data-i18n="final_p1">No matter whether you sell $200K apartments, $500K homes, $1M+ villas, rentals, off-plan units, or investment property - the buyer still has to be reached, qualified, and followed up with correctly.</p>
-            <p data-i18n-html="final_p2">The <strong>$500 launch price</strong> includes the complete 88-page playbook, one payment, lifetime access, and the free Daniel / Marbella case.</p>
+            <p data-i18n-html="final_p2">One <strong>$500 payment</strong> includes the complete playbook, the Marbella case, lifetime access, and a personal written implementation review. No subscription and no calls.</p>
             <ul class="included">
               <li data-i18n="final_li_1">88 pages filled with practical, field-tested content: buyer segmentation, creative, forms, follow-up, analytics, CAPI, offline events, and scale/kill rules</li>
-              <li data-i18n="final_li_2">Built from $1M+ in client ad spend and live real estate campaigns</li>
+              <li data-i18n="final_li_2">Built from $1M+ specifically in real estate Meta ad spend and live campaigns across seven markets</li>
+              <li data-i18n="final_li_3">28-page Marbella campaign teardown with the exact before-and-after economics</li>
+              <li data-i18n="final_li_4">Written review of one funnel, delivered within 72 hours, plus one clarification round</li>
             </ul>
           </div>
           <div class="buy-box" id="pricing">
             <div class="price-line">
               <span class="price-now">$500</span>
-              <span class="price-old">$799</span>
             </div>
-            <div style="height: 22px"></div>
+            <p class="price-note" data-i18n="price_note">One-time payment. Lifetime access.</p>
+            <div class="buy-spacer"></div>
             <a class="btn" href="#pricing" aria-label="Buy The Real Estate Meta Playbook" data-i18n="buy_guide" data-checkout-trigger>Buy the guide</a>
-            <div class="payment-row" aria-label="Payment methods">
+            <div class="payment-row" role="group" aria-label="Payment methods">
               <span class="payment-logo visa" aria-label="Visa"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDMyNC42OCI+PHBhdGggZmlsbD0iIzE0MzRjYiIgZD0ibTY1MS4xOS41Yy03MC45MywwLTEzNC4zMiwzNi43Ny0xMzQuMzIsMTA0LjY5LDAsNzcuOSwxMTIuNDIsODMuMjgsMTEyLjQyLDEyMi40MiwwLDE2LjQ4LTE4Ljg4LDMxLjIzLTUxLjE0LDMxLjIzLTQ1Ljc3LDAtNzkuOTgtMjAuNjEtNzkuOTgtMjAuNjFsLTE0LjY0LDY4LjU1czM5LjQxLDE3LjQxLDkxLjczLDE3LjQxYzc3LjU1LDAsMTM4LjU4LTM4LjU3LDEzOC41OC0xMDcuNjYsMC04Mi4zMi0xMTIuODktODcuNTQtMTEyLjg5LTEyMy44NiwwLTEyLjkxLDE1LjUtMjcuMDUsNDcuNjYtMjcuMDUsMzYuMjksMCw2NS44OSwxNC45OSw2NS44OSwxNC45OWwxNC4zMy02Ni4yUzY5Ni42MS41LDY1MS4xOC41aDBaTTIuMjIsNS41TC41LDE1LjQ5czI5Ljg0LDUuNDYsNTYuNzIsMTYuMzZjMzQuNjEsMTIuNDksMzcuMDcsMTkuNzcsNDIuOSw0Mi4zNWw2My41MSwyNDQuODNoODUuMTRMMzc5LjkzLDUuNWgtODQuOTRsLTg0LjI4LDIxMy4xNy0zNC4zOS0xODAuN2MtMy4xNS0yMC42OC0xOS4xMy0zMi40OC0zOC42OC0zMi40OCwwLDAtMTM1LjQxLDAtMTM1LjQxLDBabTQxMS44NywwbC02Ni42MywzMTMuNTNoODFMNDk0Ljg1LDUuNWgtODAuNzZabTQ1MS43NiwwYy0xOS41MywwLTI5Ljg4LDEwLjQ2LTM3LjQ3LDI4LjczbC0xMTguNjcsMjg0LjhoODQuOTRsMTYuNDMtNDcuNDdoMTAzLjQ4bDkuOTksNDcuNDdoNzQuOTVMOTM0LjEyLDUuNWgtNjguMjdabTExLjA1LDg0LjcxbDI1LjE4LDExNy42NWgtNjcuNDVsNDIuMjgtMTE3LjY1aDBaIi8+PC9zdmc+" alt=""></span>
               <span class="payment-logo mastercard" aria-label="Mastercard"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNjE4IiB3aWR0aD0iMTAwMCI+CjxwYXRoIGZpbGw9IiNFQjAwMUIiIGQ9Im0zMDgsMGEzMDksMzA5IDAgMSwwIDIsMHoiLz4KPHBhdGggZmlsbD0iI0Y3OUUxQiIgZD0ibTY5MCwwYTMwOSwzMDkgMCAxLDAgMiwweiIvPgo8cGF0aCBmaWxsPSIjRkY1RjAwIiBkPSJtNTAwLDY2YTMwOSwzMDkgMCAwLDAgMCw0ODYgMzA5LDMwOSAwIDAsMCAwLTQ4NiIvPgo8L3N2Zz4=" alt=""></span>
               <span class="payment-logo apple" aria-label="Apple Pay"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIxLjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9InRpbnkiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgoJIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNTEyIDIxMC4yIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggaWQ9IlhNTElEXzM0XyIgZD0iTTkzLjYsMjcuMUM4Ny42LDM0LjIsNzgsMzkuOCw2OC40LDM5Yy0xLjItOS42LDMuNS0xOS44LDktMjYuMWM2LTcuMywxNi41LTEyLjUsMjUtMTIuOQoJQzEwMy40LDEwLDk5LjUsMTkuOCw5My42LDI3LjEgTTEwMi4zLDQwLjljLTEzLjktMC44LTI1LjgsNy45LTMyLjQsNy45Yy02LjcsMC0xNi44LTcuNS0yNy44LTcuM2MtMTQuMywwLjItMjcuNiw4LjMtMzQuOSwyMS4yCgljLTE1LDI1LjgtMy45LDY0LDEwLjYsODVjNy4xLDEwLjQsMTUuNiwyMS44LDI2LjgsMjEuNGMxMC42LTAuNCwxNC44LTYuOSwyNy42LTYuOWMxMi45LDAsMTYuNiw2LjksMjcuOCw2LjcKCWMxMS42LTAuMiwxOC45LTEwLjQsMjYtMjAuOGM4LjEtMTEuOCwxMS40LTIzLjMsMTEuNi0yMy45Yy0wLjItMC4yLTIyLjQtOC43LTIyLjYtMzQuM2MtMC4yLTIxLjQsMTcuNS0zMS42LDE4LjMtMzIuMgoJQzEyMy4zLDQyLjksMTA3LjcsNDEuMywxMDIuMyw0MC45IE0xODIuNiwxMS45djE1NS45aDI0LjJ2LTUzLjNoMzMuNWMzMC42LDAsNTIuMS0yMSw1Mi4xLTUxLjRjMC0zMC40LTIxLjEtNTEuMi01MS4zLTUxLjJIMTgyLjZ6CgkgTTIwNi44LDMyLjNoMjcuOWMyMSwwLDMzLDExLjIsMzMsMzAuOWMwLDE5LjctMTIsMzEtMzMuMSwzMWgtMjcuOFYzMi4zeiBNMzM2LjYsMTY5YzE1LjIsMCwyOS4zLTcuNywzNS43LTE5LjloMC41djE4LjdoMjIuNFY5MC4yCgljMC0yMi41LTE4LTM3LTQ1LjctMzdjLTI1LjcsMC00NC43LDE0LjctNDUuNCwzNC45aDIxLjhjMS44LTkuNiwxMC43LTE1LjksMjIuOS0xNS45YzE0LjgsMCwyMy4xLDYuOSwyMy4xLDE5LjZ2OC42bC0zMC4yLDEuOAoJYy0yOC4xLDEuNy00My4zLDEzLjItNDMuMywzMy4yQzI5OC40LDE1NS42LDMxNC4xLDE2OSwzMzYuNiwxNjl6IE0zNDMuMSwxNTAuNWMtMTIuOSwwLTIxLjEtNi4yLTIxLjEtMTUuN2MwLTkuOCw3LjktMTUuNSwyMy0xNi40CglsMjYuOS0xLjd2OC44QzM3MS45LDE0MC4xLDM1OS41LDE1MC41LDM0My4xLDE1MC41eiBNNDI1LjEsMjEwLjJjMjMuNiwwLDM0LjctOSw0NC40LTM2LjNMNTEyLDU0LjdoLTI0LjZsLTI4LjUsOTIuMWgtMC41CglsLTI4LjUtOTIuMWgtMjUuM2w0MSwxMTMuNWwtMi4yLDYuOWMtMy43LDExLjctOS43LDE2LjItMjAuNCwxNi4yYy0xLjksMC01LjYtMC4yLTcuMS0wLjR2MTguN0M0MTcuMywyMTAsNDIzLjMsMjEwLjIsNDI1LjEsMjEwLjJ6CgkiLz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" alt=""></span>
@@ -1271,16 +1512,16 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         nav_playbook: `Playbook`,
         nav_case: `Free case`,
         nav_buy: `Buy - $500`,
-        hero_kicker: `2026 edition - live Meta accounts`,
-        hero_title: `Generate <em>qualified real estate buyers</em> from Meta ads.`,
-        hero_text: `I teach real estate brokers, agencies, developers, and operators how to turn Meta into a qualified-buyer acquisition channel - not another source of cold form fills.`,
-        hero_btn_playbook: `About the playbook`,
+        hero_kicker: `Built from $1M+ in real estate Meta spend across 7 markets`,
+        hero_title: `Stop paying for <em>real estate leads your sales team cannot close.</em>`,
+        hero_text: `The 88-page operating system for turning Meta into a qualified-buyer acquisition channel - covering buyer segmentation, creative, lead forms, follow-up, analytics, and scale-or-kill decisions.`,
+        hero_btn_playbook: `See what is included - $500`,
         hero_btn_case: `Read the free Daniel case`,
-        hero_note: `The guide is built for people who sell or rent real estate and need a repeatable lead system. Not theory. My operating logic, campaigns, creative rules, lead-form structure, follow-up, and measurement discipline.`,
-        hero_meta_spend: `client ad spend managed by June 2026`,
+        hero_note: `Self-serve materials, adapted for different markets, plus a personal written implementation review. Everything is handled asynchronously in text - no calls required.`,
+        hero_meta_spend: `in real estate Meta ad spend managed`,
         hero_meta_pages: `pages of practical playbook content`,
         hero_meta_markets: `markets across Europe, UAE, UK, and US`,
-        hero_meta_week: `to build your first qualified-lead system`,
+        hero_meta_week: `async implementation review, no calls`,
         hero_badge: `Cost per qualified buyer in the free Daniel case.`,
         problem_label: `The Meta problem`,
         problem_title: `Meta works for real estate, but only when you understand how to build campaigns around buyer intent instead of just collecting leads.`,
@@ -1289,11 +1530,11 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         problem_p3: `When Meta is used correctly, it can generate qualified buyer leads at a lower and more controllable cost than many portal-based sources like <strong>Property Finder</strong> and <strong>Bayut</strong> in Dubai, <strong>Idealista</strong> in Spain, <strong>Zillow</strong> in the United States, <strong>Rightmove</strong> and <strong>Zoopla</strong> in the UK, or <strong>Otodom</strong> in Poland.`,
         problem_p4: `My results and my clients' results prove that this is not theory. After working with real estate campaigns across different countries, price points, and buyer segments, I built this guide to show brokers, developers, and agencies how to start building a qualified lead system from Meta within a week - and turn paid social into another real source of income from property sales and rentals.`,
         author_label: `About the author`,
-        author_title: `I have been running real estate ads worldwide since 2023.`,
-        author_p1: `As of June 2026, I have managed more than <strong>$1M in client ad spend</strong> and spent two years working with <strong>The Capital</strong>, one of the strongest real estate agencies in Europe.`,
+        author_title: `Oleh Odukalets - the operator behind the playbook.`,
+        author_p1: `I have managed more than <strong>$1M specifically in real estate Meta ad spend</strong> and spent two years working with <strong>The Capital</strong>, one of the strongest real estate agencies in Europe.`,
         author_p2: `I have worked across the UAE, Ukraine, Poland, Spain, the United Kingdom, Croatia, and the United States, and the main difference between those markets is not whether Meta can work, but how precisely you segment intent: a Dubai investor, a Marbella second-home buyer, a Warsaw family, and a Seattle relocation lead react to different inventory, proof, price logic, questions, and follow-up, so the account has to be built around the buyer's decision process before Ads Manager can give you clean signals.`,
         author_cred_started: `Started running real estate Meta ads`,
-        author_cred_spend: `Client money managed by June 2026`,
+        author_cred_spend: `Real estate Meta spend managed`,
         author_cred_capital: `With The Capital real estate team`,
         myth_label: `The myth`,
         myth_title: `High-ticket real estate buyers are already on Meta and the challenge is knowing how to stop their scroll and give them a reason to speak with you.`,
@@ -1305,47 +1546,91 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         myth_p6: `<em>Inside the guide, I show you how to find those buyers, make them care, qualify them before your sales team wastes time, and make them choose you when they are ready to buy or rent. This is how Meta becomes another stable source of income for your real estate business.</em>`,
         cta_playbook: `Get the Playbook - $500`,
         cta_case_first: `Read Daniel's case first`,
+        price_note: `One-time payment. Lifetime access.`,
+        what_label: `What you get`,
+        what_title: `A complete system to study, adapt, and apply - with written feedback on your implementation.`,
+        what_intro: `This is not a video course or a collection of targeting hacks. It is a practical operating system, a documented case, and a focused written review of your current funnel.`,
+        what_1_title: `The 88-page Meta Playbook`,
+        what_1_text: `Buyer segmentation, offer and creative logic, lead forms, follow-up, analytics, CAPI, offline events, and clear scale-or-kill rules.`,
+        what_2_title: `The Marbella campaign teardown`,
+        what_2_text: `A 28-page breakdown of the changes that took a live account from $169 to $31 per qualified buyer with almost the same spend.`,
+        what_3_title: `A personal written implementation review`,
+        what_3_text: `Submit one GEO, one campaign funnel, up to five creatives, one lead form or landing page, and your current follow-up. No calls required.`,
+        what_4_title: `A prioritized action plan`,
+        what_4_text: `Receive written recommendations within 72 hours, ordered by impact, plus one round of clarification in text.`,
+        fit_label: `Who it is for`,
+        fit_title: `Useful for operators who need a better system - not another shortcut.`,
+        fit_yes_title: `This is for you if`,
+        fit_yes_1: `You run or are preparing Meta ads for real estate.`,
+        fit_yes_2: `Lead quality is weak, CPL is unpredictable, or your team wastes time on poor enquiries.`,
+        fit_yes_3: `You manage a brokerage, development, in-house marketing team, or real estate clients.`,
+        fit_yes_4: `You want a repeatable decision system you can adapt to your market.`,
+        fit_no_title: `Skip it if`,
+        fit_no_1: `You need a beginner walkthrough of every Ads Manager button.`,
+        fit_no_2: `You expect one secret audience or a guaranteed CPL.`,
+        fit_no_3: `You have no inventory, ad budget, or process for handling leads.`,
+        fit_no_4: `You want done-for-you campaign management instead of a system to apply.`,
         case_label: `Free case`,
         daniel_title: `Meet Daniel, a broker in Spain who thought Meta was not worth it.`,
         daniel_card: `Real estate broker in Spain. The free case shows how his Meta account moved from expensive leads to a qualified-buyer system.`,
         daniel_p1: `Daniel was getting leads for about <strong>$84 each</strong>, and every qualified buyer effectively cost him <strong>$169</strong>, which made Meta unacceptable for him because the account was losing money instead of creating a profitable pipeline.`,
         daniel_p2: `Daniel got access to this logic before I packaged it into the playbook. <strong>You can read that case for free.</strong>`,
-        daniel_p3: `After applying the system, he brought CPL down from <strong>$84 to $22</strong>, raised the qualified lead rate from <strong>50% to 73%</strong>, and created roughly five times more applications through better strategy. He has already closed five real estate deals from the improved flow.`,
-        daniel_before: `Before: 35 leads`,
-        daniel_after: `After: 138 leads`,
+        daniel_p3: `With spend almost unchanged - <strong>$2,964 before and $3,097 after</strong> - leads rose from <strong>35 to 138</strong>, or 3.9x. The qualified rate increased from about <strong>50% to 73%</strong>, taking qualified buyers from roughly <strong>18 to 101</strong>, or 5.6x, while cost per qualified buyer fell from <strong>$169 to $31</strong>. Daniel has since closed five real estate deals from the improved flow.`,
+        daniel_metric_1: `More leads: 35 → 138`,
+        daniel_metric_2: `More qualified buyers: ~18 → ~101`,
+        daniel_metric_3: `Cost per lead`,
+        daniel_metric_4: `Cost per qualified buyer`,
         buy_guide: `Buy the guide`,
         download_case: `Download the free Daniel case`,
-        offer_label: `Playbook offer`,
-        offer_text: `Increase your profit with Meta advertising. A step-by-step guide for starting to generate quality leads for selling your real estate.`,
+        offer_label: `The complete system`,
+        offer_text: `Get the 88-page playbook, the Marbella teardown, and a written implementation review of one current campaign funnel. One payment. No calls required.`,
         proof_label: `Global proof`,
         proof_title: `The system was built across countries, budgets, and price segments.`,
-        proof_p1: `Before creating this guide, I spent hundreds of thousands of dollars testing real estate advertising across global markets - from Dubai to Seattle on the west coast of the United States.`,
+        proof_p1: `This playbook is built from more than $1M in real estate ad spend across global markets - from Dubai to Seattle on the west coast of the United States.`,
         proof_p2: `<em>My strategy is not tied to one city or one property type. It adapts to different buyer segments, local economics, and campaign objectives.</em>`,
         proof_caption_1: `tracked spend in one performance view`,
         proof_caption_2: `tracked spend across The Capital campaigns`,
         proof_caption_3: `campaign records shown in proof screenshots`,
+        faq_label: `Frequently asked questions`,
+        faq_title: `Everything you need to know before buying.`,
+        faq_q1: `Is the system only relevant for Marbella or Dubai?`,
+        faq_a1: `No. The framework was developed across seven markets and different buyer segments. You adapt the inventory, proof, price logic, qualification questions, and follow-up to your local buyer.`,
+        faq_q2: `Who is the playbook for?`,
+        faq_a2: `Real estate brokers, developers, in-house marketing teams, and agencies that already run Meta ads or are preparing to launch them with a real budget and lead-handling process.`,
+        faq_q3: `What exactly is included?`,
+        faq_a3: `The 88-page PDF playbook, the 28-page Marbella case teardown, and one personal written implementation review with a prioritized action plan.`,
+        faq_q4: `How does the written review work?`,
+        faq_a4: `After purchase, submit one GEO, one campaign funnel, up to five creatives, one lead form or landing page, and your current follow-up. You receive written recommendations within 72 hours plus one round of clarification in text.`,
+        faq_q5: `Do I need to join a call?`,
+        faq_a5: `No. The guide is self-serve and the implementation review is handled asynchronously in writing. No live English conversation is required.`,
+        faq_q6: `Is the $500 payment one-time?`,
+        faq_a6: `Yes. It is a one-time $500 payment with lifetime access to the purchased materials. There is no subscription.`,
+        faq_q7: `How do I receive the materials?`,
+        faq_a7: `After payment, you are redirected to the protected download page and receive instructions for submitting your campaign for the written review.`,
         final_label: `Start now`,
         final_title: `Start increasing your income from real estate with Meta ads.`,
         final_p1: `No matter whether you sell $200K apartments, $500K homes, $1M+ villas, rentals, off-plan units, or investment property - the buyer still has to be reached, qualified, and followed up with correctly.`,
-        final_p2: `The <strong>$500 launch price</strong> includes the complete 88-page playbook, one payment, lifetime access, and the free Daniel / Marbella case.`,
+        final_p2: `One <strong>$500 payment</strong> includes the complete playbook, the Marbella case, lifetime access, and a personal written implementation review. No subscription and no calls.`,
         final_li_1: `88 pages filled with practical, field-tested content: buyer segmentation, creative, forms, follow-up, analytics, CAPI, offline events, and scale/kill rules`,
-        final_li_2: `Built from $1M+ in client ad spend and live real estate campaigns`,
+        final_li_2: `Built from $1M+ specifically in real estate Meta ad spend and live campaigns across seven markets`,
+        final_li_3: `28-page Marbella campaign teardown with the exact before-and-after economics`,
+        final_li_4: `Written review of one funnel, delivered within 72 hours, plus one clarification round`,
         footer_note: `A practical operating system for generating qualified real estate buyer leads from Meta ads. Built by an operator, for operators.`
       },
       uk: {
         nav_playbook: `Посібник`,
         nav_case: `Безкоштовний кейс`,
         nav_buy: `Купити - $500`,
-        hero_kicker: `Видання 2026 - живі Meta-акаунти`,
-        hero_title: `Генеруйте <em>кваліфікованих покупців нерухомості</em> з Meta ads.`,
-        hero_text: `Я показую брокерам, агенціям, забудовникам і операторам, як перетворити Meta на канал залучення кваліфікованих покупців - а не на ще одне джерело холодних форм.`,
-        hero_btn_playbook: `Про посібник`,
+        hero_kicker: `Створено на основі $1M+ витрат на Meta для нерухомості у 7 ринках`,
+        hero_title: `Перестаньте платити за <em>ліди на нерухомість, які sales-команда не може закрити.</em>`,
+        hero_text: `88-сторінкова операційна система, яка перетворює Meta на канал залучення кваліфікованих покупців: сегментація, креативи, lead forms, follow-up, аналітика та правила scale-or-kill.`,
+        hero_btn_playbook: `Що входить - $500`,
         hero_btn_case: `Читати безкоштовний кейс Daniel`,
-        hero_note: `Посібник створений для тих, хто продає або здає нерухомість і хоче мати повторювану систему заявок. Не теорія. Моя операційна логіка, кампанії, правила креативів, структура форм, фоллоу-ап і вимірювання.`,
-        hero_meta_spend: `клієнтського рекламного бюджету під управлінням станом на червень 2026`,
+        hero_note: `Матеріали для самостійного застосування, адаптовані під різні ринки, плюс персональний письмовий розбір впровадження. Усе асинхронно в тексті - без дзвінків.`,
+        hero_meta_spend: `витрат на Meta для нерухомості під управлінням`,
         hero_meta_pages: `сторінок практичного контенту`,
         hero_meta_markets: `ринків у Європі, ОАЕ, UK та US`,
-        hero_meta_week: `щоб зібрати першу систему кваліфікованих лідів`,
+        hero_meta_week: `асинхронний письмовий розбір без дзвінків`,
         hero_badge: `Вартість кваліфікованого покупця у безкоштовному кейсі Daniel.`,
         problem_label: `Проблема Meta`,
         problem_title: `Meta працює для нерухомості, але тільки якщо ви розумієте, як будувати кампанії навколо наміру покупця, а не просто збирати ліди.`,
@@ -1354,11 +1639,11 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         problem_p3: `Коли Meta використовується правильно, вона може генерувати кваліфіковані заявки покупців дешевше і контрольованіше, ніж багато портальних джерел на кшталт <strong>Property Finder</strong> і <strong>Bayut</strong> у Дубаї, <strong>Idealista</strong> в Іспанії, <strong>Zillow</strong> у США, <strong>Rightmove</strong> і <strong>Zoopla</strong> у Великобританії або <strong>Otodom</strong> у Польщі.`,
         problem_p4: `Мої результати і результати моїх клієнтів доводять, що це не теорія. Після роботи з кампаніями нерухомості в різних країнах, цінових сегментах і аудиторіях я створив цей посібник, щоб показати брокерам, забудовникам і агенціям, як за тиждень почати будувати систему кваліфікованих лідів з Meta - і перетворити paid social на ще одне реальне джерело доходу від продажу та оренди нерухомості.`,
         author_label: `Про автора`,
-        author_title: `Я запускаю рекламу нерухомості по всьому світу з 2023 року.`,
-        author_p1: `Станом на червень 2026 я керував понад <strong>$1M клієнтського рекламного бюджету</strong> і два роки працював з <strong>The Capital</strong>, однією з найсильніших агенцій нерухомості в Європі.`,
+        author_title: `Oleh Odukalets - оператор, який створив цей посібник.`,
+        author_p1: `Я керував понад <strong>$1M витрат саме на Meta-рекламу нерухомості</strong> і два роки працював з <strong>The Capital</strong>, однією з найсильніших агенцій нерухомості в Європі.`,
         author_p2: `Я працював на ринках ОАЕ, України, Польщі, Іспанії, Великобританії, Хорватії та США. Головна різниця між цими ринками не в тому, чи може Meta працювати, а в тому, наскільки точно ви сегментуєте намір: інвестор у Дубаї, покупець другого дому в Marbella, сім'я у Варшаві та relocation-лід у Seattle реагують на різний інвентар, докази, цінову логіку, питання і фоллоу-ап, тому акаунт має бути побудований навколо процесу прийняття рішення покупцем ще до того, як Ads Manager почне давати чисті сигнали.`,
         author_cred_started: `Почав запускати Meta ads для нерухомості`,
-        author_cred_spend: `клієнтського бюджету під управлінням станом на червень 2026`,
+        author_cred_spend: `витрат на Meta для нерухомості під управлінням`,
         author_cred_capital: `у команді нерухомості The Capital`,
         myth_label: `Міф`,
         myth_title: `Покупці дорогої нерухомості вже є в Meta; задача - зупинити їхній скрол і дати причину поговорити саме з вами.`,
@@ -1370,47 +1655,91 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         myth_p6: `<em>У посібнику я показую, як знаходити цих покупців, зацікавлювати їх, кваліфікувати до того, як sales-команда витратить час, і робити так, щоб вони обирали вас, коли готові купити або орендувати. Саме так Meta стає ще одним стабільним джерелом доходу для вашого бізнесу нерухомості.</em>`,
         cta_playbook: `Купити посібник - $500`,
         cta_case_first: `Спочатку прочитати кейс Daniel`,
+        price_note: `Разовий платіж. Довічний доступ.`,
+        what_label: `Що ви отримуєте`,
+        what_title: `Повна система для вивчення, адаптації та застосування - з письмовим фідбеком на ваше впровадження.`,
+        what_intro: `Це не відеокурс і не набір таргетинг-хаків. Це практична операційна система, задокументований кейс і сфокусований письмовий розбір вашої поточної воронки.`,
+        what_1_title: `88-сторінковий Meta Playbook`,
+        what_1_text: `Сегментація покупців, логіка оферів і креативів, lead forms, follow-up, аналітика, CAPI, offline events і чіткі правила scale-or-kill.`,
+        what_2_title: `Розбір кампанії Marbella`,
+        what_2_text: `28 сторінок про зміни, які знизили вартість кваліфікованого покупця у живому акаунті зі $169 до $31 за майже незмінних витрат.`,
+        what_3_title: `Персональний письмовий розбір впровадження`,
+        what_3_text: `Надішліть один GEO, одну воронку кампанії, до п'яти креативів, одну lead form або landing page та поточний follow-up. Без дзвінків.`,
+        what_4_title: `Пріоритетний план дій`,
+        what_4_text: `Отримайте письмові рекомендації протягом 72 годин, відсортовані за впливом, плюс одне коло уточнень у тексті.`,
+        fit_label: `Для кого це`,
+        fit_title: `Для операторів, яким потрібна сильніша система, а не черговий shortcut.`,
+        fit_yes_title: `Вам підійде, якщо`,
+        fit_yes_1: `Ви вже запускаєте або готуєте Meta ads для нерухомості.`,
+        fit_yes_2: `Якість лідів слабка, CPL нестабільний або команда витрачає час на нецільові заявки.`,
+        fit_yes_3: `Ви керуєте брокерською командою, девелопером, in-house маркетингом або клієнтами з нерухомості.`,
+        fit_yes_4: `Ви хочете повторювану систему рішень, яку можна адаптувати під свій ринок.`,
+        fit_no_title: `Не варто купувати, якщо`,
+        fit_no_1: `Вам потрібна базова інструкція по кожній кнопці Ads Manager.`,
+        fit_no_2: `Ви очікуєте одну секретну аудиторію або гарантований CPL.`,
+        fit_no_3: `У вас немає інвентарю, рекламного бюджету або процесу обробки лідів.`,
+        fit_no_4: `Вам потрібне повне ведення кампаній замість системи для самостійного застосування.`,
         case_label: `Безкоштовний кейс`,
         daniel_title: `Познайомтесь з Daniel, брокером з Іспанії, який думав, що Meta не варта бюджету.`,
         daniel_card: `Брокер нерухомості в Іспанії. Безкоштовний кейс показує, як його Meta-акаунт перейшов від дорогих лідів до системи кваліфікованих покупців.`,
         daniel_p1: `Daniel отримував ліди приблизно по <strong>$84 за заявку</strong>, а кожен кваліфікований покупець фактично коштував йому <strong>$169</strong>, тому Meta була для нього неприйнятною: акаунт втрачав гроші замість того, щоб будувати прибутковий pipeline.`,
         daniel_p2: `Daniel отримав доступ до цієї логіки ще до того, як я упакував її в посібник. <strong>Ви можете прочитати цей кейс безкоштовно.</strong>`,
-        daniel_p3: `Після впровадження системи він знизив CPL з <strong>$84 до $22</strong>, підняв частку кваліфікованих лідів з <strong>50% до 73%</strong> і отримав приблизно у п'ять разів більше заявок завдяки правильній стратегії. З покращеного потоку він уже закрив п'ять угод з нерухомості.`,
-        daniel_before: `До: 35 лідів`,
-        daniel_after: `Після: 138 лідів`,
+        daniel_p3: `За майже незмінних витрат - <strong>$2,964 до і $3,097 після</strong> - кількість лідів зросла з <strong>35 до 138</strong>, тобто у 3,9 раза. Частка кваліфікованих лідів зросла приблизно з <strong>50% до 73%</strong>, а кількість кваліфікованих покупців - орієнтовно з <strong>18 до 101</strong>, тобто у 5,6 раза. Вартість кваліфікованого покупця впала зі <strong>$169 до $31</strong>. Daniel уже закрив п'ять угод із покращеного потоку.`,
+        daniel_metric_1: `Більше лідів: 35 → 138`,
+        daniel_metric_2: `Більше кваліфікованих покупців: ~18 → ~101`,
+        daniel_metric_3: `Вартість ліда`,
+        daniel_metric_4: `Вартість кваліфікованого покупця`,
         buy_guide: `Купити посібник`,
         download_case: `Скачати безкоштовний кейс Daniel`,
-        offer_label: `Офер посібника`,
-        offer_text: `Збільшуйте прибуток за допомогою реклами Meta. Покроковий посібник, як почати отримувати якісні ліди на продаж вашої нерухомості.`,
+        offer_label: `Повна система`,
+        offer_text: `Отримайте 88-сторінковий посібник, розбір Marbella і письмовий review однієї поточної воронки. Один платіж. Без дзвінків.`,
         proof_label: `Глобальні докази`,
         proof_title: `Систему створено на різних країнах, бюджетах і цінових сегментах.`,
-        proof_p1: `Перед створенням цього посібника я витратив сотні тисяч доларів на тестування реклами нерухомості по всьому світу - від Дубаю до Seattle на західному узбережжі США.`,
+        proof_p1: `Цей посібник створено на основі понад $1M витрат на рекламу нерухомості на різних ринках - від Дубаю до Seattle на західному узбережжі США.`,
         proof_p2: `<em>Моя стратегія не прив'язана до одного міста чи одного типу нерухомості. Вона адаптується до різних сегментів покупців, локальної економіки та цілей кампанії.</em>`,
         proof_caption_1: `витрат в одному performance-звіті`,
         proof_caption_2: `витрат у кампаніях The Capital`,
         proof_caption_3: `записів кампаній на скрінах з доказами`,
+        faq_label: `Поширені запитання`,
+        faq_title: `Усе, що потрібно знати перед покупкою.`,
+        faq_q1: `Система актуальна тільки для Marbella або Дубаю?`,
+        faq_a1: `Ні. Фреймворк створений на семи ринках і різних сегментах покупців. Ви адаптуєте інвентар, докази, цінову логіку, питання кваліфікації та follow-up під локального покупця.`,
+        faq_q2: `Для кого цей посібник?`,
+        faq_a2: `Для брокерів, девелоперів, in-house маркетингових команд і агенцій, які вже запускають Meta ads або готуються до запуску з реальним бюджетом і процесом обробки лідів.`,
+        faq_q3: `Що саме входить?`,
+        faq_a3: `88-сторінковий PDF-посібник, 28-сторінковий розбір кейсу Marbella та один персональний письмовий review із пріоритетним планом дій.`,
+        faq_q4: `Як працює письмовий review?`,
+        faq_a4: `Після покупки ви надсилаєте один GEO, одну воронку кампанії, до п'яти креативів, одну lead form або landing page і поточний follow-up. Протягом 72 годин отримуєте письмові рекомендації та одне коло уточнень у тексті.`,
+        faq_q5: `Чи потрібен дзвінок?`,
+        faq_a5: `Ні. Посібник призначений для самостійного застосування, а review проходить асинхронно в переписці. Живе спілкування англійською не потрібне.`,
+        faq_q6: `$500 - це разовий платіж?`,
+        faq_a6: `Так. Це один платіж $500 із довічним доступом до придбаних матеріалів. Підписки немає.`,
+        faq_q7: `Як я отримаю матеріали?`,
+        faq_a7: `Після оплати вас буде перенаправлено на захищену сторінку завантаження, де також будуть інструкції для подання кампанії на письмовий review.`,
         final_label: `Почати зараз`,
         final_title: `Почніть збільшувати дохід від нерухомості через Meta ads.`,
         final_p1: `Незалежно від того, продаєте ви квартири за $200K, будинки за $500K, вілли за $1M+, оренду, off-plan юніти або інвестиційну нерухомість - покупця все одно потрібно знайти, кваліфікувати і правильно довести до розмови.`,
-        final_p2: `У <strong>запускову ціну $500</strong> входить повний посібник на 88 сторінок, один платіж, довічний доступ і безкоштовний кейс Daniel / Marbella.`,
+        final_p2: `Один <strong>платіж $500</strong> включає повний посібник, кейс Marbella, довічний доступ і персональний письмовий review впровадження. Без підписки та дзвінків.`,
         final_li_1: `88 сторінок практичного, перевіреного в полі контенту: сегментація покупців, креативи, форми, фоллоу-ап, аналітика, CAPI, offline events і правила масштабування/зупинки`,
-        final_li_2: `Створено на основі $1M+ клієнтського рекламного бюджету і живих кампаній нерухомості`,
+        final_li_2: `Створено на основі $1M+ витрат саме на Meta для нерухомості та живих кампаній у семи ринках`,
+        final_li_3: `28-сторінковий розбір кампанії Marbella з точною економікою до і після`,
+        final_li_4: `Письмовий review однієї воронки протягом 72 годин плюс одне коло уточнень`,
         footer_note: `Практична операційна система для генерації кваліфікованих покупців нерухомості з Meta ads. Створено оператором для операторів.`
       },
       es: {
         nav_playbook: `Guía`,
         nav_case: `Caso gratis`,
         nav_buy: `Comprar - $500`,
-        hero_kicker: `Edición 2026 - cuentas reales de Meta`,
-        hero_title: `Genera <em>compradores inmobiliarios cualificados</em> con Meta ads.`,
-        hero_text: `Enseño a brokers, agencias, promotores y operadores inmobiliarios a convertir Meta en un canal de adquisición de compradores cualificados, no en otra fuente de formularios fríos.`,
-        hero_btn_playbook: `Sobre la guía`,
+        hero_kicker: `Creado a partir de más de $1M invertidos en Meta para real estate en 7 mercados`,
+        hero_title: `Deja de pagar por <em>leads inmobiliarios que tu equipo comercial no puede cerrar.</em>`,
+        hero_text: `El sistema operativo de 88 páginas para convertir Meta en un canal de adquisición de compradores cualificados: segmentación, creatividades, formularios, seguimiento, analítica y decisiones de escalar o cortar.`,
+        hero_btn_playbook: `Ver qué incluye - $500`,
         hero_btn_case: `Leer el caso gratis de Daniel`,
-        hero_note: `La guía está creada para personas que venden o alquilan inmuebles y necesitan un sistema repetible de leads. No es teoría. Es mi lógica operativa, campañas, reglas creativas, estructura de formularios, seguimiento y medición.`,
-        hero_meta_spend: `en inversión publicitaria gestionada hasta junio de 2026`,
+        hero_note: `Materiales para aplicar por tu cuenta, adaptados a distintos mercados, más una revisión personal por escrito. Todo se gestiona de forma asíncrona por texto, sin llamadas.`,
+        hero_meta_spend: `en inversión de Meta para real estate gestionada`,
         hero_meta_pages: `páginas de contenido práctico`,
         hero_meta_markets: `mercados en Europa, EAU, UK y US`,
-        hero_meta_week: `para construir tu primer sistema de leads cualificados`,
+        hero_meta_week: `revisión asíncrona por escrito, sin llamadas`,
         hero_badge: `Coste por comprador cualificado en el caso gratis de Daniel.`,
         problem_label: `El problema con Meta`,
         problem_title: `Meta funciona para real estate, pero solo cuando entiendes cómo construir campañas alrededor de la intención del comprador y no solo recolectar leads.`,
@@ -1419,11 +1748,11 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         problem_p3: `Cuando Meta se usa correctamente, puede generar leads de compradores cualificados con un coste más bajo y más controlable que muchas fuentes basadas en portales como <strong>Property Finder</strong> y <strong>Bayut</strong> en Dubái, <strong>Idealista</strong> en España, <strong>Zillow</strong> en Estados Unidos, <strong>Rightmove</strong> y <strong>Zoopla</strong> en Reino Unido, u <strong>Otodom</strong> en Polonia.`,
         problem_p4: `Mis resultados y los resultados de mis clientes demuestran que esto no es teoría. Después de trabajar campañas inmobiliarias en distintos países, precios y segmentos de compradores, construí esta guía para mostrar a brokers, promotores y agencias cómo empezar a crear un sistema de leads cualificados desde Meta en una semana y convertir paid social en otra fuente real de ingresos por ventas y alquileres.`,
         author_label: `Sobre el autor`,
-        author_title: `Llevo lanzando anuncios inmobiliarios en distintos mercados desde 2023.`,
-        author_p1: `Hasta junio de 2026, he gestionado más de <strong>$1M en inversión publicitaria de clientes</strong> y trabajé dos años con <strong>The Capital</strong>, una de las agencias inmobiliarias más fuertes de Europa.`,
+        author_title: `Oleh Odukalets, el operador detrás de la guía.`,
+        author_p1: `He gestionado más de <strong>$1M específicamente en inversión de Meta para real estate</strong> y trabajé dos años con <strong>The Capital</strong>, una de las agencias inmobiliarias más fuertes de Europa.`,
         author_p2: `He trabajado en EAU, Ucrania, Polonia, España, Reino Unido, Croacia y Estados Unidos. La diferencia principal entre esos mercados no es si Meta puede funcionar, sino qué tan bien segmentas la intención: un inversor en Dubái, un comprador de segunda vivienda en Marbella, una familia en Varsovia y un lead de relocation en Seattle reaccionan a distinto inventario, prueba, lógica de precio, preguntas y seguimiento, así que la cuenta debe construirse alrededor del proceso de decisión del comprador antes de que Ads Manager pueda darte señales limpias.`,
         author_cred_started: `Empecé a lanzar Meta ads para real estate`,
-        author_cred_spend: `de dinero de clientes gestionado hasta junio de 2026`,
+        author_cred_spend: `de inversión de Meta para real estate gestionada`,
         author_cred_capital: `con el equipo inmobiliario de The Capital`,
         myth_label: `El mito`,
         myth_title: `Los compradores de propiedades high-ticket ya están en Meta y el reto es saber cómo detener su scroll y darles una razón para hablar contigo.`,
@@ -1435,31 +1764,75 @@ src="https://www.facebook.com/tr?id=4423542734591767&ev=PageView&noscript=1"
         myth_p6: `<em>Dentro de la guía te muestro cómo encontrar a esos compradores, hacer que les importe, cualificarlos antes de que tu equipo comercial pierda tiempo y lograr que te elijan cuando estén listos para comprar o alquilar. Así es como Meta se convierte en otra fuente estable de ingresos para tu negocio inmobiliario.</em>`,
         cta_playbook: `Comprar la guía - $500`,
         cta_case_first: `Leer primero el caso de Daniel`,
+        price_note: `Pago único. Acceso de por vida.`,
+        what_label: `Qué recibes`,
+        what_title: `Un sistema completo para estudiar, adaptar y aplicar, con feedback escrito sobre tu implementación.`,
+        what_intro: `No es un curso en vídeo ni una colección de trucos de targeting. Es un sistema operativo práctico, un caso documentado y una revisión escrita y enfocada de tu funnel actual.`,
+        what_1_title: `El Meta Playbook de 88 páginas`,
+        what_1_text: `Segmentación de compradores, lógica de oferta y creatividades, formularios, seguimiento, analítica, CAPI, eventos offline y reglas claras para escalar o cortar.`,
+        what_2_title: `El teardown de la campaña de Marbella`,
+        what_2_text: `Un análisis de 28 páginas sobre los cambios que llevaron una cuenta real de $169 a $31 por comprador cualificado con casi la misma inversión.`,
+        what_3_title: `Una revisión personal por escrito`,
+        what_3_text: `Envía un GEO, un funnel de campaña, hasta cinco creatividades, un formulario o landing page y tu seguimiento actual. Sin llamadas.`,
+        what_4_title: `Un plan de acción priorizado`,
+        what_4_text: `Recibe recomendaciones escritas en 72 horas, ordenadas por impacto, más una ronda de aclaraciones por texto.`,
+        fit_label: `Para quién es`,
+        fit_title: `Útil para operadores que necesitan un sistema mejor, no otro atajo.`,
+        fit_yes_title: `Es para ti si`,
+        fit_yes_1: `Ya lanzas o estás preparando Meta ads para real estate.`,
+        fit_yes_2: `La calidad de los leads es baja, el CPL es impredecible o tu equipo pierde tiempo con consultas débiles.`,
+        fit_yes_3: `Gestionas una agencia inmobiliaria, una promotora, un equipo interno de marketing o clientes de real estate.`,
+        fit_yes_4: `Quieres un sistema de decisiones repetible que puedas adaptar a tu mercado.`,
+        fit_no_title: `No es para ti si`,
+        fit_no_1: `Necesitas una guía básica de cada botón de Ads Manager.`,
+        fit_no_2: `Esperas una audiencia secreta o un CPL garantizado.`,
+        fit_no_3: `No tienes inventario, presupuesto publicitario o proceso para gestionar leads.`,
+        fit_no_4: `Quieres gestión de campañas done-for-you en vez de un sistema para aplicar.`,
         case_label: `Caso gratis`,
         daniel_title: `Conoce a Daniel, un broker en España que pensaba que Meta no valía la pena.`,
         daniel_card: `Broker inmobiliario en España. El caso gratis muestra cómo su cuenta de Meta pasó de leads caros a un sistema de compradores cualificados.`,
         daniel_p1: `Daniel conseguía leads a unos <strong>$84 cada uno</strong>, y cada comprador cualificado le costaba en realidad <strong>$169</strong>, así que Meta no era aceptable para él porque la cuenta perdía dinero en vez de crear un pipeline rentable.`,
         daniel_p2: `Daniel tuvo acceso a esta lógica antes de que yo la empaquetara en la guía. <strong>Puedes leer ese caso gratis.</strong>`,
-        daniel_p3: `Después de aplicar el sistema, bajó el CPL de <strong>$84 a $22</strong>, subió la tasa de leads cualificados de <strong>50% a 73%</strong> y generó aproximadamente cinco veces más solicitudes gracias a una mejor estrategia. Ya cerró cinco operaciones inmobiliarias desde el flujo mejorado.`,
-        daniel_before: `Antes: 35 leads`,
-        daniel_after: `Después: 138 leads`,
+        daniel_p3: `Con una inversión casi igual, <strong>$2,964 antes y $3,097 después</strong>, los leads subieron de <strong>35 a 138</strong>, 3,9 veces más. La tasa cualificada creció aproximadamente de <strong>50% a 73%</strong>, llevando los compradores cualificados de unos <strong>18 a 101</strong>, 5,6 veces más, mientras el coste por comprador cualificado bajó de <strong>$169 a $31</strong>. Daniel ya cerró cinco operaciones desde el flujo mejorado.`,
+        daniel_metric_1: `Más leads: 35 → 138`,
+        daniel_metric_2: `Más compradores cualificados: ~18 → ~101`,
+        daniel_metric_3: `Coste por lead`,
+        daniel_metric_4: `Coste por comprador cualificado`,
         buy_guide: `Comprar la guía`,
         download_case: `Descargar el caso gratis de Daniel`,
-        offer_label: `Oferta de la guía`,
-        offer_text: `Aumenta tu beneficio con publicidad en Meta. Una guía paso a paso para empezar a generar leads de calidad para vender tus inmuebles.`,
+        offer_label: `El sistema completo`,
+        offer_text: `Recibe la guía de 88 páginas, el teardown de Marbella y una revisión escrita de un funnel actual. Un solo pago. Sin llamadas.`,
         proof_label: `Prueba global`,
         proof_title: `El sistema fue creado en distintos países, presupuestos y segmentos de precio.`,
-        proof_p1: `Antes de crear esta guía, invertí cientos de miles de dólares probando publicidad inmobiliaria en mercados globales - desde Dubái hasta Seattle, en la costa oeste de Estados Unidos.`,
+        proof_p1: `Esta guía está creada a partir de más de $1M en inversión publicitaria inmobiliaria en mercados globales, desde Dubái hasta Seattle, en la costa oeste de Estados Unidos.`,
         proof_p2: `<em>Mi estrategia no depende de una sola ciudad ni de un solo tipo de propiedad. Se adapta a distintos segmentos de comprador, economía local y objetivos de campaña.</em>`,
         proof_caption_1: `de inversión monitorizada en una vista de performance`,
         proof_caption_2: `de inversión en campañas de The Capital`,
         proof_caption_3: `registros de campañas mostrados en capturas de prueba`,
+        faq_label: `Preguntas frecuentes`,
+        faq_title: `Todo lo que necesitas saber antes de comprar.`,
+        faq_q1: `¿El sistema solo sirve para Marbella o Dubái?`,
+        faq_a1: `No. El framework se desarrolló en siete mercados y distintos segmentos de comprador. Adaptas el inventario, la prueba, la lógica de precio, las preguntas de cualificación y el seguimiento al comprador local.`,
+        faq_q2: `¿Para quién es la guía?`,
+        faq_a2: `Para brokers, promotores, equipos internos de marketing y agencias que ya lanzan Meta ads o se preparan para hacerlo con un presupuesto real y un proceso de gestión de leads.`,
+        faq_q3: `¿Qué incluye exactamente?`,
+        faq_a3: `La guía PDF de 88 páginas, el teardown del caso de Marbella de 28 páginas y una revisión personal por escrito con un plan de acción priorizado.`,
+        faq_q4: `¿Cómo funciona la revisión escrita?`,
+        faq_a4: `Después de comprar, envías un GEO, un funnel de campaña, hasta cinco creatividades, un formulario o landing page y tu seguimiento actual. Recibes recomendaciones escritas en 72 horas y una ronda de aclaraciones por texto.`,
+        faq_q5: `¿Necesito entrar en una llamada?`,
+        faq_a5: `No. La guía es self-serve y la revisión se gestiona de forma asíncrona por escrito. No necesitas hablar inglés en directo.`,
+        faq_q6: `¿Los $500 son un pago único?`,
+        faq_a6: `Sí. Es un pago único de $500 con acceso de por vida a los materiales comprados. No hay suscripción.`,
+        faq_q7: `¿Cómo recibo los materiales?`,
+        faq_a7: `Después del pago, se te redirige a la página de descarga protegida y recibes instrucciones para enviar tu campaña a revisión.`,
         final_label: `Empieza ahora`,
         final_title: `Empieza a aumentar tus ingresos inmobiliarios con Meta ads.`,
         final_p1: `No importa si vendes apartamentos de $200K, casas de $500K, villas de $1M+, alquileres, unidades off-plan o propiedades de inversión: el comprador todavía necesita ser alcanzado, cualificado y seguido correctamente.`,
-        final_p2: `El <strong>precio de lanzamiento de $500</strong> incluye la guía completa de 88 páginas, un solo pago, acceso de por vida y el caso gratis de Daniel / Marbella.`,
+        final_p2: `Un <strong>pago único de $500</strong> incluye la guía completa, el caso de Marbella, acceso de por vida y una revisión personal por escrito. Sin suscripción ni llamadas.`,
         final_li_1: `88 páginas de contenido práctico y probado en campañas reales: segmentación de compradores, creatividades, formularios, seguimiento, analítica, CAPI, eventos offline y reglas para escalar o cortar`,
-        final_li_2: `Construido a partir de más de $1M en inversión publicitaria de clientes y campañas inmobiliarias reales`,
+        final_li_2: `Creado a partir de más de $1M específicamente en inversión de Meta para real estate y campañas reales en siete mercados`,
+        final_li_3: `Teardown de 28 páginas de la campaña de Marbella con la economía exacta antes y después`,
+        final_li_4: `Revisión escrita de un funnel en 72 horas más una ronda de aclaraciones`,
         footer_note: `Un sistema operativo práctico para generar leads de compradores inmobiliarios cualificados desde Meta ads. Creado por un operador, para operadores.`
       }
     };
