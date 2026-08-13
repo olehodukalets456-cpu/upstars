@@ -1,4 +1,9 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "alias": [
+    "realadbook.com",
+    "www.realadbook.com"
+  ],
   "functions": {
     "api/download-playbook.js": {
       "includeFiles": "api/_private/real-estate-meta-playbook.pdf"
