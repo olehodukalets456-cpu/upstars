@@ -16,37 +16,37 @@ let setupPromise;
 
 const copy = {
   en: {
-    subject: "Your Marbella Meta campaign teardown",
-    preview: "The 28-page Marbella teardown is ready.",
-    intro: "Here is the 28-page teardown you requested.",
-    body: "It shows how a live Marbella account moved from $169 to $31 per qualified buyer with almost the same spend, while keeping the implementation details inside the full Playbook.",
+    subject: "Daniel's Marbella Meta campaign teardown",
+    preview: "Daniel's 28-page Marbella teardown is ready.",
+    intro: "Here is Daniel's 28-page Marbella teardown.",
+    body: "It shows how a real client's Marbella account moved from $169 to $31 per qualified buyer with almost the same spend, while keeping protected implementation details inside the full Playbook.",
     button: "Download the free case",
     note: "This private download link is valid for 7 days.",
     signoff: "If you have a question after reading it, just reply to this email.",
     role: "Real Estate Performance Marketing Specialist",
-    footer: "You received this email because you requested the Marbella case on realadbook.com."
+    footer: "You received this email because you requested Daniel's Marbella case on realadbook.com."
   },
   uk: {
-    subject: "Ваш розбір Meta-кампанії Marbella",
-    preview: "28-сторінковий розбір Marbella готовий.",
-    intro: "Ось 28-сторінковий розбір, який ви запросили.",
-    body: "У ньому показано, як жива кампанія в Marbella знизила вартість кваліфікованого покупця зі $169 до $31 за майже незмінного бюджету, а деталі реалізації залишилися всередині повного Playbook.",
+    subject: "Розбір Meta-кампанії Daniel у Marbella",
+    preview: "28-сторінковий розбір кампанії Daniel у Marbella готовий.",
+    intro: "Ось 28-сторінковий розбір кампанії Daniel у Marbella.",
+    body: "У ньому показано, як акаунт реального клієнта у Marbella знизив вартість кваліфікованого покупця зі $169 до $31 за майже незмінного бюджету, а захищені деталі реалізації залишилися всередині повного Playbook.",
     button: "Завантажити безкоштовний кейс",
     note: "Приватне посилання діє 7 днів.",
     signoff: "Якщо після прочитання виникне питання — просто дайте відповідь на цей лист.",
     role: "Спеціаліст із performance-маркетингу в нерухомості",
-    footer: "Ви отримали цей лист, тому що запросили кейс Marbella на realadbook.com."
+    footer: "Ви отримали цей лист, тому що запросили кейс Daniel у Marbella на realadbook.com."
   },
   es: {
-    subject: "Tu teardown de la campaña Meta de Marbella",
-    preview: "El teardown de Marbella de 28 páginas está listo.",
-    intro: "Aquí tienes el teardown de 28 páginas que solicitaste.",
-    body: "Muestra cómo una cuenta real de Marbella pasó de $169 a $31 por comprador cualificado con casi la misma inversión, mientras los detalles de implementación permanecen dentro del Playbook completo.",
+    subject: "El teardown de la campaña Meta de Daniel en Marbella",
+    preview: "El teardown de 28 páginas de Daniel en Marbella está listo.",
+    intro: "Aquí tienes el teardown de 28 páginas de la campaña de Daniel en Marbella.",
+    body: "Muestra cómo la cuenta de un cliente real en Marbella pasó de $169 a $31 por comprador cualificado con casi la misma inversión, mientras los detalles protegidos de implementación permanecen dentro del Playbook completo.",
     button: "Descargar el caso gratis",
     note: "Este enlace privado de descarga es válido durante 7 días.",
     signoff: "Si tienes alguna pregunta después de leerlo, responde directamente a este email.",
     role: "Especialista en performance marketing inmobiliario",
-    footer: "Has recibido este email porque solicitaste el caso de Marbella en realadbook.com."
+    footer: "Has recibido este email porque solicitaste el caso de Daniel en Marbella en realadbook.com."
   }
 };
 

@@ -17,6 +17,12 @@
       "permanent": true
     }
   ],
+  "rewrites": [
+    {
+      "source": "/marbella",
+      "destination": "/marbella.html"
+    }
+  ],
   "functions": {
     "api/download-case.js": {
       "includeFiles": "api/_private/marbella-teardown.pdf"

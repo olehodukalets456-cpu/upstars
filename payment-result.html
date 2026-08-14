@@ -133,40 +133,6 @@
       font-weight: 800;
     }
 
-    .review-box {
-      display: none;
-      margin-top: 24px;
-      padding: 22px;
-      border: 1px solid var(--line);
-      background: rgba(181, 72, 46, .06);
-    }
-
-    .review-box.visible {
-      display: block;
-    }
-
-    .review-box h2 {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: 28px;
-      line-height: 1.1;
-    }
-
-    .review-box p,
-    .review-box li {
-      font-size: 15px;
-      line-height: 1.55;
-    }
-
-    .review-box ul {
-      margin: 14px 0 0;
-      padding-left: 20px;
-      color: var(--muted);
-    }
-
-    .review-box .actions {
-      margin-top: 18px;
-    }
   </style>
 </head>
 <body>
@@ -181,22 +147,6 @@
       <a class="btn secondary" href="/">Back to website</a>
     </div>
 
-    <section class="review-box" id="reviewBox" aria-labelledby="reviewTitle">
-      <h2 id="reviewTitle">Submit your written implementation review</h2>
-      <p>Message Oleh after payment with your invoice ID and the materials below. The review is fully asynchronous in text - no call is required.</p>
-      <ul>
-        <li>One GEO and one campaign funnel</li>
-        <li>Up to five creatives</li>
-        <li>One lead form or landing page</li>
-        <li>Your current follow-up process</li>
-      </ul>
-      <p>You will receive a prioritized written action plan within 72 hours, plus one clarification round.</p>
-      <div class="actions">
-        <a class="btn secondary" href="https://www.instagram.com/oleh.odukalets.en" target="_blank" rel="noopener noreferrer">Message on Instagram</a>
-        <a class="btn secondary" href="https://www.linkedin.com/in/oleh-odukalets/?locale=en-US" target="_blank" rel="noopener noreferrer">Message on LinkedIn</a>
-      </div>
-    </section>
-
     <div class="status" id="debugBox">Loading...</div>
   </main>
 
@@ -206,7 +156,6 @@
     const actionsEl = document.getElementById("actions");
     const debugBox = document.getElementById("debugBox");
     const checkAgainBtn = document.getElementById("checkAgainBtn");
-    const reviewBox = document.getElementById("reviewBox");
 
     function getInvoiceId() {
       const params = new URLSearchParams(window.location.search);
@@ -281,7 +230,7 @@
 
       titleEl.textContent = "Payment successful";
       messageEl.textContent =
-        "Thank you. Your payment was confirmed. Your protected download is ready.";
+        "Thank you. Your payment was confirmed. Your 88-page Playbook is ready to download.";
 
       trackMetaPurchase(data);
 
@@ -289,8 +238,6 @@
         <a class="btn" href="/api/download-playbook?invoiceId=${invoiceId}">Download playbook</a>
         <a class="btn secondary" href="/">Back to website</a>
       `;
-
-      reviewBox.classList.add("visible");
 
       debugBox.innerHTML = `
         <span class="success">Status: ${data.status}</span><br>
