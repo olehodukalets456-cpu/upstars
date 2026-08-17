@@ -17,8 +17,8 @@ let setupPromise;
 const copy = {
   en: {
     subject: "Daniel's Marbella Meta campaign teardown",
-    preview: "Daniel's 28-page Marbella teardown is ready.",
-    intro: "Here is Daniel's 28-page Marbella teardown.",
+    preview: "Daniel's Marbella campaign teardown is ready.",
+    intro: "Here is Daniel's Marbella campaign teardown.",
     body: "It shows how a real client's Marbella account moved from $169 to $31 per qualified buyer with almost the same spend, while keeping protected implementation details inside the full Playbook.",
     button: "Download the free case",
     note: "This private download link is valid for 7 days.",
@@ -28,8 +28,8 @@ const copy = {
   },
   uk: {
     subject: "Розбір Meta-кампанії Daniel у Marbella",
-    preview: "28-сторінковий розбір кампанії Daniel у Marbella готовий.",
-    intro: "Ось 28-сторінковий розбір кампанії Daniel у Marbella.",
+    preview: "Розбір кампанії Daniel у Marbella готовий.",
+    intro: "Ось розбір кампанії Daniel у Marbella.",
     body: "У ньому показано, як акаунт реального клієнта у Marbella знизив вартість кваліфікованого покупця зі $169 до $31 за майже незмінного бюджету, а захищені деталі реалізації залишилися всередині повного Playbook.",
     button: "Завантажити безкоштовний кейс",
     note: "Приватне посилання діє 7 днів.",
@@ -39,8 +39,8 @@ const copy = {
   },
   es: {
     subject: "El teardown de la campaña Meta de Daniel en Marbella",
-    preview: "El teardown de 28 páginas de Daniel en Marbella está listo.",
-    intro: "Aquí tienes el teardown de 28 páginas de la campaña de Daniel en Marbella.",
+    preview: "El teardown de Daniel en Marbella está listo.",
+    intro: "Aquí tienes el teardown de la campaña de Daniel en Marbella.",
     body: "Muestra cómo la cuenta de un cliente real en Marbella pasó de $169 a $31 por comprador cualificado con casi la misma inversión, mientras los detalles protegidos de implementación permanecen dentro del Playbook completo.",
     button: "Descargar el caso gratis",
     note: "Este enlace privado de descarga es válido durante 7 días.",
