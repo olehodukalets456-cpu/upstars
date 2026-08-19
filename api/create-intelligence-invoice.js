@@ -1,10 +1,14 @@
 const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 
 const MONO_CREATE_INVOICE_URL = "https://api.monobank.ua/api/merchant/invoice/create";
 const PRODUCT_NAME = "Marbella Real Estate Ad Intelligence";
 const PRODUCT_CODE = "marbella-ad-intelligence";
 const AMOUNT = 4900;
 const CCY = 840;
+const PDF_PATH = path.join(process.cwd(), "api", "_private", "marbella-real-estate-ad-intelligence.pdf");
+const PARTS_DIR = path.join(process.cwd(), "api", "_private", "marbella-intelligence-b64");
 
 function sendJson(res, statusCode, data) {
   res.statusCode = statusCode;
@@ -35,12 +39,25 @@ function getSiteUrl(req) {
   return `${proto}://${req.headers.host}`;
 }
 
+function reportAssetIsAvailable() {
+  if (fs.existsSync(PDF_PATH)) return true;
+  if (!fs.existsSync(PARTS_DIR)) return false;
+  return fs.readdirSync(PARTS_DIR).some((name) => /^part-\d+\.txt$/.test(name));
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return sendJson(res, 405, { ok: false, error: "Method not allowed. Use POST." });
   }
 
   try {
+    if (!reportAssetIsAvailable()) {
+      return sendJson(res, 503, {
+        ok: false,
+        error: "Checkout is being finalized. Please try again shortly."
+      });
+    }
+
     const monoToken = process.env.MONO_TOKEN;
     if (!monoToken) {
       return sendJson(res, 500, { ok: false, error: "Payment configuration is unavailable." });
