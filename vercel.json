@@ -48,7 +48,10 @@
       "includeFiles": "api/_private/real-estate-meta-playbook.pdf"
     },
     "api/download-intelligence.js": {
-      "includeFiles": "api/_private/marbella-intelligence-b64/**"
+      "includeFiles": "api/_private/marbella-real-estate-ad-intelligence.pdf"
+    },
+    "api/create-intelligence-invoice.js": {
+      "includeFiles": "api/_private/marbella-real-estate-ad-intelligence.pdf"
     }
   }
 }
