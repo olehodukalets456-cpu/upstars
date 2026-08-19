@@ -15,20 +15,40 @@
       ],
       "destination": "https://realadbook.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/marbella.html",
+      "destination": "/marbella",
+      "permanent": true
+    },
+    {
+      "source": "/marbella-thank-you.html",
+      "destination": "/marbella-thank-you",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
       "source": "/marbella",
-      "destination": "/marbella.html"
+      "destination": "/api/marbella-page"
+    },
+    {
+      "source": "/marbella-thank-you",
+      "destination": "/marbella-thank-you.html"
     }
   ],
   "functions": {
+    "api/marbella-page.js": {
+      "includeFiles": "marbella.html"
+    },
     "api/download-case.js": {
       "includeFiles": "api/_private/marbella-teardown.pdf"
     },
     "api/download-playbook.js": {
       "includeFiles": "api/_private/real-estate-meta-playbook.pdf"
+    },
+    "api/download-intelligence.js": {
+      "includeFiles": "api/_private/marbella-intelligence-b64/**"
     }
   }
 }
