@@ -7,8 +7,12 @@ const PRODUCT_NAME = "Marbella Real Estate Ad Intelligence";
 const PRODUCT_CODE = "marbella-ad-intelligence";
 const AMOUNT = 4900;
 const CCY = 840;
-const PDF_PATH = path.join(process.cwd(), "api", "_private", "marbella-real-estate-ad-intelligence.pdf");
-const PARTS_DIR = path.join(process.cwd(), "api", "_private", "marbella-intelligence-b64");
+const PDF_PATH = path.join(
+  process.cwd(),
+  "api",
+  "_private",
+  "marbella-real-estate-ad-intelligence.pdf"
+);
 
 function sendJson(res, statusCode, data) {
   res.statusCode = statusCode;
@@ -40,9 +44,20 @@ function getSiteUrl(req) {
 }
 
 function reportAssetIsAvailable() {
-  if (fs.existsSync(PDF_PATH)) return true;
-  if (!fs.existsSync(PARTS_DIR)) return false;
-  return fs.readdirSync(PARTS_DIR).some((name) => /^part-\d+\.txt$/.test(name));
+  try {
+    if (!fs.existsSync(PDF_PATH)) return false;
+    const stat = fs.statSync(PDF_PATH);
+    if (!stat.isFile() || stat.size < 100000) return false;
+
+    const fd = fs.openSync(PDF_PATH, "r");
+    const header = Buffer.alloc(5);
+    fs.readSync(fd, header, 0, 5, 0);
+    fs.closeSync(fd);
+
+    return header.toString("ascii") === "%PDF-";
+  } catch {
+    return false;
+  }
 }
 
 module.exports = async function handler(req, res) {
