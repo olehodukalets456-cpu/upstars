@@ -5,8 +5,12 @@ const MONO_STATUS_URL = "https://api.monobank.ua/api/merchant/invoice/status";
 const PRODUCT_PREFIX = "intel_";
 const EXPECTED_AMOUNT = 4900;
 const EXPECTED_CCY = 840;
-const PDF_PATH = path.join(process.cwd(), "api", "_private", "marbella-real-estate-ad-intelligence.pdf");
-const PARTS_DIR = path.join(process.cwd(), "api", "_private", "marbella-intelligence-b64");
+const PDF_PATH = path.join(
+  process.cwd(),
+  "api",
+  "_private",
+  "marbella-real-estate-ad-intelligence.pdf"
+);
 
 function sendJson(res, statusCode, payload) {
   res.statusCode = statusCode;
@@ -43,20 +47,18 @@ async function getMonoInvoiceStatus(invoiceId, monoToken) {
   return data;
 }
 
-function loadPdf() {
-  if (fs.existsSync(PDF_PATH)) return fs.readFileSync(PDF_PATH);
+function loadValidPdf() {
+  try {
+    if (!fs.existsSync(PDF_PATH)) return null;
+    const stat = fs.statSync(PDF_PATH);
+    if (!stat.isFile() || stat.size < 100000) return null;
 
-  if (fs.existsSync(PARTS_DIR)) {
-    const parts = fs.readdirSync(PARTS_DIR)
-      .filter((name) => /^part-\d+\.txt$/.test(name))
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-    if (parts.length) {
-      const encoded = parts.map((name) => fs.readFileSync(path.join(PARTS_DIR, name), "utf8").trim()).join("");
-      return Buffer.from(encoded, "base64");
-    }
+    const file = fs.readFileSync(PDF_PATH);
+    if (file.subarray(0, 5).toString("ascii") !== "%PDF-") return null;
+    return file;
+  } catch {
+    return null;
   }
-
-  return null;
 }
 
 module.exports = async function handler(req, res) {
@@ -89,8 +91,8 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 403, { ok: false, error: "Payment amount does not match this product." });
     }
 
-    const file = loadPdf();
-    if (!file || !file.length) {
+    const file = loadValidPdf();
+    if (!file) {
       return sendJson(res, 500, { ok: false, error: "Report file is temporarily unavailable." });
     }
 
